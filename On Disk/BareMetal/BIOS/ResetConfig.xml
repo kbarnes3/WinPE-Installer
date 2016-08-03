@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- ResetConfig.xml for BIOS -->
+<Reset>
+    <SystemDisk>
+        <DiskpartScriptPath>ResetPartitions-BIOS.txt</DiskpartScriptPath>
+        <MinSize>131072</MinSize>
+        <WindowsREPartition>1</WindowsREPartition>
+        <WindowsREPath>Recovery\WindowsRE</WindowsREPath>
+        <OSPartition>2</OSPartition>
+        <RecoveryImagePartition>3</RecoveryImagePartition>
+        <RecoveryImagePath>Recovery</RecoveryImagePath>
+        <RestoreFromIndex>1</RestoreFromIndex>
+        <RecoveryImageIndex>1</RecoveryImageIndex>
+    </SystemDisk>
+</Reset>
