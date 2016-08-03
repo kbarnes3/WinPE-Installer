@@ -111,7 +111,7 @@ del %SERVERWIM%
 dism /Split-Image /ImageFile:%TH2WIM% /SWMFile:media\Images\TH2.swm /FileSize:2048
 dism /Split-Image /ImageFile:%BLUEWIM% /SWMFile:media\Images\Blue.swm /FileSize:2048
 
-MakeWinPEMedia /ISO . winpe.iso
+cmd /c MakeWinPEMedia /ISO . winpe.iso
 robocopy /MIR R:\WinPE_amd64 D:\WinPE_amd64 /XD temp
 cd /d D:\WinPE_amd64
 
