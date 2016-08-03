@@ -11,10 +11,10 @@
 @set TH2WIM=temp\TH2.wim
 @set BLUEWIM=temp\Blue.wim
 
-@set SURFACE3ZIP="D:\Big Stuff\Discs\Surface3_WiFi_Win10_160300_0.zip"
+@set SURFACE3ZIP="D:\Big Stuff\Discs\Surface3_WiFi_Win10_160850_0.zip"
 @set SURFACEPRO3ZIP="D:\Big Stuff\Discs\SurfacePro3_Win10_160420_0.zip"
-@set SURFACEPRO4ZIP="D:\Big Stuff\Discs\SurfacePro4_Win10_160901_1.zip"
-@set SURFACEBOOKZIP="D:\Big Stuff\Discs\SurfaceBook_Win10_160900_2.zip"
+@set SURFACEPRO4ZIP="D:\Big Stuff\Discs\SurfacePro4_Win10_161101_0.zip"
+@set SURFACEBOOKZIP="D:\Big Stuff\Discs\SurfaceBook_Win10_161000_0.zip"
 
 @set SURFACE3DRIVERS=temp\Surface3
 @set SURFACEPRO3DRIVERS=temp\SurfacePro3
@@ -54,6 +54,7 @@ if not exist "%IRSTDRIVERS%" exit /b 1
 @echo All patches exist!
 
 rmdir /s /q R:\WinPE_amd64
+if exist R:\WinPE_amd64 echo Deleting R:\WinPE_amd64 failed && GOTO :EOF
 cmd /c copype amd64 R:\WinPE_amd64
 pushd R:\WinPE_amd64
 
@@ -119,3 +120,5 @@ cd /d D:\WinPE_amd64
 @echo To make a bootable USB drive, run:
 @echo MakeWinPEMedia /UFD D:\WinPE_amd64 X:
 @echo Where X: is the drive letter of your USB drive
+
+:EOF
