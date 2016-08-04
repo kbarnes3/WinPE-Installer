@@ -71,7 +71,7 @@ mkdir temp
 7z x %SURFACEBOOKZIP% -o%SURFACEBOOKDRIVERS%
 
 dism /Mount-Image /ImageFile:media\sources\boot.wim /Index:1 /MountDir:%MOUNTDIR%
-robocopy /S /XX "%CODEROOT%\Scripts\Scripts\WinPE\In Image" %MOUNTDIR%
+robocopy /S /XX "%~dp0In Image" %MOUNTDIR%
 dism /Add-Package /Image:%MOUNTDIR% /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-WMI.cab"
 dism /Add-Package /Image:%MOUNTDIR% /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-WMI_en-us.cab"
 dism /Add-Package /Image:%MOUNTDIR% /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-FMAPI.cab"
@@ -86,7 +86,7 @@ dism /Export-Image /SourceImageFile:media\sources\boot.wim /SourceIndex:1 /Desti
 del media\sources\boot.wim
 move media\sources\boot2.wim media\sources\boot.wim
 
-robocopy /S /XX "%CODEROOT%\Scripts\Scripts\WinPE\On Disk" media
+robocopy /S /XX "%~dp0On Disk" media
 cmd /c %~dp0Make-Deployment-Scripts.bat "media\Scripts"
 mkdir media\Images
 
