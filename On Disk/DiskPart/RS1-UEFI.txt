@@ -1,4 +1,4 @@
-rem == TH2-UEFI.txt ==
+rem == RS1-UEFI.txt ==
 rem == These commands are used with DiskPart to
 rem    create four partitions
 rem    for a UEFI/GPT-based PC.

@@ -2,15 +2,15 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 
 @set PATH=%PATH%;"C:\Program Files\7-Zip\"
 
-@set CLIENTISO="D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1511_x64_dvd_7223712.iso"
-@set ENTERPRISEISO="D:\Big Stuff\Discs\en_windows_10_enterprise_version_1511_x64_dvd_7224901.iso"
+@set CLIENTISO="D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jul_2016_x64_dvd_9058187.iso"
+@set ENTERPRISEISO="D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jul_2016_x64_dvd_9054264.iso"
 @set SERVERISO="D:\Big Stuff\Discs\en_windows_server_2012_r2_with_update_x64_dvd_4065220.iso"
 
 @set CLIENTWIM=temp\Client.wim
 @set ENTERPRISEWIM=temp\Enterprise.wim
 @set SERVERWIM=temp\Server.wim
 
-@set TH2WIM=temp\TH2.wim
+@set RS1WIM=temp\RS2.wim
 @set BLUEWIM=temp\Blue.wim
 
 @set SURFACE3ZIP="D:\Big Stuff\Discs\Surface3_WiFi_Win10_160850_0.zip"
@@ -24,9 +24,9 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 @set SURFACEBOOKDRIVERS=temp\SurfaceBook
 @set IRSTDRIVERS="D:\Big Stuff\Discs\IRST64"
 
-@set HOMESOURCENAME="Windows 10 Technical Preview"
-@set PROSOURCENAME="Windows 10 Pro Technical Preview"
-@set ENTERPRISESOURCENAME="Windows 10 Enterprise Technical Preview"
+@set HOMESOURCENAME="Windows 10 Home"
+@set PROSOURCENAME="Windows 10 Pro"
+@set ENTERPRISESOURCENAME="Windows 10 Enterprise"
 @set SERVERSTANDARDSOURCENAME="Windows Server 2012 R2 SERVERSTANDARD"
 
 @set HOMEDESTNAME="Windows 10 Home"
@@ -91,28 +91,28 @@ cmd /c %~dp0Make-Deployment-Scripts.bat "media\Scripts"
 mkdir media\Images
 
 cmd /c %~dp0Extract-Wim.bat %CLIENTISO% %CLIENTWIM%
-cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %HOMESOURCENAME% %TH2WIM% %HOMEDESTNAME%
-cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %PROSOURCENAME% %TH2WIM% %PRODESTNAME%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %HOMEDESTNAME% %HOMESURFACE3DESTNAME% %SURFACE3DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %PRODESTNAME% %PROSURFACE3DESTNAME% %SURFACE3DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %PRODESTNAME% %PROSURFACEPRO3DESTNAME% %SURFACEPRO3DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %PRODESTNAME% %PROSURFACEPRO4DESTNAME% %SURFACEPRO4DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %PRODESTNAME% %PROSURFACEBOOKDESTNAME% %SURFACEBOOKDRIVERS%
+cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %HOMESOURCENAME% %RS1WIM% %HOMEDESTNAME%
+cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %PROSOURCENAME% %RS1WIM% %PRODESTNAME%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %HOMEDESTNAME% %HOMESURFACE3DESTNAME% %SURFACE3DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %PRODESTNAME% %PROSURFACE3DESTNAME% %SURFACE3DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %PRODESTNAME% %PROSURFACEPRO3DESTNAME% %SURFACEPRO3DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %PRODESTNAME% %PROSURFACEPRO4DESTNAME% %SURFACEPRO4DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %PRODESTNAME% %PROSURFACEBOOKDESTNAME% %SURFACEBOOKDRIVERS%
 del %CLIENTWIM%
 
 cmd /c %~dp0Extract-Wim.bat %ENTERPRISEISO% %ENTERPRISEWIM%
-cmd /c %~dp0Copy-Image.bat %ENTERPRISEWIM% %ENTERPRISESOURCENAME% %TH2WIM% %ENTERPRISEDESTNAME%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACE3DESTNAME% %SURFACE3DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACEPRO3DESTNAME% %SURFACEPRO3DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACEPRO4DESTNAME% %SURFACEPRO4DRIVERS%
-cmd /c %~dp0Create-Variant.bat %TH2WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACEBOOKDESTNAME% %SURFACEBOOKDRIVERS%
+cmd /c %~dp0Copy-Image.bat %ENTERPRISEWIM% %ENTERPRISESOURCENAME% %RS1WIM% %ENTERPRISEDESTNAME%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACE3DESTNAME% %SURFACE3DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACEPRO3DESTNAME% %SURFACEPRO3DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACEPRO4DESTNAME% %SURFACEPRO4DRIVERS%
+cmd /c %~dp0Create-Variant.bat %RS1WIM% %ENTERPRISEDESTNAME% %ENTERPRISESURFACEBOOKDESTNAME% %SURFACEBOOKDRIVERS%
 del %ENTERPRISEWIM%
 
 cmd /c %~dp0Extract-Wim.bat %SERVERISO% %SERVERWIM%
 cmd /c %~dp0Copy-Image.bat %SERVERWIM% %SERVERSTANDARDSOURCENAME% %BLUEWIM% %SERVERSTANDARDDESTNAME%
 del %SERVERWIM%
 
-dism /Split-Image /ImageFile:%TH2WIM% /SWMFile:media\Images\TH2.swm /FileSize:2048
+dism /Split-Image /ImageFile:%RS1WIM% /SWMFile:media\Images\RS1.swm /FileSize:2048
 dism /Split-Image /ImageFile:%BLUEWIM% /SWMFile:media\Images\Blue.swm /FileSize:2048
 
 cmd /c MakeWinPEMedia /ISO . winpe.iso

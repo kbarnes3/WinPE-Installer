@@ -1,5 +1,5 @@
 rem === Apply the image to the Windows partition =============================
-dism /Apply-Image /ImageFile:\Images\TH2.swm /SWMFile:\Images\TH2*.swm /Name:%1 /ApplyDir:W:\ %2
+dism /Apply-Image /ImageFile:\Images\RS1.swm /SWMFile:\Images\RS1*.swm /Name:%1 /ApplyDir:W:\ %2
 
 rem === Copy the Windows RE Tools to the system partition ====================
 md R:\Recovery\WindowsRE

@@ -10,7 +10,7 @@ if %Firmware%==0x2 set MODE=UEFI
 cd %MODE%\Partition
 diskpart /s \DiskPart\List-Disk.txt
 echo To partition your disk run either:
-echo     TH2-Partition-%MODE%.bat n // For Windows 10 Version 1511
+echo     RS1-Partition-%MODE%.bat n // For Windows 10 Version 1607
 echo     Blue-Partition-%MODE%-Default.bat n // For Server 2012 R2
 echo Where n is the number of the appropriate disk listed above
 echo WARNING: Everything on the selected drive will be erased!
