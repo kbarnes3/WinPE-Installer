@@ -1,3 +1,5 @@
+if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imaging Tools Environment && GOTO :EOF
+
 @set PATH=%PATH%;"C:\Program Files\7-Zip\"
 
 @set CLIENTISO="D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1511_x64_dvd_7223712.iso"
@@ -59,6 +61,7 @@ cmd /c copype amd64 R:\WinPE_amd64
 pushd R:\WinPE_amd64
 
 rmdir /s /q %MOUNTDIR%
+if exist %MOUNTDIR% echo Deleting %MOUNTDIR% failed && GOTO :EOF
 mkdir %MOUNTDIR%
 
 mkdir temp
