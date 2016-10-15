@@ -8,16 +8,16 @@ mkdir %DESTINATION%\BIOS\Install\RS1
 mkdir %DESTINATION%\UEFI\Install\Blue
 mkdir %DESTINATION%\UEFI\Install\RS1
 
-cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Home %HOMEDESTNAME%
+cmd /c %~dp0\Make-SKU-Deployments.bat RS1 "%DESTINATION%" Home %HOMEDESTNAME%
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-3-Home %HOMESURFACE3DESTNAME% /NOBIOS
-cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Pro %PRODESTNAME%
+cmd /c %~dp0\Make-SKU-Deployments.bat RS1 "%DESTINATION%" Pro %PRODESTNAME%
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-3-Pro %PROSURFACE3DESTNAME% /NOBIOS
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-Pro-3-Pro %PROSURFACEPRO3DESTNAME% /NOBIOS
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-Pro-4-Pro %PROSURFACEPRO4DESTNAME% /NOBIOS
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-Book-Pro %PROSURFACEBOOKDESTNAME% /NOBIOS
-cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Enterprise %ENTERPRISEDESTNAME%
+cmd /c %~dp0\Make-SKU-Deployments.bat RS1 "%DESTINATION%" Enterprise %ENTERPRISEDESTNAME%
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-3-Enterprise %ENTERPRISESURFACE3DESTNAME% /NOBIOS
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-Pro-3-Enterprise %ENTERPRISESURFACEPRO3DESTNAME% /NOBIOS
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-Pro-4-Enterprise %ENTERPRISESURFACEPRO4DESTNAME% /NOBIOS
 REM cmd /c %~dp0\Make-SKU-Deployments.bat /RS1 "%DESTINATION%" Surface-Book-Enterprise %ENTERPRISESURFACEBOOKDESTNAME% /NOBIOS
-cmd /c %~dp0\Make-SKU-Deployments.bat /BLUE "%DESTINATION%" Server %SERVERSTANDARDDESTNAME%
+cmd /c %~dp0\Make-SKU-Deployments.bat BLUE "%DESTINATION%" Server %SERVERSTANDARDDESTNAME%
