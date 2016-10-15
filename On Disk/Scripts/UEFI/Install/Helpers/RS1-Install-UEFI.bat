@@ -11,4 +11,9 @@ bcdboot W:\Windows
 rem === In the System partition, set the location of the WinRE tools =========
 W:\Windows\System32\reagentc /setreimage /path R:\Recovery\WindowsRE /target W:\Windows
 
-echo Windows is installed! Run 'wpeutil shutdown' to shut down.
+pushd \Scripts\Drivers
+dir
+
+@echo Windows is installed! To install additional drivers,
+@echo run the appropriate script listed above. Otherwise,
+@echo run 'wpeutil shutdown' or 'wpeutil reboot'.
