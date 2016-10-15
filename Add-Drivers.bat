@@ -11,3 +11,4 @@ SET DRIVERSMOUNTPATH=\Drivers\%NAME%
 
 7z x "%SOURCEZIP%" -o%DRIVERSDEST%
 ECHO dism /Add-Driver /Image:W:\ /Driver:%DRIVERSMOUNTPATH% /Recurse > %SCRIPTDESTINATION%\%NAME%.bat
+ECHO @ECHO %NAME% drivers added. Run 'wpeutil shutdown' or 'wpeutil reboot' >> %SCRIPTDESTINATION%\%NAME%.bat
