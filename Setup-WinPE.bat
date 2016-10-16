@@ -5,10 +5,12 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 @set CLIENTISO="D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jul_2016_x64_dvd_9058187.iso"
 @set ENTERPRISEISO="D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jul_2016_x64_dvd_9054264.iso"
 @set SERVERISO="D:\Big Stuff\Discs\en_windows_server_2012_r2_with_update_x64_dvd_4065220.iso"
+@set CUMULATIVEUPDATESOURCE="D:\Big Stuff\Discs\Cumulative Updates\Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB3194798)\AMD64-all-windows10.0-kb3194798-x64_8bc6befc7b3c51f94ae70b8d1d9a249bb4b5e108.msu"
 
 @set CLIENTWIM=temp\Client.wim
 @set ENTERPRISEWIM=temp\Enterprise.wim
 @set SERVERWIM=temp\Server.wim
+@set CUMULATIVEUPDATE=temp\CumulativeUpdate.msu
 
 @set RS1WIM=temp\RS2.wim
 @set BLUEWIM=temp\Blue.wim
@@ -28,17 +30,8 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 @set SERVERSTANDARDSOURCENAME="Windows Server 2012 R2 SERVERSTANDARD"
 
 @set HOMEDESTNAME="Windows 10 Home"
-@set HOMESURFACE3DESTNAME="Windows 10 Home Surface 3"
 @set PRODESTNAME="Windows 10 Pro"
-@set PROSURFACE3DESTNAME="Windows 10 Pro Surface 3"
-@set PROSURFACEPRO3DESTNAME="Windows 10 Pro Surface Pro 3"
-@set PROSURFACEPRO4DESTNAME="Windows 10 Pro Surface Pro 4"
-@set PROSURFACEBOOKDESTNAME="Windows 10 Pro Surface Book"
 @set ENTERPRISEDESTNAME="Windows 10 Enterprise"
-@set ENTERPRISESURFACE3DESTNAME="Windows 10 Enterprise Surface 3"
-@set ENTERPRISESURFACEPRO3DESTNAME="Windows 10 Enterprise Surface Pro 3"
-@set ENTERPRISESURFACEPRO4DESTNAME="Windows 10 Enterprise Surface Pro 4"
-@set ENTERPRISESURFACEBOOKDESTNAME="Windows 10 Enterprise Surface Book"
 @set SERVERSTANDARDDESTNAME=%SERVERSTANDARDSOURCENAME%
 
 @set MOUNTDIR=C:\WinPE_mount
@@ -46,6 +39,7 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 if not exist "%CLIENTISO%" exit /b 1
 if not exist "%ENTERPRISEISO%" exit /b 1
 if not exist "%SERVERISO%" exit /b 1
+if not exist "%CUMULATIVEUPDATESOURCE%" exit /b 1
 if not exist "%SURFACE3ZIP%" exit /b 1
 if not exist "%SURFACEPRO3ZIP%" exit /b 1
 if not exist "%SURFACEPRO4ZIP%" exit /b 1
@@ -69,6 +63,8 @@ cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro3 %SURFACEP
 REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro4 %SURFACEPRO4ZIP%
 REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfaceBook %SURFACEBOOKZIP%
 
+copy %CUMULATIVEUPDATESOURCE% %CUMULATIVEUPDATE%
+
 dism /Mount-Image /ImageFile:media\sources\boot.wim /Index:1 /MountDir:%MOUNTDIR%
 robocopy /S /XX "%~dp0In Image" %MOUNTDIR%
 dism /Add-Package /Image:%MOUNTDIR% /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-WMI.cab"
@@ -91,6 +87,7 @@ mkdir media\Images
 
 cmd /c %~dp0Extract-Wim.bat %CLIENTISO% %CLIENTWIM%
 cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %HOMESOURCENAME% %RS1WIM% %HOMEDESTNAME%
+REM cmd /c %~dp0Update-Image.bat %MOUNTDIR% %CLIENTWIM% %PROSOURCENAME% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %PROSOURCENAME% %RS1WIM% %PRODESTNAME%
 del %CLIENTWIM%
 
