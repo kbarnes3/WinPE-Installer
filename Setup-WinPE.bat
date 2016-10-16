@@ -14,10 +14,12 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 
 @set RS1WIM=temp\RS1.wim
 
-@set SURFACE3ZIP="D:\Big Stuff\Discs\Surface3_WiFi_Win10_160850_0.zip"
-@set SURFACEPRO3ZIP="D:\Big Stuff\Discs\SurfacePro3_Win10_160420_0.zip"
-@set SURFACEPRO4ZIP="D:\Big Stuff\Discs\SurfacePro4_Win10_161101_0.zip"
-@set SURFACEBOOKZIP="D:\Big Stuff\Discs\SurfaceBook_Win10_161000_0.zip"
+@set SURFACEPROZIP="D:\Big Stuff\Discs\SurfacePro_Win10_150723_0.zip"
+@set SURFACEPRO2ZIP="D:\Big Stuff\Discs\SurfacePro2_Win10_160501_2.zip"
+@set SURFACE3ZIP="D:\Big Stuff\Discs\Surface3_WiFi_Win10_161250_0.zip"
+@set SURFACEPRO3ZIP="D:\Big Stuff\Discs\SurfacePro3_Win10_161330_0.zip"
+@set SURFACEPRO4ZIP="D:\Big Stuff\Discs\SurfacePro4_Win10_161201_0.zip"
+@set SURFACEBOOKZIP="D:\Big Stuff\Discs\SurfaceBook_Win10_161200_0.zip"
 
 @set DRIVERSSCRIPTS=media\Scripts\Drivers
 @set DRIVERSROOT=media\Drivers
@@ -41,6 +43,8 @@ if not exist "%CLIENTISO%" exit /b 1
 if not exist "%ENTERPRISEISO%" exit /b 1
 if not exist "%SERVERISO%" exit /b 1
 if not exist "%CUMULATIVEUPDATESOURCE%" exit /b 1
+if not exist "%SURFACEPROZIP%" exit /b 1
+if not exist "%SURFACEPRO2ZIP%" exit /b 1
 if not exist "%SURFACE3ZIP%" exit /b 1
 if not exist "%SURFACEPRO3ZIP%" exit /b 1
 if not exist "%SURFACEPRO4ZIP%" exit /b 1
@@ -61,10 +65,12 @@ mkdir temp
 
 mkdir %DRIVERSSCRIPTS%
 mkdir %DRIVERSROOT%
-REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% Surface3 %SURFACE3ZIP%
-REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro3 %SURFACEPRO3ZIP%
-REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro4 %SURFACEPRO4ZIP%
-REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfaceBook %SURFACEBOOKZIP%
+cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro %SURFACEPROZIP%
+cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro2 %SURFACEPRO2ZIP%
+cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% Surface3 %SURFACE3ZIP%
+cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro3 %SURFACEPRO3ZIP%
+cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro4 %SURFACEPRO4ZIP%
+cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfaceBook %SURFACEBOOKZIP%
 
 copy %CUMULATIVEUPDATESOURCE% %CUMULATIVEUPDATE%
 
@@ -89,19 +95,25 @@ cmd /c %~dp0Make-Deployment-Scripts.bat "media\Scripts"
 mkdir media\Images
 
 cmd /c %~dp0Extract-Wim.bat %CLIENTISO% %CLIENTWIM%
+cmd /c %~dp0Update-Image-Name.bat %MOUNTDIR% %CLIENTWIM% %HOMENAME% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Name.bat %CLIENTWIM% %HOMENAME% %RS1WIM% %HOMENAME%
-REM cmd /c %~dp0Update-Image-Name.bat %MOUNTDIR% %CLIENTWIM% %PRONAME% %CUMULATIVEUPDATE%
+cmd /c %~dp0Update-Image-Name.bat %MOUNTDIR% %CLIENTWIM% %PRONAME% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Name.bat %CLIENTWIM% %PRONAME% %RS1WIM% %PRONAME%
 del %CLIENTWIM%
 
 cmd /c %~dp0Extract-Wim.bat %ENTERPRISEISO% %ENTERPRISEWIM%
+cmd /c %~dp0Update-Image-Name.bat %MOUNTDIR% %ENTERPRISEWIM% %ENTERPRISENAME% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Name.bat %ENTERPRISEWIM% %ENTERPRISENAME% %RS1WIM% %ENTERPRISENAME%
 del %ENTERPRISEWIM%
 
 cmd /c %~dp0Extract-Wim.bat %SERVERISO% %SERVERWIM%
+cmd /c %~dp0Update-Image-Index.bat %MOUNTDIR% %SERVERWIM% %SERVERSTANDARDCOREINDEX% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERSTANDARDCOREINDEX% %RS1WIM% %SERVERSTANDARDCORENAME%
+cmd /c %~dp0Update-Image-Index.bat %MOUNTDIR% %SERVERWIM% %SERVERSTANDARDDESKTOPINDEX% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERSTANDARDDESKTOPINDEX% %RS1WIM% %SERVERSTANDARDDESKTOPNAME%
+cmd /c %~dp0Update-Image-Index.bat %MOUNTDIR% %SERVERWIM% %SERVERDATACENTERCOREINDEX% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERDATACENTERCOREINDEX% %RS1WIM% %SERVERDATACENTERCORENAME%
+cmd /c %~dp0Update-Image-Index.bat %MOUNTDIR% %SERVERWIM% %SERVERDATACENTERDESKTOPINDEX% %CUMULATIVEUPDATE%
 cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERDATACENTERDESKTOPINDEX% %RS1WIM% %SERVERDATACENTERDESKTOPNAME%
 del %SERVERWIM%
 
