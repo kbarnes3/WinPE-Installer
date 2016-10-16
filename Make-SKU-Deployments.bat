@@ -12,6 +12,9 @@ IF "%VERSION%"=="RS1" IF NOT "%NOBIOS%"=="/NOBIOS" ECHO ..\Helpers\RS1-Install-B
 IF "%VERSION%"=="RS1" ECHO ..\Helpers\RS1-Install-UEFI.bat "%IMAGENAME%" > "%DESTINATION%\UEFI\Install\%VERSION%\%PREFIX%-UEFI-Default.bat"
 IF "%VERSION%"=="RS1" ECHO ..\Helpers\RS1-Install-UEFI.bat "%IMAGENAME%" /Compact > "%DESTINATION%\UEFI\Install\%VERSION%\%PREFIX%-UEFI-Compact.bat"
 
+IF "%VERSION%"=="RS1SERVER" IF NOT "%NOBIOS%"=="/NOBIOS" ECHO ..\Helpers\RS1-Install-BIOS.bat "%IMAGENAME%" > "%DESTINATION%\BIOS\Install\RS1\%PREFIX%-BIOS-Default.bat"
+IF "%VERSION%"=="RS1SERVER" ECHO ..\Helpers\RS1-Install-UEFI.bat "%IMAGENAME%" > "%DESTINATION%\UEFI\Install\RS1\%PREFIX%-UEFI-Default.bat"
+
 IF "%VERSION%"=="BLUE" IF NOT "%NOBIOS%"=="/NOBIOS" ECHO ..\Helpers\Blue-Install-BIOS-Default.bat "%IMAGENAME%" > "%DESTINATION%\BIOS\Install\%VERSION%\%PREFIX%-BIOS-Default.bat"
 IF "%VERSION%"=="BLUE" ECHO ..\Helpers\Blue-Install-UEFI-Default.bat "%IMAGENAME%" > "%DESTINATION%\UEFI\Install\%VERSION%\%PREFIX%-UEFI-Default.bat"
 

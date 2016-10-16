@@ -4,7 +4,7 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 
 @set CLIENTISO="D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jul_2016_x64_dvd_9058187.iso"
 @set ENTERPRISEISO="D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jul_2016_x64_dvd_9054264.iso"
-@set SERVERISO="D:\Big Stuff\Discs\en_windows_server_2012_r2_with_update_x64_dvd_4065220.iso"
+@set SERVERISO="D:\Big Stuff\Discs\en_windows_server_2016_x64_dvd_9327751.iso"
 @set CUMULATIVEUPDATESOURCE="D:\Big Stuff\Discs\Cumulative Updates\Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB3194798)\AMD64-all-windows10.0-kb3194798-x64_8bc6befc7b3c51f94ae70b8d1d9a249bb4b5e108.msu"
 
 @set CLIENTWIM=temp\Client.wim
@@ -24,15 +24,17 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 @set DRIVERSROOT=media\Drivers
 @set IRSTDRIVERS="D:\Big Stuff\Discs\IRST64"
 
-@set HOMESOURCENAME="Windows 10 Home"
-@set PROSOURCENAME="Windows 10 Pro"
-@set ENTERPRISESOURCENAME="Windows 10 Enterprise"
-@set SERVERSTANDARDSOURCENAME="Windows Server 2012 R2 SERVERSTANDARD"
-
-@set HOMEDESTNAME="Windows 10 Home"
-@set PRODESTNAME="Windows 10 Pro"
-@set ENTERPRISEDESTNAME="Windows 10 Enterprise"
-@set SERVERSTANDARDDESTNAME=%SERVERSTANDARDSOURCENAME%
+@set HOMENAME="Windows 10 Home"
+@set PRONAME="Windows 10 Pro"
+@set ENTERPRISENAME="Windows 10 Enterprise"
+@set SERVERSTANDARDCOREINDEX=1
+@set SERVERSTANDARDCORENAME="Windows Server 2016 Standard"
+@set SERVERSTANDARDDESKTOPINDEX=2
+@set SERVERSTANDARDDESKTOPNAME="Windows Server 2016 Standard (Desktop Experience)"
+@set SERVERDATACENTERCOREINDEX=3
+@set SERVERDATACENTERCORENAME="Windows Server 2016 Datacenter"
+@set SERVERDATACENTERDESKTOPINDEX=4
+@set SERVERDATACENTERDESKTOPNAME="Windows Server 2016 Datacenter (Desktop Experience)"
 
 @set MOUNTDIR=C:\WinPE_mount
 
@@ -56,10 +58,12 @@ rmdir /s /q %MOUNTDIR%
 if exist %MOUNTDIR% echo Deleting %MOUNTDIR% failed && GOTO :EOF
 mkdir %MOUNTDIR%
 
+mkdir temp
+
 mkdir %DRIVERSSCRIPTS%
 mkdir %DRIVERSROOT%
 REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% Surface3 %SURFACE3ZIP%
-cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro3 %SURFACEPRO3ZIP%
+REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro3 %SURFACEPRO3ZIP%
 REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfacePro4 %SURFACEPRO4ZIP%
 REM cmd /c %~dp0Add-Drivers.bat %DRIVERSSCRIPTS% %DRIVERSROOT% SurfaceBook %SURFACEBOOKZIP%
 
@@ -86,18 +90,21 @@ cmd /c %~dp0Make-Deployment-Scripts.bat "media\Scripts"
 mkdir media\Images
 
 cmd /c %~dp0Extract-Wim.bat %CLIENTISO% %CLIENTWIM%
-cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %HOMESOURCENAME% %RS1WIM% %HOMEDESTNAME%
-REM cmd /c %~dp0Update-Image.bat %MOUNTDIR% %CLIENTWIM% %PROSOURCENAME% %CUMULATIVEUPDATE%
-cmd /c %~dp0Copy-Image.bat %CLIENTWIM% %PROSOURCENAME% %RS1WIM% %PRODESTNAME%
+cmd /c %~dp0Copy-Image-Name.bat %CLIENTWIM% %HOMENAME% %RS1WIM% %HOMENAME%
+REM cmd /c %~dp0Update-Image-Name.bat %MOUNTDIR% %CLIENTWIM% %PRONAME% %CUMULATIVEUPDATE%
+cmd /c %~dp0Copy-Image-Name.bat %CLIENTWIM% %PRONAME% %RS1WIM% %PRONAME%
 del %CLIENTWIM%
 
 REM cmd /c %~dp0Extract-Wim.bat %ENTERPRISEISO% %ENTERPRISEWIM%
-REM cmd /c %~dp0Copy-Image.bat %ENTERPRISEWIM% %ENTERPRISESOURCENAME% %RS1WIM% %ENTERPRISEDESTNAME%
+REM cmd /c %~dp0Copy-Image-Name.bat %ENTERPRISEWIM% %ENTERPRISENAME% %RS1WIM% %ENTERPRISENAME%
 REM del %ENTERPRISEWIM%
 
-REM cmd /c %~dp0Extract-Wim.bat %SERVERISO% %SERVERWIM%
-REM cmd /c %~dp0Copy-Image.bat %SERVERWIM% %SERVERSTANDARDSOURCENAME% %BLUEWIM% %SERVERSTANDARDDESTNAME%
-REM del %SERVERWIM%
+cmd /c %~dp0Extract-Wim.bat %SERVERISO% %SERVERWIM%
+REM cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERSTANDARDCOREINDEX% %RS1WIM% %SERVERSTANDARDCORENAME%
+REM cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERSTANDARDDESKTOPINDEX% %RS1WIM% %SERVERSTANDARDDESKTOPNAME%
+cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERDATACENTERCOREINDEX% %RS1WIM% %SERVERDATACENTERCORENAME%
+cmd /c %~dp0Copy-Image-Index.bat %SERVERWIM% %SERVERDATACENTERDESKTOPINDEX% %RS1WIM% %SERVERDATACENTERDESKTOPNAME%
+del %SERVERWIM%
 
 dism /Split-Image /ImageFile:%RS1WIM% /SWMFile:media\Images\RS1.swm /FileSize:2048
 del %RS1WIM%
