@@ -3,9 +3,7 @@ SETLOCAL
 
 SET DESTINATION=%~1
 
-mkdir %DESTINATION%\BIOS\Install\Blue
 mkdir %DESTINATION%\BIOS\Install\RS1
-mkdir %DESTINATION%\UEFI\Install\Blue
 mkdir %DESTINATION%\UEFI\Install\RS1
 
 cmd /c %~dp0\Make-SKU-Deployments.bat RS1 "%DESTINATION%" Home %HOMENAME%

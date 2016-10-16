@@ -9,8 +9,7 @@ if %Firmware%==0x2 echo The PC is booted in UEFI mode.
 if %Firmware%==0x2 set MODE=UEFI
 cd %MODE%\Partition
 diskpart /s \DiskPart\List-Disk.txt
-echo To partition your disk run either:
-echo     RS1-Partition-%MODE%.bat n // For Windows 10 Version 1607
-echo     Blue-Partition-%MODE%-Default.bat n // For Server 2012 R2
+echo To partition your disk run:
+echo     RS1-Partition-%MODE%.bat n // For Windows 10 Version 1607 and Windows Server 2016
 echo Where n is the number of the appropriate disk listed above
 echo WARNING: Everything on the selected drive will be erased!

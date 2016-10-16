@@ -12,8 +12,7 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 @set SERVERWIM=temp\Server.wim
 @set CUMULATIVEUPDATE=temp\CumulativeUpdate.msu
 
-@set RS1WIM=temp\RS2.wim
-@set BLUEWIM=temp\Blue.wim
+@set RS1WIM=temp\RS1.wim
 
 @set SURFACE3ZIP="D:\Big Stuff\Discs\Surface3_WiFi_Win10_160850_0.zip"
 @set SURFACEPRO3ZIP="D:\Big Stuff\Discs\SurfacePro3_Win10_160420_0.zip"
@@ -108,8 +107,6 @@ del %SERVERWIM%
 
 dism /Split-Image /ImageFile:%RS1WIM% /SWMFile:media\Images\RS1.swm /FileSize:2048
 del %RS1WIM%
-REM dism /Split-Image /ImageFile:%BLUEWIM% /SWMFile:media\Images\Blue.swm /FileSize:2048
-REM del %BLUEWIM%
 
 cmd /c MakeWinPEMedia /ISO . winpe.iso
 robocopy /MIR R:\WinPE_amd64 D:\WinPE_amd64 /XD temp
