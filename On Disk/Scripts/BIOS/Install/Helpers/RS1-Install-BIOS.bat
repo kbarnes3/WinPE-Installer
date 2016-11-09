@@ -1,5 +1,8 @@
+set SCRATCHDIR=W:\DismScratch
+mkdir %SCRATCHDIR%
+
 rem === Apply the image to the Windows partition =============================
-dism /Apply-Image /ImageFile:\Images\RS1.swm /SWMFile:\Images\RS1*.swm /Name:%1 /ApplyDir:W:\ %2
+dism /Apply-Image /ImageFile:\Images\RS1.swm /SWMFile:\Images\RS1*.swm /Name:%1 /ApplyDir:W:\ /ScratchDir:%SCRATCHDIR% %2
 
 rem === Copy the Windows RE Tools to the system partition ====================
 md R:\Recovery\WindowsRE
@@ -10,5 +13,7 @@ bcdboot W:\Windows
 
 rem === In the System partition, set the location of the WinRE tools =========
 W:\Windows\System32\reagentc /setreimage /path R:\Recovery\WindowsRE /target W:\Windows
+
+rmdir /s /q %SCRATCHDIR%
 
 echo Windows is installed! Run 'wpeutil shutdown' to shut down.
