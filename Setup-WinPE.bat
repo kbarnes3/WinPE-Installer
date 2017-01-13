@@ -5,7 +5,7 @@ if not defined WinPERoot echo Setup-WinPE must be run from a Deployment and Imag
 @set CLIENTISO="D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jul_2016_x64_dvd_9058187.iso"
 @set ENTERPRISEISO="D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jul_2016_x64_dvd_9054264.iso"
 @set SERVERISO="D:\Big Stuff\Discs\en_windows_server_2016_x64_dvd_9327751.iso"
-@set CUMULATIVEUPDATESOURCE="D:\Big Stuff\Discs\Cumulative Updates\Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB3206632)\windows10.0-kb3206632-x64_b2e20b7e1aa65288007de21e88cd21c3ffb05110.msu"
+@set CUMULATIVEUPDATESOURCE="D:\Big Stuff\Discs\Cumulative Updates\Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB3213986)\windows10.0-kb3213986-x64_a1f5adacc28b56d7728c92e318d6596d9072aec4.msu"
 
 @set CLIENTWIM=temp\Client.wim
 @set ENTERPRISEWIM=temp\Enterprise.wim
