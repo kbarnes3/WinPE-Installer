@@ -3,8 +3,7 @@ Param(
     [string]$ReuseSourcePath
 )
 
-Import-Module $PSScriptRoot\SourceFiles.psm1 -Force
-Import-Module $PSScriptRoot\Validation.psm1 -Force
+Import-Module $PSScriptRoot\WinPE.psd1 -Force
 
 Confirm-Environment -ErrorAction Stop | Out-Null
 
