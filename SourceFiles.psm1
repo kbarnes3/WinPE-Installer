@@ -41,3 +41,5 @@ function Get-SurfaceBookDrivers {
 function Get-IntelRapidStorageDrivers {
     return "D:\Big Stuff\Discs\IRST64"
 }
+
+Export-ModuleMember *

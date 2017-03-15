@@ -1,4 +1,4 @@
-function ValidateEnvironment {
+function Confirm-Environment {
     if (-Not $env:WinPERoot) {
         throw "Setup-WinPE must be run from a Deployment and Imaging Tools Environment"
     }
@@ -24,3 +24,4 @@ function ValidateEnvironment {
 
     return $true
 }
+Export-ModuleMember Confirm-Environment

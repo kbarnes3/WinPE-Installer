@@ -3,10 +3,10 @@ Param(
     [string]$ReuseSourcePath
 )
 
-. $PSScriptRoot\SourceFiles.ps1
-. $PSScriptRoot\Validation.ps1
+Import-Module $PSScriptRoot\SourceFiles.psm1 -Force
+Import-Module $PSScriptRoot\Validation.psm1 -Force
 
-ValidateEnvironment -ErrorAction Stop | Out-Null
+Confirm-Environment -ErrorAction Stop | Out-Null
 
 $env:Path += ";C:\Program Files\7-Zip\"
 
