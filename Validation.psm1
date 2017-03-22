@@ -22,6 +22,7 @@ function Confirm-Environment {
         }
     }
 
+    Write-Host "All required files exist!"
     return $true
 }
 Export-ModuleMember Confirm-Environment
