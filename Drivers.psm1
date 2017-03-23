@@ -32,6 +32,10 @@ Param(
     $devices =
         @{"friendlyName" = "Surface Pro"; "source" = Get-SurfaceProDrivers},
         @{"friendlyName" = "Surface Pro 2"; "source" = Get-SurfacePro2Drivers},
+        @{"friendlyName" = "Surface 3"; "source" = Get-Surface3Drivers},
+        @{"friendlyName" = "Surface Pro 3"; "source" = Get-SurfacePro3Drivers},
+        @{"friendlyName" = "Surface Pro 4"; "source" = Get-SurfacePro4Drivers},
+        @{"friendlyName" = "Surface Book"; "source" = Get-SurfaceBookDrivers},
         @{"friendlyName" = "Surface Studio"; "source" = Get-SurfaceStudioDrivers}
 
     for ($i = 0; $i -lt $devices.Length; $i++) {
