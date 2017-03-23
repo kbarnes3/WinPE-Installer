@@ -102,6 +102,6 @@ Param(
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Device $($StepNumber + 1) of $totalSteps"
 
-    Write-Progress -Id 1 -Activity "Adding drivers" -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 1 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
 }
 

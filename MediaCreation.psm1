@@ -8,6 +8,7 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
+    $cumulativeUpdate = Join-Path $tempDir "CumulativeUpdate.msu"
     $step = 0;
 
     if ($ReuseSourcePath) {
@@ -26,6 +27,14 @@ Param(
 
     Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
     Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
+    $step++
+
+    Set-Progress -CurrentOperation "Copying cumulative update" -StepNumber $step
+    Copy-Item $(Get-CumulativeUpdatePath) $cumulativeUpdate
+    $step++
+
+    Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
+    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
     $step++
 
     Set-Progress -StepNumber $step
@@ -55,6 +64,7 @@ Param(
     if (Test-Path $MountTempDir) {
         Remove-Item -Recurse -Force $MountTempDir -ErrorAction Stop | Out-Null
     }
+    New-Item -Path $MountTempDir -ItemType Directory | Out-Null
 
     $scriptsDir = Join-Path $WinpeWorkingDir "media\Scripts"
     New-Item -Path $scriptsDir -ItemType Directory | Out-Null
@@ -72,7 +82,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 3
+    $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
