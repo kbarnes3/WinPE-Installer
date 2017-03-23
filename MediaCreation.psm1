@@ -4,19 +4,21 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath
 )
-    Confirm-Environment -ErrorAction Stop | Out-Null
-
-    $env:Path += ";C:\Program Files\7-Zip\"
-
-    if ($ReuseSourcePath) {
-        Write-Host "Reusing large items from $ReuseSourcePath"
-    }
-
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
     $step = 0;
+
+    if ($ReuseSourcePath) {
+        Write-Host "Reusing large items from $ReuseSourcePath"
+    }
+
+    Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
+    Confirm-Environment -ErrorAction Stop | Out-Null
+    $step++
+
+    $env:Path += ";C:\Program Files\7-Zip\"
 
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
     Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir -DismScratch $dismScratchDir
@@ -54,9 +56,12 @@ Param(
         Remove-Item -Recurse -Force $MountTempDir -ErrorAction Stop | Out-Null
     }
 
-    New-Item -Path $TempDir -ItemType "directory" | Out-Null
+    $scriptsDir = Join-Path $WinpeWorkingDir "media\Scripts"
+    New-Item -Path $scriptsDir -ItemType Directory | Out-Null
 
-    New-Item -Path $DismScratchDir -ItemType "directory" | Out-Null
+    New-Item -Path $TempDir -ItemType Directory | Out-Null
+
+    New-Item -Path $DismScratchDir -ItemType Directory | Out-Null
 }
 
 function Set-Progress
@@ -67,9 +72,10 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 2
+    $totalSteps = 3
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
+    $status = "Step $($StepNumber + 1) of $totalSteps"
 
-    Write-Progress -Id 0 -Activity "Generating WinPE Installer" -CurrentOperation $CurrentOperation -PercentComplete $percent -Completed:$completed
+    Write-Progress -Id 0 -Activity "Generating WinPE Installer" -CurrentOperation $CurrentOperation -PercentComplete $percent -Status $status -Completed:$completed
 }

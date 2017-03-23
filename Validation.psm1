@@ -3,7 +3,7 @@ function Confirm-Environment {
         throw "Setup-WinPE must be run from a Deployment and Imaging Tools Environment"
     }
 
-    $SourceFiles = ,
+    $SourceFiles =
         (Get-ClientIsoPath),
         (Get-EnterpriseIsoPath),
         (Get-ServerIsoPath),
