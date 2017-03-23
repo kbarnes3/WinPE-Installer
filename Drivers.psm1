@@ -31,7 +31,8 @@ Param(
 
     $devices =
         @{"friendlyName" = "Surface Pro"; "source" = Get-SurfaceProDrivers},
-        @{"friendlyName" = "Surface Pro 2"; "source" = Get-SurfacePro2Drivers}
+        @{"friendlyName" = "Surface Pro 2"; "source" = Get-SurfacePro2Drivers},
+        @{"friendlyName" = "Surface Studio"; "source" = Get-SurfaceStudioDrivers}
 
     for ($i = 0; $i -lt $devices.Length; $i++) {
         $device = $devices[$i]
@@ -42,7 +43,15 @@ Param(
         $driversMountPath = "\Drivers\$shortName"
 
         $destination = Join-Path $driversRoot $shortName
-        & 7z x "$source" "-o$($destination)" | Out-Null
+        $extension = [IO.Path]::GetExtension($source)
+
+        if ($extension.ToLower() -eq ".msi") {
+            & msiexec "/a" "$source" "targetdir=$($destination)" "/qn" | Out-Null
+        }
+        else
+        {
+            & 7z x "$source" "-o$($destination)" | Out-Null
+        }
 
         $script = Join-Path $driversScripts "$shortName.bat"
         New-Item -Path $script -ItemType File | Out-Null

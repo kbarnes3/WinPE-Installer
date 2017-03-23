@@ -38,6 +38,10 @@ function Get-SurfaceBookDrivers {
     return "D:\Big Stuff\Discs\SurfaceBook_Win10_161200_0.zip"
 }
 
+function Get-SurfaceStudioDrivers {
+    return "D:\Big Stuff\Discs\SurfaceStudio_Win10_1701006_0.msi"
+}
+
 function Get-IntelRapidStorageDrivers {
     return "D:\Big Stuff\Discs\IRST64"
 }

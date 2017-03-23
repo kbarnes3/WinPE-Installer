@@ -14,15 +14,19 @@ function Confirm-Environment {
         (Get-SurfacePro3Drivers),
         (Get-SurfacePro4Drivers),
         (Get-SurfaceBookDrivers),
+        (Get-SurfaceStudioDrivers),
         (Get-IntelRapidStorageDrivers)
 
     $SourceFiles | % {
+        if (-Not ($_))
+        {
+            throw "Path is null"
+        }
         if (-Not (Test-Path $_)) {
             throw "Unable to find $_"
         }
     }
 
-    Write-Host "All required files exist!"
     return $true
 }
 Export-ModuleMember Confirm-Environment
