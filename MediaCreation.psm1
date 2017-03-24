@@ -41,8 +41,15 @@ Param(
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
     $step++
 
-    Set-Progress -CurrentOperation "Preparing Client SKUs" -StepNumber $step
-    Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -CumulativeUpdate $cumulativeUpdate -Sku Client -ReuseSourcePath $ReuseSourcePath
+    skus = "Client", "Enterprise", "Server"
+    skus | % {
+        Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -CumulativeUpdate $cumulativeUpdate -Sku $_ -ReuseSourcePath $ReuseSourcePath
+        $step++
+    }
+
+    Set-Progress -CurrentOperation "Splitting RS1.wim" -StepNumber $step
+    Split-Images -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
     $step++
 
     Set-Progress -StepNumber $step
@@ -82,6 +89,30 @@ Param(
     New-Item -Path $DismScratchDir -ItemType Directory | Out-Null
 }
 
+function Split-Images
+{
+Param(
+    [Parameter(Mandatory=$true)]
+    [string]$WinpeWorkingDir,
+    [Parameter(Mandatory=$false)]
+    [string]$ReuseSourcePath
+)
+    $imagesDir = Join-Path $WinpeWorkingDir "Images"
+
+    if (-Not $ReuseSourcePath) {
+        New-Item -Path $imagesDir -ItemType Directory
+
+        $wim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
+        $swm = Join-Path $imagesDir "RS1.swm"
+
+        Split-WindowsImage -ImagePath $wim -SplitImagePath $swm -FileSize 2048 | Out-Null
+    }
+    else {
+        $sourceImagesDir = Join-Path $ReuseSourcePath "Images"
+        Copy-Item $sourceImagesDir $imagesDir -Recurse
+    }
+}
+
 function Set-Progress
 {
 Param(
@@ -90,7 +121,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 7
+    $totalSteps = 10
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"

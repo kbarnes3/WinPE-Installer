@@ -9,7 +9,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdate,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('Client')]
+    [ValidateSet('Client', 'Enterprise', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath
@@ -19,6 +19,7 @@ param(
             $sourceIso = Get-ClientIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\client.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
+            $codebase = "RS1"
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -33,23 +34,81 @@ param(
                 "CompactEnabled" = $true
             }
         }
+        "Enterprise" {
+            $sourceIso = Get-EnterpriseIsoPath
+            $extractedWim = Join-Path $WinpeWorkingDir "temp\enterprise.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
+            $codebase = "RS1"
+            $images =
+            @{
+                "SourceName" = "Windows 10 Enterprise"; 
+                "DestinationName" = "Windows 10 Enterprise";
+                "ShortName" = "Enterprise"
+                "CompactEnabled" = $true
+            }
+        }
+        "Server" {
+            $sourceIso = Get-ServerIsoPath
+            $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
+            $codebase = "RS1"
+            $images =
+            @{
+                "SourceIndex" = 1; 
+                "DestinationName" = "Windows Server 2016 Standard";
+                "ShortName" = "Server-Standard-Core"
+                "CompactEnabled" = $false
+            },
+            @{
+                "SourceIndex" = 2; 
+                "DestinationName" = "Windows Server 2016 Standard (Desktop Experience)";
+                "ShortName" = "Server-Standard-Desktop"
+                "CompactEnabled" = $false
+            },
+            @{
+                "SourceIndex" = 3; 
+                "DestinationName" = "Windows Server 2016 Datacenter";
+                "ShortName" = "Server-Datacenter-Core"
+                "CompactEnabled" = $false
+            },
+            @{
+                "SourceIndex" = 4; 
+                "DestinationName" = "Windows Server 2016 Datacenter (Desktop Experience)";
+                "ShortName" = "Server-Datacenter-Desktop"
+                "CompactEnabled" = $false
+            },
+        }
     }
 
     $step = 0
 
     Set-Progress -CurrentOperation "Extracting WIM" -StepNumber $step -ImageCount $images.Length
-    Extract-Wim -SourceIso $sourceIso -DestinationWim $extractedWim
+    if (-Not $ReuseSourcePath) {
+        Extract-Wim -SourceIso $sourceIso -DestinationWim $extractedWim
+    }
     $step++
 
     $images | % {
         $destinationName = $_["DestinationName"]
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
-        Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $CumulativeUpdate
+        if (-Not $ReuseSourcePath) {
+            Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $CumulativeUpdate
+        }
         $step++
 
         Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
-        Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
+        if (-Not $ReuseSourcePath) {
+            Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
+        }
         $step++
+
+        Set-Progress -CurrentOperation "Creating install scripts for $destinationName" -StepNumber $step -ImageCount $images.Length
+        Create-Scripts -WinpeWorkingDir $WinpeWorkingDir -Codebase $codebase -ImageInfo $_
+        $step++
+    }
+
+    if (-Not $ReuseSourcePath) {
+        Remove-Item $destinationWim | Out-Null
     }
 
     Set-Progress -StepNumber $step -ImageCount $images.Length
@@ -93,6 +152,9 @@ Param(
 
     if ($ImageInfo["SourceName"]) {
         $mountParams.Add("Name", $ImageInfo["SourceName"])
+    }
+    elseif ($ImageInfo["SourceIndex"]){
+        $mountParams.Add("Index", $ImageInfo["SourceIndex"])
     }
     else {
         throw "Unable to identify image to mount for $($ImageInfo["DestinationName"])"
@@ -140,9 +202,52 @@ Param(
     if ($ImageInfo["SourceName"]) {
         $exportParams.Add("SourceName", $ImageInfo["SourceName"])
     }
+    elseif ($ImageInfo["SourceIndex"]) {
+        $exportParams.Add("SourceIndex", $ImageInfo["SourceIndex"])
+    }
+   else {
+        throw "Unable to identify image to export for $($ImageInfo["DestinationName"])"
+    }
 
     Export-WindowsImage @exportParams | Out-Null
+}
 
+function Create-Scripts {
+Param(
+    [Parameter(Mandatory=$true)]
+    [string]$WinpeWorkingDir,
+    [Parameter(Mandatory=$true)]
+    [ValidateSet('RS1')]
+    [string]$codebase,
+    [Parameter(Mandatory=$true)]
+    $ImageInfo
+)
+    $biosScripts = Join-Path $WinpeWorkingDir "\media\Scripts\BIOS\Install\$codebase"
+    if (-Not (Test-Path $biosScripts)) {
+        New-Item -Path $biosScripts -ItemType Directory | Out-Null
+    }
+    $uefiScripts = Join-Path $WinpeWorkingDir "\media\Scripts\UEFI\Install\$codebase"
+    if (-Not (Test-Path $uefiScripts)) {
+        New-Item -Path $uefiScripts -ItemType Directory | Out-Null
+    }
+
+    $biosDefault = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Default.bat"
+    New-Item -Path $biosDefault -ItemType File | Out-Null
+    Add-Content $biosDefault "..\Helpers\$($codebase)-Install-BIOS.bat `"$($ImageInfo["DestinationName"])`"`n"
+
+    $uefiDefault = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Default.bat"
+    New-Item -Path $uefiDefault -ItemType File | Out-Null
+    Add-Content $uefiDefault "..\Helpers\$($codebase)-Install-UEFI.bat `"$($ImageInfo["DestinationName"])`"`n"
+
+    if ($ImageInfo["CompactEnabled"]) {
+        $biosCompact = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Compact.bat"
+        New-Item -Path $biosCompact -ItemType File | Out-Null
+        Add-Content $biosCompact "..\Helpers\$($codebase)-Install-BIOS.bat `"$($ImageInfo["DestinationName"])`" /Compact`n"
+
+        $uefiCompact = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Compact.bat"
+        New-Item -Path $uefiCompact -ItemType File | Out-Null
+        Add-Content $uefiCompact "..\Helpers\$($codebase)-Install-UEFI.bat `"$($ImageInfo["DestinationName"])`" /Compact`n"
+    }
 }
 
 function Set-Progress
@@ -156,7 +261,7 @@ Param(
     [int]$ImageCount
 )
     $otherSteps = 1
-    $perImageSteps = 2
+    $perImageSteps = 3
     $totalSteps = ($ImageCount * $perImageSteps) + $otherSteps
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
