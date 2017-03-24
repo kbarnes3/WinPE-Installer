@@ -1,9 +1,9 @@
 function Get-ClientIsoPath {
-    return "D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jul_2016_x64_dvd_9058187.iso"
+    return "D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jan_2017_x64_dvd_9714399.iso"
 }
 
 function Get-EnterpriseIsoPath {
-    return "D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jul_2016_x64_dvd_9054264.iso"
+    return "D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jan_2017_x64_dvd_9714415.iso"
 }
 
 function Get-ServerIsoPath {
@@ -11,7 +11,7 @@ function Get-ServerIsoPath {
 }
 
 function Get-CumulativeUpdatePath {
-    return "D:\Big Stuff\Discs\Cumulative Updates\Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB3213986)\windows10.0-kb3213986-x64_a1f5adacc28b56d7728c92e318d6596d9072aec4.msu"
+    return "D:\Big Stuff\Discs\Cumulative Updates\Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB4015438)\windows10.0-kb4015438-x64_c0e4b528d1c6b75503efd12d44d71a809c997555.msu"
 }
 
 function Get-SurfaceProDrivers {

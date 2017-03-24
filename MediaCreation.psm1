@@ -37,6 +37,14 @@ Param(
     Update-BootWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
     $step++
 
+    Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step
+    & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
+    $step++
+
+    Set-Progress -CurrentOperation "Preparing Client SKUs" -StepNumber $step
+    Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -CumulativeUpdate $cumulativeUpdate -Sku Client -ReuseSourcePath $ReuseSourcePath
+    $step++
+
     Set-Progress -StepNumber $step
 
 }
@@ -82,7 +90,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 5
+    $totalSteps = 7
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
