@@ -76,7 +76,7 @@ param(
                 "DestinationName" = "Windows Server 2016 Datacenter (Desktop Experience)";
                 "ShortName" = "Server-Datacenter-Desktop"
                 "CompactEnabled" = $false
-            },
+            }
         }
     }
 

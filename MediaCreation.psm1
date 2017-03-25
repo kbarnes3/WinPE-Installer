@@ -41,8 +41,8 @@ Param(
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
     $step++
 
-    skus = "Client", "Enterprise", "Server"
-    skus | % {
+    $skus = "Client", "Enterprise", "Server"
+    $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
         Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -CumulativeUpdate $cumulativeUpdate -Sku $_ -ReuseSourcePath $ReuseSourcePath
         $step++
@@ -52,7 +52,23 @@ Param(
     Split-Images -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
     $step++
 
+    Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
+    & cmd /c MakeWinPEMedia /ISO . winpe.iso | Out-Null
+    $step++
+
+    $winpeFinalDir
+
+    Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
+    & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+    $step++
+
     Set-Progress -StepNumber $step
+
+    Set-Location $winpeFinalDir
+    Write-Host "All done!"
+    Write-Host "To make a bootable USB drive, run:"
+    Write-Host "MakeWinPEMedia /UFD D:\WinPE_amd64 X:"
+    Write-Host "Where X: is the drive letter of your USB drive"
 
 }
 Export-ModuleMember New-WinPEInstallMedia
@@ -100,7 +116,7 @@ Param(
     $imagesDir = Join-Path $WinpeWorkingDir "Images"
 
     if (-Not $ReuseSourcePath) {
-        New-Item -Path $imagesDir -ItemType Directory
+        New-Item -Path $imagesDir -ItemType Directory | Out-Null
 
         $wim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
         $swm = Join-Path $imagesDir "RS1.swm"
@@ -109,7 +125,7 @@ Param(
     }
     else {
         $sourceImagesDir = Join-Path $ReuseSourcePath "Images"
-        Copy-Item $sourceImagesDir $imagesDir -Recurse
+        Copy-Item $sourceImagesDir $imagesDir -Recurse | Out-Null
     }
 }
 
@@ -121,7 +137,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 10
+    $totalSteps = 12
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
