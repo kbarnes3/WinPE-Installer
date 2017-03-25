@@ -108,7 +108,7 @@ param(
     }
 
     if (-Not $ReuseSourcePath) {
-        Remove-Item $destinationWim | Out-Null
+        Remove-Item $extractedWim | Out-Null
     }
 
     Set-Progress -StepNumber $step -ImageCount $images.Length

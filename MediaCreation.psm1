@@ -56,7 +56,7 @@ Param(
     & cmd /c MakeWinPEMedia /ISO . winpe.iso | Out-Null
     $step++
 
-    $winpeFinalDir
+    $winpeFinalDir = "D:\WinPE_amd64"
 
     Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
     & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
@@ -67,7 +67,7 @@ Param(
     Set-Location $winpeFinalDir
     Write-Host "All done!"
     Write-Host "To make a bootable USB drive, run:"
-    Write-Host "MakeWinPEMedia /UFD D:\WinPE_amd64 X:"
+    Write-Host "MakeWinPEMedia /UFD $winpeFinalDir X:"
     Write-Host "Where X: is the drive letter of your USB drive"
 
 }
@@ -113,7 +113,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath
 )
-    $imagesDir = Join-Path $WinpeWorkingDir "Images"
+    $imagesDir = Join-Path $WinpeWorkingDir "media\Images"
 
     if (-Not $ReuseSourcePath) {
         New-Item -Path $imagesDir -ItemType Directory | Out-Null
