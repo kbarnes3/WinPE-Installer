@@ -13,4 +13,4 @@ https://downloadcenter.intel.com/product/55005/Intel-Rapid-Storage-Technology-In
 Running these scripts also requires 7-zip to be installed (http://www.7-zip.org/)
 and the Windows 10 ADK, version 1607 (https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit).
 
-To produce the installer, run Setup-WinPE from an Administrator Deployment and Imaging Tools Environment.
+To produce the installer, run Setup-WinPE.ps1 from an Administrator Deployment and Imaging Tools Environment.
