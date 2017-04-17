@@ -1,4 +1,4 @@
-rem == RS1-BIOS.txt ==
+rem == RS-BIOS.txt ==
 rem == These commands are used with DiskPart to
 rem    create three partitions
 rem    for a BIOS/MBR-based computer.

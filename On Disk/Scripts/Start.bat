@@ -10,6 +10,6 @@ if %Firmware%==0x2 set MODE=UEFI
 cd %MODE%\Partition
 diskpart /s \DiskPart\List-Disk.txt
 echo To partition your disk run:
-echo     RS1-Partition-%MODE%.bat n // For Windows 10 Version 1607 and Windows Server 2016
+echo     RS-Partition-%MODE%.bat n // For Windows 10 Version 1703 and Windows Server 2016
 echo Where n is the number of the appropriate disk listed above
 echo WARNING: Everything on the selected drive will be erased!
