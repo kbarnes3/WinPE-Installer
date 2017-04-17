@@ -7,7 +7,9 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DismScratchDir,
     [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdate,
+    [string]$RS1CumulativeUpdate,
+    [Parameter(Mandatory=$true)]
+    [string]$RS2CumulativeUpdate,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Client', 'Enterprise', 'Server')]
     [string]$Sku,
@@ -18,8 +20,9 @@ param(
         "Client" {
             $sourceIso = Get-ClientIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\client.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
-            $codebase = "RS1"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS2.wim"
+            $codebase = "RS2"
+            $cumulativeUpdate = $RS2CumulativeUpdate
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -37,8 +40,9 @@ param(
         "Enterprise" {
             $sourceIso = Get-EnterpriseIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\enterprise.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
-            $codebase = "RS1"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS2.wim"
+            $codebase = "RS2"
+            $cumulativeUpdate = $RS2CumulativeUpdate
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -50,8 +54,9 @@ param(
         "Server" {
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS1.wim"
             $codebase = "RS1"
+            $cumulativeUpdate = $RS1CumulativeUpdate
             $images =
             @{
                 "SourceIndex" = 1; 
@@ -92,7 +97,7 @@ param(
         $destinationName = $_["DestinationName"]
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $ReuseSourcePath) {
-            Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $CumulativeUpdate
+            Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
         }
         $step++
 
@@ -217,16 +222,17 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1')]
+    [ValidateSet('RS1', 'RS2')]
     [string]$codebase,
     [Parameter(Mandatory=$true)]
     $ImageInfo
 )
-    $biosScripts = Join-Path $WinpeWorkingDir "\media\Scripts\BIOS\Install\$codebase"
+    $partitioningCodebase = "RS"
+    $biosScripts = Join-Path $WinpeWorkingDir "\media\Scripts\BIOS\Install\$partitioningCodebase"
     if (-Not (Test-Path $biosScripts)) {
         New-Item -Path $biosScripts -ItemType Directory | Out-Null
     }
-    $uefiScripts = Join-Path $WinpeWorkingDir "\media\Scripts\UEFI\Install\$codebase"
+    $uefiScripts = Join-Path $WinpeWorkingDir "\media\Scripts\UEFI\Install\$partitioningCodebase"
     if (-Not (Test-Path $uefiScripts)) {
         New-Item -Path $uefiScripts -ItemType Directory | Out-Null
     }
