@@ -1,9 +1,9 @@
 function Get-ClientIsoPath {
-    return "D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1607_updated_jan_2017_x64_dvd_9714399.iso"
+    return "D:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1703_updated_march_2017_x64_dvd_10189288.iso"
 }
 
 function Get-EnterpriseIsoPath {
-    return "D:\Big Stuff\Discs\en_windows_10_enterprise_version_1607_updated_jan_2017_x64_dvd_9714415.iso"
+    return "D:\Big Stuff\Discs\en_windows_10_enterprise_version_1703_updated_march_2017_x64_dvd_10189290.iso"
 }
 
 function Get-ServerIsoPath {
