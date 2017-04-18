@@ -11,6 +11,6 @@ for Windows, available from https://support.microsoft.com/en-us/help/12387/windo
 compatibility in WinPE, Intel Rapid Storage Drivers should be downloaded and extracted from
 https://downloadcenter.intel.com/product/55005/Intel-Rapid-Storage-Technology-Intel-RST-.
 Running these scripts also requires 7-zip to be installed (http://www.7-zip.org/)
-and the Windows 10 ADK, version 1607 (https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit).
+and the Windows 10 ADK, version 1703 (https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit).
 
 To produce the installer, run Setup-WinPE.ps1 from an Administrator Deployment and Imaging Tools Environment.

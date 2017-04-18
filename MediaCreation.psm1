@@ -8,7 +8,8 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
-    $cumulativeUpdate = Join-Path $tempDir "CumulativeUpdate.msu"
+    $rs1CumulativeUpdate = Join-Path $tempDir "RS1CumulativeUpdate.msu"
+    $rs2CumulativeUpdate = Join-Path $tempDir "RS2CumulativeUpdate.msu"
     $step = 0;
 
     if ($ReuseSourcePath) {
@@ -29,8 +30,12 @@ Param(
     Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
     $step++
 
-    Set-Progress -CurrentOperation "Copying cumulative update" -StepNumber $step
-    Copy-Item $(Get-CumulativeUpdatePath) $cumulativeUpdate
+    Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
+    Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
+    $step++
+
+    Set-Progress -CurrentOperation "Copying RS2 cumulative update" -StepNumber $step
+    Copy-Item $(Get-RS2CumulativeUpdatePath) $rs2CumulativeUpdate
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
@@ -44,12 +49,16 @@ Param(
     $skus = "Client", "Enterprise", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -CumulativeUpdate $cumulativeUpdate -Sku $_ -ReuseSourcePath $ReuseSourcePath
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS2CumulativeUpdate $rs2CumulativeUpdate -Sku $_ -ReuseSourcePath $ReuseSourcePath
         $step++
     }
 
     Set-Progress -CurrentOperation "Splitting RS1.wim" -StepNumber $step
-    Split-Images -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
+    Split-Images -ImageName "RS1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
+    $step++
+
+    Set-Progress -CurrentOperation "Splitting RS2.wim" -StepNumber $step
+    Split-Images -ImageName "RS2" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
     $step++
 
     Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
@@ -109,6 +118,9 @@ function Split-Images
 {
 Param(
     [Parameter(Mandatory=$true)]
+    [ValidateSet('RS1', 'RS2')]
+    [string]$ImageName,
+    [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath
@@ -116,10 +128,12 @@ Param(
     $imagesDir = Join-Path $WinpeWorkingDir "media\Images"
 
     if (-Not $ReuseSourcePath) {
-        New-Item -Path $imagesDir -ItemType Directory | Out-Null
+        if (-Not Test-Path $imagesDir) {
+            New-Item -Path $imagesDir -ItemType Directory | Out-Null
+        }
 
-        $wim = Join-Path $WinpeWorkingDir "temp\rs1.wim"
-        $swm = Join-Path $imagesDir "RS1.swm"
+        $wim = Join-Path $WinpeWorkingDir "temp\$($ImageName).wim"
+        $swm = Join-Path $imagesDir "$($ImageName).swm"
 
         Split-WindowsImage -ImagePath $wim -SplitImagePath $swm -FileSize 2048 | Out-Null
     }
@@ -137,7 +151,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 12
+    $totalSteps = 14
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
