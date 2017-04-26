@@ -128,7 +128,7 @@ Param(
     $imagesDir = Join-Path $WinpeWorkingDir "media\Images"
 
     if (-Not $ReuseSourcePath) {
-        if (-Not Test-Path $imagesDir) {
+        if (-Not (Test-Path $imagesDir)) {
             New-Item -Path $imagesDir -ItemType Directory | Out-Null
         }
 
