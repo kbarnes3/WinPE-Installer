@@ -14,7 +14,9 @@ param(
     [ValidateSet('Client', 'Enterprise', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseSourcePath
+    [string]$ReuseRS1Path,
+    [Parameter(Mandatory=$false)]
+    [string]$ReuseRS2Path
 )
     switch ($Sku) {
         "Client" {
@@ -23,6 +25,7 @@ param(
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS2.wim"
             $codebase = "RS2"
             $cumulativeUpdate = $RS2CumulativeUpdate
+            $reuseSourcePath = $ReuseRS2Path
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -43,6 +46,7 @@ param(
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS2.wim"
             $codebase = "RS2"
             $cumulativeUpdate = $RS2CumulativeUpdate
+            $reuseSourcePath = $ReuseRS2Path
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -57,6 +61,7 @@ param(
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS1.wim"
             $codebase = "RS1"
             $cumulativeUpdate = $RS1CumulativeUpdate
+            $reuseSourcePath = $ReuseRS1Path
             $images =
             @{
                 "SourceIndex" = 1; 
@@ -85,38 +90,32 @@ param(
         }
     }
 
-    $step = 0
+    if (-Not $reuseSourcePath) {
+        $step = 0
 
-    Set-Progress -CurrentOperation "Extracting WIM" -StepNumber $step -ImageCount $images.Length
-    if (-Not $ReuseSourcePath) {
+        Set-Progress -CurrentOperation "Extracting WIM" -StepNumber $step -ImageCount $images.Length
         Extract-Wim -SourceIso $sourceIso -DestinationWim $extractedWim
-    }
-    $step++
+        $step++
 
-    $images | % {
-        $destinationName = $_["DestinationName"]
-        Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
-        if (-Not $ReuseSourcePath) {
+        $images | % {
+            $destinationName = $_["DestinationName"]
+            Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
             Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
-        }
-        $step++
+            $step++
 
-        Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
-        if (-Not $ReuseSourcePath) {
+            Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
             Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
+            $step++
+
+            Set-Progress -CurrentOperation "Creating install scripts for $destinationName" -StepNumber $step -ImageCount $images.Length
+            Create-Scripts -WinpeWorkingDir $WinpeWorkingDir -Codebase $codebase -ImageInfo $_
+            $step++
         }
-        $step++
 
-        Set-Progress -CurrentOperation "Creating install scripts for $destinationName" -StepNumber $step -ImageCount $images.Length
-        Create-Scripts -WinpeWorkingDir $WinpeWorkingDir -Codebase $codebase -ImageInfo $_
-        $step++
-    }
-
-    if (-Not $ReuseSourcePath) {
         Remove-Item $extractedWim | Out-Null
-    }
 
-    Set-Progress -StepNumber $step -ImageCount $images.Length
+        Set-Progress -StepNumber $step -ImageCount $images.Length
+    }
 }
 Export-ModuleMember Update-InstallWim
 

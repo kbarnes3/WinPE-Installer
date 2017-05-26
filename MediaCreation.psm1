@@ -2,7 +2,9 @@ function New-WinPEInstallMedia
 {
 Param(
     [Parameter(Mandatory=$false)]
-    [string]$ReuseSourcePath
+    [string]$ReuseSourcePath,
+    [ValidateSet('All', 'RS1Only')]
+    [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
@@ -13,7 +15,18 @@ Param(
     $step = 0;
 
     if ($ReuseSourcePath) {
-        Write-Host "Reusing large items from $ReuseSourcePath"
+        if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
+            Write-Host "Reusing large items from $ReuseSourcePath"
+            $ReuseDriversPath = $ReuseSourcePath
+            $ReuseRS1Path = $ReuseSourcePath
+            $ReuseRS2Path = $ReuseSourcePath
+        }
+        elseif ($ReuseSourceSet -eq 'RS1Only') {
+            Write-Host "Reusing RS1 items from $ReuseSourcePath"
+            $ReuseDriversPath = $null
+            $ReuseRS1Path = $ReuseSourcePath
+            $ReuseRS2Path = $null
+        }
     }
 
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
@@ -27,7 +40,7 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
-    Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
+    Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseDriversPath
     $step++
 
     Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
@@ -49,16 +62,16 @@ Param(
     $skus = "Client", "Enterprise", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS2CumulativeUpdate $rs2CumulativeUpdate -Sku $_ -ReuseSourcePath $ReuseSourcePath
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS2CumulativeUpdate $rs2CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS2Path $ReuseRS2Path
         $step++
     }
 
     Set-Progress -CurrentOperation "Splitting RS1.wim" -StepNumber $step
-    Split-Images -ImageName "RS1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
+    Split-Images -ImageName "RS1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS1Path
     $step++
 
     Set-Progress -CurrentOperation "Splitting RS2.wim" -StepNumber $step
-    Split-Images -ImageName "RS2" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseSourcePath
+    Split-Images -ImageName "RS2" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS2Path
     $step++
 
     Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
@@ -138,8 +151,8 @@ Param(
         Split-WindowsImage -ImagePath $wim -SplitImagePath $swm -FileSize 2048 | Out-Null
     }
     else {
-        $sourceImagesDir = Join-Path $ReuseSourcePath "Images"
-        Copy-Item $sourceImagesDir $imagesDir -Recurse | Out-Null
+        $sourceImagesFiles = Join-Path $ReuseSourcePath "Images\$($ImageName)*.swm"
+        Copy-Item $sourceImagesFiles $imagesDir | Out-Null
     }
 }
 
