@@ -15,7 +15,7 @@ function Get-RS1CumulativeUpdatePath {
 }
 
 function Get-RS2CumulativeUpdatePath {
-    return "D:\Big Stuff\Discs\Cumulative Updates\2017-05 Cumulative Update for Windows 10 Version 1703 for x64-based Systems (KB4016871)\windows10.0-kb4016871-x64_27dfce9dbd92670711822de2f5f5ce0151551b7d.msu"
+    return "D:\Big Stuff\Discs\Cumulative Updates\2017-05 Cumulative Update for Windows 10 Version 1703 for x64-based Systems (KB4020102)\windows10.0-kb4020102-x64_9d406340d67caa80a55bc056e50cf87a2e7647ce.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -31,19 +31,19 @@ function Get-Surface3Drivers {
 }
 
 function Get-SurfacePro3Drivers {
-    return "D:\Big Stuff\Discs\SurfacePro3_Win10_161330_0.zip"
+    return "D:\Big Stuff\Discs\SurfacePro3_Win10_14393_1701602_1.zip"
 }
 
 function Get-SurfacePro4Drivers {
-    return "D:\Big Stuff\Discs\SurfacePro4_Win10_161201_0.zip"
+    return "D:\Big Stuff\Discs\SurfacePro4_Win10_15063_1702001_1.zip"
 }
 
 function Get-SurfaceBookDrivers {
-    return "D:\Big Stuff\Discs\SurfaceBook_Win10_161200_0.zip"
+    return "D:\Big Stuff\Discs\SurfaceBook_Win10_15063_1702000_1.zip"
 }
 
 function Get-SurfaceStudioDrivers {
-    return "D:\Big Stuff\Discs\SurfaceStudio_Win10_1701006_0.msi"
+    return "D:\Big Stuff\Discs\SurfaceStudio_Win10_15063_1701606_0.msi"
 }
 
 function Get-IntelRapidStorageDrivers {
