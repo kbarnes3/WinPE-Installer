@@ -90,32 +90,38 @@ param(
         }
     }
 
-    if (-Not $reuseSourcePath) {
-        $step = 0
+    $step = 0
 
-        Set-Progress -CurrentOperation "Extracting WIM" -StepNumber $step -ImageCount $images.Length
+    Set-Progress -CurrentOperation "Extracting WIM" -StepNumber $step -ImageCount $images.Length
+    if (-Not $reuseSourcePath) {
         Extract-Wim -SourceIso $sourceIso -DestinationWim $extractedWim
+    }
+    $step++
+
+    $images | % {
+        $destinationName = $_["DestinationName"]
+        Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
+        if (-Not $reuseSourcePath) {
+            Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
+        }
         $step++
 
-        $images | % {
-            $destinationName = $_["DestinationName"]
-            Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
-            Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
-            $step++
-
-            Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
+        Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
+        if (-Not $reuseSourcePath) {
             Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
-            $step++
-
-            Set-Progress -CurrentOperation "Creating install scripts for $destinationName" -StepNumber $step -ImageCount $images.Length
-            Create-Scripts -WinpeWorkingDir $WinpeWorkingDir -Codebase $codebase -ImageInfo $_
-            $step++
         }
+        $step++
 
-        Remove-Item $extractedWim | Out-Null
-
-        Set-Progress -StepNumber $step -ImageCount $images.Length
+        Set-Progress -CurrentOperation "Creating install scripts for $destinationName" -StepNumber $step -ImageCount $images.Length
+        Create-Scripts -WinpeWorkingDir $WinpeWorkingDir -Codebase $codebase -ImageInfo $_
+        $step++
     }
+
+    if (-Not $reuseSourcePath) {
+        Remove-Item $extractedWim | Out-Null
+    }
+
+    Set-Progress -StepNumber $step -ImageCount $images.Length
 }
 Export-ModuleMember Update-InstallWim
 

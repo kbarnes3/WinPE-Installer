@@ -139,19 +139,18 @@ Param(
     [string]$ReuseSourcePath
 )
     $imagesDir = Join-Path $WinpeWorkingDir "media\Images"
+    if (-Not (Test-Path $imagesDir)) {
+        New-Item -Path $imagesDir -ItemType Directory | Out-Null
+    }
 
     if (-Not $ReuseSourcePath) {
-        if (-Not (Test-Path $imagesDir)) {
-            New-Item -Path $imagesDir -ItemType Directory | Out-Null
-        }
-
         $wim = Join-Path $WinpeWorkingDir "temp\$($ImageName).wim"
         $swm = Join-Path $imagesDir "$($ImageName).swm"
 
         Split-WindowsImage -ImagePath $wim -SplitImagePath $swm -FileSize 2048 | Out-Null
     }
     else {
-        $sourceImagesFiles = Join-Path $ReuseSourcePath "Images\$($ImageName)*.swm"
+        $sourceImagesFiles = Join-Path $ReuseSourcePath "media\Images\$($ImageName)*.swm"
         Copy-Item $sourceImagesFiles $imagesDir | Out-Null
     }
 }
