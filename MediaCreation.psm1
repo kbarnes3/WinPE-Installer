@@ -3,6 +3,7 @@ function New-WinPEInstallMedia
 Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
+    [Parameter(Mandatory=$false)]
     [ValidateSet('All', 'RS1Only')]
     [string]$ReuseSourceSet
 )

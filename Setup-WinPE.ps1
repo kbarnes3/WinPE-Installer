@@ -3,7 +3,7 @@ Param(
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
     [ValidateSet('All', 'RS1Only')]
-    [string]$ReuseSourceSet
+    [string]$ReuseSourceSet='All'
 )
 
 Import-Module $PSScriptRoot\WinPE.psd1 -Force
