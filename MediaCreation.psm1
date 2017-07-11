@@ -79,7 +79,7 @@ Param(
     & cmd /c MakeWinPEMedia /ISO . winpe.iso | Out-Null
     $step++
 
-    $winpeFinalDir = "D:\WinPE_amd64"
+    $winpeFinalDir = "E:\WinPE_amd64"
 
     Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
     & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
