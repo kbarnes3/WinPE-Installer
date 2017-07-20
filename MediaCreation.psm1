@@ -45,11 +45,15 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
-    Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
+    if ($ReuseRS1Path -eq $null) {
+        Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
+    }
     $step++
 
     Set-Progress -CurrentOperation "Copying RS2 cumulative update" -StepNumber $step
-    Copy-Item $(Get-RS2CumulativeUpdatePath) $rs2CumulativeUpdate
+    if ($ReuseRS2Path -eq $null) {
+        Copy-Item $(Get-RS2CumulativeUpdatePath) $rs2CumulativeUpdate
+    }
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
