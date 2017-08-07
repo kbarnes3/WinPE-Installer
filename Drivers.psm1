@@ -45,9 +45,10 @@ Param(
         $friendlyName = $device["friendlyName"]
         $source = $device["source"]
         Set-Progress -FriendlyName $friendlyName -StepNumber $i -TotalSteps $devices.Length
-        $shortName = $friendlyName.replace(" ","")
-        $shortName = $friendlyName.replace("(","")
-        $shortName = $friendlyName.replace(")","")
+        $shortName = $friendlyName
+        $shortName = $shortName.replace(" ","")
+        $shortName = $shortName.replace("(","")
+        $shortName = $shortName.replace(")","")
         $driversMountPath = "\Drivers\$shortName"
 
         $destination = Join-Path $driversRoot $shortName
