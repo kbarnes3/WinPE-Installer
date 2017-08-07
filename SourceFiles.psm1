@@ -46,6 +46,14 @@ function Get-SurfaceStudioDrivers {
     return "E:\Big Stuff\Discs\SurfaceStudio_Win10_15063_1701606_0.msi"
 }
 
+function Get-SurfacePro2017Drivers {
+    return "E:\Big Stuff\Discs\SurfacePro_Win10_15063_1706007_1.msi"
+}
+
+function Get-SurfaceLaptopDrivers {
+    "E:\Big Stuff\Discs\SurfaceLaptop_Win10_15063_1703008_1.msi"
+}
+
 function Get-IntelRapidStorageDrivers {
     return "E:\Big Stuff\Discs\IRST64"
 }

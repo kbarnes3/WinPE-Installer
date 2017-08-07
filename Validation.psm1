@@ -16,6 +16,8 @@ function Confirm-Environment {
         (Get-SurfacePro4Drivers),
         (Get-SurfaceBookDrivers),
         (Get-SurfaceStudioDrivers),
+        (Get-SurfacePro2017Drivers),
+        (Get-SurfaceLaptopDrivers),
         (Get-IntelRapidStorageDrivers)
 
     $SourceFiles | % {

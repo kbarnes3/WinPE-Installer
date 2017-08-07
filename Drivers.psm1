@@ -36,7 +36,9 @@ Param(
         @{"friendlyName" = "Surface Pro 3"; "source" = Get-SurfacePro3Drivers},
         @{"friendlyName" = "Surface Pro 4"; "source" = Get-SurfacePro4Drivers},
         @{"friendlyName" = "Surface Book"; "source" = Get-SurfaceBookDrivers},
-        @{"friendlyName" = "Surface Studio"; "source" = Get-SurfaceStudioDrivers}
+        @{"friendlyName" = "Surface Studio"; "source" = Get-SurfaceStudioDrivers},
+        @{"friendlyName" = "Surface Pro (2017)"; "source" = Get-SurfacePro2017Drivers},
+        @{"friendlyName" = "Surface Laptop"; "source" = Get-SurfaceLaptopDrivers}
 
     for ($i = 0; $i -lt $devices.Length; $i++) {
         $device = $devices[$i]
@@ -44,6 +46,8 @@ Param(
         $source = $device["source"]
         Set-Progress -FriendlyName $friendlyName -StepNumber $i -TotalSteps $devices.Length
         $shortName = $friendlyName.replace(" ","")
+        $shortName = $friendlyName.replace("(","")
+        $shortName = $friendlyName.replace(")","")
         $driversMountPath = "\Drivers\$shortName"
 
         $destination = Join-Path $driversRoot $shortName
