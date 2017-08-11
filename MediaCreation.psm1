@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS1Only')]
+    [ValidateSet('All', 'RS1Only', 'DriversOnly')]
     [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
@@ -28,6 +28,11 @@ Param(
             $ReuseRS1Path = $ReuseSourcePath
             $ReuseRS2Path = $null
         }
+        elseif ($ReuseSourceSet -eq 'DriversOnly') {
+            Write-Host "Reusing drivers from $ReuseSourcePath"
+            $ReuseDriversPath = $ReuseSourcePath
+            $ReuseRS1Path = $null
+            $ReuseRS2Path = $null
     }
 
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
