@@ -33,6 +33,7 @@ Param(
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $null
             $ReuseRS2Path = $null
+        }
     }
 
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
