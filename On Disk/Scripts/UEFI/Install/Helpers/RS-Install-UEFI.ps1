@@ -33,8 +33,8 @@ New-Item -Path "R:\Recovery\WindowsRE" -Type Directory | Out-Null
 
 Remove-Item -Recurse -Force $ScratchDir
 
-Push-Location \Scripts\Drivers
-dir
+Set-Location \Scripts\Drivers
+(Get-ChildItem).Name
 
 Write-Host "Windows is installed! To install additional drivers,"
 Write-Host "run the appropriate script listed above. Otherwise,"

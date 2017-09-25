@@ -33,8 +33,5 @@ New-Item -Path "R:\Recovery\WindowsRE" -Type Directory | Out-Null
 
 Remove-Item -Recurse -Force $ScratchDir
 
-Push-Location \Scripts\Drivers
-dir
-
 Write-Host "Windows is installed!"
 Write-Host "Run 'wpeutil shutdown' or 'wpeutil reboot'."
