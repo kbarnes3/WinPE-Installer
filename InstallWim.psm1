@@ -242,22 +242,22 @@ Param(
         New-Item -Path $uefiScripts -ItemType Directory | Out-Null
     }
 
-    $biosDefault = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Default.bat"
+    $biosDefault = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Default.ps1"
     New-Item -Path $biosDefault -ItemType File | Out-Null
-    Add-Content $biosDefault "..\Helpers\$($codebase)-Install-BIOS.bat `"$($ImageInfo["DestinationName"])`"`n"
+    Add-Content $biosDefault "& ..\Helpers\$($codebase)-Install-BIOS.bat `"$($ImageInfo["DestinationName"])`"`n"
 
-    $uefiDefault = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Default.bat"
+    $uefiDefault = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Default.ps1"
     New-Item -Path $uefiDefault -ItemType File | Out-Null
-    Add-Content $uefiDefault "..\Helpers\$($codebase)-Install-UEFI.bat `"$($ImageInfo["DestinationName"])`"`n"
+    Add-Content $uefiDefault "& ..\Helpers\$($codebase)-Install-UEFI.bat `"$($ImageInfo["DestinationName"])`"`n"
 
     if ($ImageInfo["CompactEnabled"]) {
-        $biosCompact = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Compact.bat"
+        $biosCompact = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Compact.ps1"
         New-Item -Path $biosCompact -ItemType File | Out-Null
-        Add-Content $biosCompact "..\Helpers\$($codebase)-Install-BIOS.bat `"$($ImageInfo["DestinationName"])`" /Compact`n"
+        Add-Content $biosCompact "& ..\Helpers\$($codebase)-Install-BIOS.bat `"$($ImageInfo["DestinationName"])`" /Compact`n"
 
-        $uefiCompact = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Compact.bat"
+        $uefiCompact = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Compact.ps1"
         New-Item -Path $uefiCompact -ItemType File | Out-Null
-        Add-Content $uefiCompact "..\Helpers\$($codebase)-Install-UEFI.bat `"$($ImageInfo["DestinationName"])`" /Compact`n"
+        Add-Content $uefiCompact "& ..\Helpers\$($codebase)-Install-UEFI.bat `"$($ImageInfo["DestinationName"])`" /Compact`n"
     }
 }
 
