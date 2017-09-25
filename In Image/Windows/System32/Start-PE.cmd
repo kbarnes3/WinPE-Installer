@@ -1,4 +1,4 @@
 @ECHO OFF
 
 powershell.exe "Set-ExecutionPolicy Unrestricted"
-powershell.exe .\Start-PE.ps1
+powershell.exe -NoExit -File .\Start-PE.ps1
