@@ -6,5 +6,5 @@
     }
 }
 
-$MainScript = "$($_):\Scripts\Start.bat"
+$MainScript = "$($TargetDriveLetter):\Scripts\Start.bat"
 & $MainScript
