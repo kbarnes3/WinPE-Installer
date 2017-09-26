@@ -14,7 +14,7 @@ function Get-RS1CumulativeUpdatePath {
     return "E:\Big Stuff\Discs\Cumulative Updates\2017-09 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4038782)\windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu"}
 
 function Get-RS2CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2017-09 Cumulative Update for Windows 10 Version 1703 for x64-based Systems (KB4038788)\windows10.0-kb4038788-x64_f03ab03f65aa8849e6df4af25c56efc8b83c0ce0.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2017-09 Cumulative Update for Windows 10 Version 1703 for x64-based Systems (KB4040724)\windows10.0-kb4040724-x64_b2c48eedef80483a8d22abb2776fb512b8f246c9.msu"
 }
 
 function Get-SurfaceProDrivers {
