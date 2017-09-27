@@ -36,6 +36,6 @@ Remove-Item -Recurse -Force $ScratchDir
 Set-Location \Scripts\Drivers
 (Get-ChildItem).Name
 
-Write-Host "'nWindows is installed! To install additional drivers,"
+Write-Host "`nWindows is installed! To install additional drivers,"
 Write-Host "run the appropriate script listed above. Otherwise,"
 Write-Host "run 'wpeutil shutdown' or 'wpeutil reboot'."
