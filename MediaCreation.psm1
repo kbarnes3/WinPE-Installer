@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS1Only', 'DriversOnly')]
+    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andRS2')]
     [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
@@ -34,6 +34,12 @@ Param(
             $ReuseRS1Path = $null
             $ReuseRS2Path = $null
         }
+        elseif ($ReuseSourceSet -eq 'RS1andRS2') {
+            Write-Host "Reusing RS1 and RS2 items from $ReuseSourcePath"
+            $ReuseDriversPath = $null
+            $ReuseRS1Path = $ReuseSourcePath
+            $ReuseRS2Path = $ReuseSourcePath
+        }
     }
 
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
@@ -51,11 +57,15 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
-    Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
+    if ($ReuseRS1Path -eq $null) {
+        Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
+    }
     $step++
 
     Set-Progress -CurrentOperation "Copying RS2 cumulative update" -StepNumber $step
-    Copy-Item $(Get-RS2CumulativeUpdatePath) $rs2CumulativeUpdate
+    if ($ReuseRS2Path -eq $null) {
+        Copy-Item $(Get-RS2CumulativeUpdatePath) $rs2CumulativeUpdate
+    }
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step

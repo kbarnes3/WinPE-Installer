@@ -62,12 +62,11 @@ Param(
             & 7z x "$source" "-o$($destination)" | Out-Null
         }
 
-        $script = Join-Path $driversScripts "$shortName.bat"
-        New-Item -Path $script -ItemType File | Out-Null
-        Add-Content $script "mkdir W:\DismScratch`n"
-        Add-Content $script "dism /Add-Driver /Image:W:\ /Driver:$driversMountPath /Recurse /ScratchDir:W:\DismScratch`n"
-        Add-Content $script "rmdir /s /q W:\DismScratch`n"
-        Add-Content $script "@ECHO $friendlyName drivers added. Run 'wpeutil shutdown' or 'wpeutil reboot'`n"
+        $script = Join-Path $driversScripts "$shortName.ps1"
+        Set-Content $script "New-Item -Path W:\DismScratch -Type Directory | Out-Null`n"
+        Add-Content $script "Add-WindowsDriver -Path W: -Driver $driversMountPath -Recurse -ScratchDirectory `"W:\DismScratch`"`n"
+        Add-Content $script "Remove-Item -Recurse -Force W:\DismScratch`n"
+        Add-Content $script "Write-Host $friendlyName drivers added. Run 'wpeutil shutdown' or 'wpeutil reboot'`n"
     }
     Set-Progress -StepNumber $devices.Length -TotalSteps $devices.Length
 }
