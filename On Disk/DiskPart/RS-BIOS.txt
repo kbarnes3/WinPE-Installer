@@ -4,7 +4,7 @@ rem    create three partitions
 rem    for a BIOS/MBR-based computer.
 rem    Adjust the partition sizes to fill the drive
 rem    as necessary. ==
-rem    select disk 0
+select disk **DISKNUMBER**
 clean
 rem == 1. System partition ======================
 create partition primary size=100
@@ -20,8 +20,8 @@ rem       ** NOTE: Update this size to match the
 rem                size of the recovery tools 
 rem                (winre.wim)                 **
 rem ==    c. Prepare the Windows partition ====== 
-format quick fs=ntfs label="Windows"
-assign letter="W"
+format quick fs=ntfs label="**MAINLABEL**"
+assign letter="**MAINPARTITION**"
 rem == 3. Recovery partition ====================
 create partition primary
 format quick fs=ntfs label="Recovery"

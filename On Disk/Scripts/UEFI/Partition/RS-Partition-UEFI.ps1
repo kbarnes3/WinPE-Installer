@@ -12,8 +12,12 @@ if (-Not (Test-Path $tempDir)) {
     New-Item -Path $tempDir -Type Directory | Out-Null
 }
 
-Set-Content $partitionScript "select disk $DiskNumber `n"
-Add-Content $partitionScript (Get-Content "\DiskPart\$($scriptName)")
+$scriptBody = Get-Content "\DiskPart\$($scriptName)"
+$scriptBody = $scriptBody -replace "\*\*DISKNUMBER\*\*", $DiskNumber
+$scriptBody = $scriptBody -replace "\*\*MAINPARTITION\*\*", "W"
+$scriptBody = $scriptBody -replace "\*\*MAINLABEL\*\*", "Windows"
+
+Set-Content $partitionScript $scriptBody
 & diskpart /s $partitionScript
 
 Set-Location ..\Install\RS
