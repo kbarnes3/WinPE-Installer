@@ -17,6 +17,7 @@ if (-Not (Test-Path $tempDir)) {
 $scriptBody = Get-Content "\DiskPart\$($scriptName)"
 $scriptBody = $scriptBody -replace "\*\*DISKNUMBER\*\*", $DiskNumber
 $scriptBody = $scriptBody -replace "\*\*MAINPARTITION\*\*", "V"
+$scriptBody = $scriptBody -replace "\*\*MAINLABEL\*\*", "VHDs"
 
 Set-Content $partitionScript $scriptBody
 & diskpart /s $partitionScript

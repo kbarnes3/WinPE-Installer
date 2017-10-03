@@ -15,6 +15,7 @@ if (-Not (Test-Path $tempDir)) {
 $scriptBody = Get-Content "\DiskPart\$($scriptName)"
 $scriptBody = $scriptBody -replace "\*\*DISKNUMBER\*\*", $DiskNumber
 $scriptBody = $scriptBody -replace "\*\*MAINPARTITION\*\*", "W"
+$scriptBody = $scriptBody -replace "\*\*MAINLABEL\*\*", "Windows"
 
 Set-Content $partitionScript $scriptBody
 & diskpart /s $partitionScript

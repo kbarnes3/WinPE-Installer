@@ -24,7 +24,7 @@ rem       ** NOTE: Update this size to match the
 rem                size of the recovery tools 
 rem                (winre.wim)                    **
 rem ==    c. Prepare the Windows partition ========= 
-format quick fs=ntfs label="Windows"
+format quick fs=ntfs label="**MAINLABEL**"
 assign letter="**MAINPARTITION**"
 rem === 4. Recovery partition ======================
 create partition primary
