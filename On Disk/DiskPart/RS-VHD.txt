@@ -1,0 +1,7 @@
+create vdisk file=V:\VHDs\**VHDNAME** maximum=25000 type=expandable
+select vdisk file=V:\VHDs\**VHDNAME**
+attach vdisk
+create partition primary
+format fs=ntfs label="Windows" quick
+active
+assign letter=W

@@ -4,7 +4,7 @@ rem    create four partitions
 rem    for a UEFI/GPT-based PC.
 rem    Adjust the partition sizes to fill the drive
 rem    as necessary. ==
-rem    select disk n
+select disk **DISKNUMBER**
 clean
 convert gpt
 rem == 1. System partition =========================
@@ -25,7 +25,7 @@ rem                size of the recovery tools
 rem                (winre.wim)                    **
 rem ==    c. Prepare the Windows partition ========= 
 format quick fs=ntfs label="Windows"
-assign letter="W"
+assign letter="**MAINPARTITION**"
 rem === 4. Recovery partition ======================
 create partition primary
 format quick fs=ntfs label="Recovery"
