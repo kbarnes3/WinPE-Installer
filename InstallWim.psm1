@@ -9,23 +9,23 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RS1CumulativeUpdate,
     [Parameter(Mandatory=$true)]
-    [string]$RS2CumulativeUpdate,
+    [string]$RS3CumulativeUpdate,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('Client', 'Enterprise', 'Server')]
+    [ValidateSet('Client', 'VL', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
     [string]$ReuseRS1Path,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseRS2Path
+    [string]$ReuseRS3Path
 )
     switch ($Sku) {
         "Client" {
             $sourceIso = Get-ClientIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\client.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS2.wim"
-            $codebase = "RS2"
-            $cumulativeUpdate = $RS2CumulativeUpdate
-            $reuseSourcePath = $ReuseRS2Path
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS3.wim"
+            $codebase = "RS3"
+            $cumulativeUpdate = $RS3CumulativeUpdate
+            $reuseSourcePath = $ReuseRS3Path
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -40,13 +40,13 @@ param(
                 "CompactEnabled" = $true
             }
         }
-        "Enterprise" {
+        "VL" {
             $sourceIso = Get-EnterpriseIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\enterprise.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS2.wim"
-            $codebase = "RS2"
-            $cumulativeUpdate = $RS2CumulativeUpdate
-            $reuseSourcePath = $ReuseRS2Path
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS3.wim"
+            $codebase = "RS3"
+            $cumulativeUpdate = $RS3CumulativeUpdate
+            $reuseSourcePath = $ReuseRS3Path
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -227,7 +227,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS2')]
+    [ValidateSet('RS1', 'RS3')]
     [string]$codebase,
     [Parameter(Mandatory=$true)]
     $ImageInfo
