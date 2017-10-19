@@ -1,9 +1,9 @@
 function Get-ClientIsoPath {
-    return "E:\Big Stuff\Discs\en_windows_10_multiple_editions_version_1703_updated_march_2017_x64_dvd_10189288.iso"
+    return "E:\Big Stuff\Discs\en_windows_10_multi-edition_version_1709_updated_sept_2017_x64_dvd_100090817.iso"
 }
 
-function Get-EnterpriseIsoPath {
-    return "E:\Big Stuff\Discs\en_windows_10_enterprise_version_1703_updated_march_2017_x64_dvd_10189290.iso"
+function Get-VLIsoPath {
+    return "E:\Big Stuff\Discs\en_windows_10_multi-edition_vl_version_1709_updated_sept_2017_x64_dvd_100090741.iso"
 }
 
 function Get-ServerIsoPath {
@@ -14,8 +14,8 @@ function Get-RS1CumulativeUpdatePath {
     return "E:\Big Stuff\Discs\Cumulative Updates\2017-10 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4041691)\windows10.0-kb4041691-x64_6b578432462f6bec9b4c903b3119d437ef32eb29.msu"
 }
 
-function Get-RS2CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2017-10 Cumulative Update for Windows 10 Version 1703 for x64-based Systems (KB4041676)\windows10.0-kb4041676-x64_8dd145de3fc3b8ae42ec000c950c432580548b6e.msu"
+function Get-RS3CumulativeUpdatePath {
+    return "E:\Big Stuff\Discs\Cumulative Updates\2017-10 Cumulative Update for Windows 10 Version 1709 for x64-based Systems (KB4043961)\windows10.0-kb4043961-x64_5fb7d7bf32e79ea9debe8fb51af2a0c2e296e935.msu"
 }
 
 function Get-SurfaceProDrivers {

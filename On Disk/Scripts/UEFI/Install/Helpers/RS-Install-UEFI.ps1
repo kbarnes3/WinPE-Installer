@@ -1,5 +1,5 @@
 Param(
-    [ValidateSet('RS1', 'RS2')]
+    [ValidateSet('RS1', 'RS3')]
     [string]$Codebase,
     [Parameter(Mandatory=$true)]
     [string]$ImageName,
@@ -10,9 +10,9 @@ if ($Codebase -eq "RS1") {
     $ImagePath = "\Images\RS1.swm"
     $SplitImageFilePattern = "\Images\RS1*.swm"
 }
-elseif ($Codebase -eq "RS2") {
-    $ImagePath = "\Images\RS2.swm"
-    $SplitImageFilePattern = "\Images\RS2*.swm"
+elseif ($Codebase -eq "RS3") {
+    $ImagePath = "\Images\RS3.swm"
+    $SplitImageFilePattern = "\Images\RS3*.swm"
 }
 
 $ScratchDir = "W:\DismScratch"

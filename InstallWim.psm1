@@ -41,7 +41,7 @@ param(
             }
         }
         "VL" {
-            $sourceIso = Get-EnterpriseIsoPath
+            $sourceIso = Get-VLIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\enterprise.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS3.wim"
             $codebase = "RS3"

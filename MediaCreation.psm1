@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andRS2')]
+    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andRS3')]
     [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
@@ -12,7 +12,7 @@ Param(
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
     $rs1CumulativeUpdate = Join-Path $tempDir "RS1CumulativeUpdate.msu"
-    $rs2CumulativeUpdate = Join-Path $tempDir "RS2CumulativeUpdate.msu"
+    $rs3CumulativeUpdate = Join-Path $tempDir "RS3CumulativeUpdate.msu"
     $step = 0;
 
     if ($ReuseSourcePath) {
@@ -20,25 +20,25 @@ Param(
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS2Path = $ReuseSourcePath
+            $ReuseRS3Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS1Only') {
             Write-Host "Reusing RS1 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS2Path = $null
+            $ReuseRS3Path = $null
         }
         elseif ($ReuseSourceSet -eq 'DriversOnly') {
             Write-Host "Reusing drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $null
-            $ReuseRS2Path = $null
+            $ReuseRS3Path = $null
         }
-        elseif ($ReuseSourceSet -eq 'RS1andRS2') {
-            Write-Host "Reusing RS1 and RS2 items from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq 'RS1andRS3') {
+            Write-Host "Reusing RS1 and RS3 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS2Path = $ReuseSourcePath
+            $ReuseRS3Path = $ReuseSourcePath
         }
     }
 
@@ -62,9 +62,9 @@ Param(
     }
     $step++
 
-    Set-Progress -CurrentOperation "Copying RS2 cumulative update" -StepNumber $step
-    if ($ReuseRS2Path -eq $null) {
-        Copy-Item $(Get-RS2CumulativeUpdatePath) $rs2CumulativeUpdate
+    Set-Progress -CurrentOperation "Copying RS3 cumulative update" -StepNumber $step
+    if ($ReuseRS3Path -eq $null) {
+        Copy-Item $(Get-RS3CumulativeUpdatePath) $rs3CumulativeUpdate
     }
     $step++
 
@@ -76,10 +76,10 @@ Param(
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
     $step++
 
-    $skus = "Client", "Enterprise", "Server"
+    $skus = "Client", "VL", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS2CumulativeUpdate $rs2CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS2Path $ReuseRS2Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS3CumulativeUpdate $rs3CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS3Path $ReuseRS3Path
         $step++
     }
 
@@ -87,8 +87,8 @@ Param(
     Split-Images -ImageName "RS1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS1Path
     $step++
 
-    Set-Progress -CurrentOperation "Splitting RS2.wim" -StepNumber $step
-    Split-Images -ImageName "RS2" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS2Path
+    Set-Progress -CurrentOperation "Splitting RS3.wim" -StepNumber $step
+    Split-Images -ImageName "RS3" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS3Path
     $step++
 
     Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
@@ -148,7 +148,7 @@ function Split-Images
 {
 Param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS2')]
+    [ValidateSet('RS1', 'RS3')]
     [string]$ImageName,
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,

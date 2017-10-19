@@ -5,10 +5,10 @@ function Confirm-Environment {
 
     $SourceFiles =
         (Get-ClientIsoPath),
-        (Get-EnterpriseIsoPath),
+        (Get-VLIsoPath),
         (Get-ServerIsoPath),
         (Get-RS1CumulativeUpdatePath),
-        (Get-RS2CumulativeUpdatePath),
+        (Get-RS3CumulativeUpdatePath),
         (Get-SurfaceProDrivers),
         (Get-SurfacePro2Drivers),
         (Get-Surface3Drivers),
