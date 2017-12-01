@@ -15,7 +15,7 @@ function Get-RS1CumulativeUpdatePath {
 }
 
 function Get-RS3CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2017-11 Cumulative Update for Windows 10 Version 1709 for x64-based Systems (KB4048955)\windows10.0-kb4048955-x64_f214597fd57cd8284a363ada825a3d8ca16bf632.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2017-11 Cumulative Update for Windows 10 Version 1709 for x64-based Systems (KB4051963)\windows10.0-kb4051963-x64_92317bd805e6cb9101f4c8576c5a0a80a234446f.msu"
 }
 
 function Get-SurfaceProDrivers {
