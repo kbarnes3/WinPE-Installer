@@ -4,6 +4,7 @@ function Confirm-Environment {
     }
 
     $SourceFiles =
+        ("R:\"),
         (Get-ClientIsoPath),
         (Get-VLIsoPath),
         (Get-ServerIsoPath),
@@ -18,6 +19,7 @@ function Confirm-Environment {
         (Get-SurfaceStudioDrivers),
         (Get-SurfacePro2017Drivers),
         (Get-SurfaceLaptopDrivers),
+        (Get-SurfaceBook2Drivers),
         (Get-IntelRapidStorageDrivers)
 
     $SourceFiles | % {

@@ -15,6 +15,8 @@ Param(
     $rs3CumulativeUpdate = Join-Path $tempDir "RS3CumulativeUpdate.msu"
     $step = 0;
 
+    Start-Process KeepAwake.exe -WindowStyle Minimized
+
     if ($ReuseSourcePath) {
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
@@ -114,6 +116,8 @@ Param(
     Write-Host "To make a bootable USB drive, run:"
     Write-Host "MakeWinPEMedia /UFD $winpeFinalDir X:"
     Write-Host "Where X: is the drive letter of your USB drive"
+
+    Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
 
 }
 Export-ModuleMember New-WinPEInstallMedia
