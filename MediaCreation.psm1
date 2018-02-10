@@ -116,6 +116,8 @@ Param(
     Write-Host "To make a bootable USB drive, run:"
     Write-Host "MakeWinPEMedia /UFD $winpeFinalDir X:"
     Write-Host "Where X: is the drive letter of your USB drive"
+    Write-Host "And existing drive can be updated by running:"
+    Write-Host "robocopy $winpeFinalDir\media X: /MIR /FFT /DST"
 
     Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
 
