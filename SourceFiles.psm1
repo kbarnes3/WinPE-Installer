@@ -11,11 +11,11 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-03 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4088889)\windows10.0-kb4088889-x64_eee5b352932e9d20d228f56b74dd4c23313d2955.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-04 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4093119)\windows10.0-kb4093119-x64_553b6ac77ec6100784cdf1947b3fb83403aa5d1c.msu"
 }
 
 function Get-RS3CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-03 Cumulative Update for Windows 10 Version 1709 for x64-based Systems (KB4089848)\windows10.0-kb4089848-x64_db7c5aad31c520c6983a937c3d53170e84372b11.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-04 Cumulative Update for Windows 10 Version 1709 for x64-based Systems (KB4093112)\windows10.0-kb4093112-x64_08237e229b9c1de3e8878674f5815ca2746c6a2a.msu"
 }
 
 function Get-SurfaceProDrivers {
