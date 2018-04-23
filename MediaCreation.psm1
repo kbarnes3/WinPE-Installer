@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andDrivers', 'RS1andRS3')]
+    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andDrivers', 'RS3andDrivers', 'RS1andRS3')]
     [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
@@ -41,6 +41,12 @@ Param(
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $ReuseSourcePath
             $ReuseRS3Path = $null
+        }
+        elseif ($ReuseSourceSet -eq 'RS3andDrivers') {
+            Write-Host "Reusing RS3 items and drivers from $ReuseSourcePath"
+            $ReuseDriversPath = $ReuseSourcePath
+            $ReuseRS1Path = $null
+            $ReuseRS3Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS1andRS3') {
             Write-Host "Reusing RS1 and RS3 items from $ReuseSourcePath"

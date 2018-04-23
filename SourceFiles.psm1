@@ -11,7 +11,7 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-04 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4093119)\windows10.0-kb4093119-x64_553b6ac77ec6100784cdf1947b3fb83403aa5d1c.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-04 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4093120)\windows10.0-kb4093120-x64_72c7d6ce20eb42c0df760cd13a917bbc1e57c0b7.msu"
 }
 
 function Get-RS3CumulativeUpdatePath {
