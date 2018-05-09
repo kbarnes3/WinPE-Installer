@@ -41,7 +41,7 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS3.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
             $codebase = "RS4"
             $cumulativeUpdate = $null
             $reuseSourcePath = $ReuseRS4Path
@@ -227,7 +227,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS3')]
+    [ValidateSet('RS1', 'RS4')]
     [string]$codebase,
     [Parameter(Mandatory=$true)]
     $ImageInfo

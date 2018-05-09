@@ -43,13 +43,13 @@ Param(
             $ReuseRS4Path = $null
         }
         elseif ($ReuseSourceSet -eq 'RS4andDrivers') {
-            Write-Host "Reusing RS3 items and drivers from $ReuseSourcePath"
+            Write-Host "Reusing RS4 items and drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $null
             $ReuseRS4Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS1andRS4') {
-            Write-Host "Reusing RS1 and RS3 items from $ReuseSourcePath"
+            Write-Host "Reusing RS1 and RS4 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
             $ReuseRS1Path = $ReuseSourcePath
             $ReuseRS4Path = $ReuseSourcePath
@@ -166,7 +166,7 @@ function Split-Images
 {
 Param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS3')]
+    [ValidateSet('RS1', 'RS4')]
     [string]$ImageName,
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
