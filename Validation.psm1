@@ -9,7 +9,7 @@ function Confirm-Environment {
         (Get-BusinessIsoPath),
         (Get-ServerIsoPath),
         (Get-RS1CumulativeUpdatePath),
-        (Get-RS4CumulativeUpdatePath),
+        #(Get-RS4CumulativeUpdatePath),
         (Get-SurfaceProDrivers),
         (Get-SurfacePro2Drivers),
         (Get-Surface3Drivers),
