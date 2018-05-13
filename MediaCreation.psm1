@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andDrivers', 'RS3andDrivers', 'RS1andRS3')]
+    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andDrivers', 'RS4andDrivers', 'RS1andRS4')]
     [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
@@ -12,7 +12,7 @@ Param(
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
     $rs1CumulativeUpdate = Join-Path $tempDir "RS1CumulativeUpdate.msu"
-    $rs3CumulativeUpdate = Join-Path $tempDir "RS3CumulativeUpdate.msu"
+    $rs4CumulativeUpdate = Join-Path $tempDir "RS4CumulativeUpdate.msu"
     $step = 0;
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -22,37 +22,37 @@ Param(
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS3Path = $ReuseSourcePath
+            $ReuseRS4Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS1Only') {
             Write-Host "Reusing RS1 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS3Path = $null
+            $ReuseRS4Path = $null
         }
         elseif ($ReuseSourceSet -eq 'DriversOnly') {
             Write-Host "Reusing drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $null
-            $ReuseRS3Path = $null
+            $ReuseRS4Path = $null
         }
         elseif ($ReuseSourceSet -eq 'RS1andDrivers') {
             Write-Host "Reusing RS1 items and drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS3Path = $null
+            $ReuseRS4Path = $null
         }
-        elseif ($ReuseSourceSet -eq 'RS3andDrivers') {
-            Write-Host "Reusing RS3 items and drivers from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq 'RS4andDrivers') {
+            Write-Host "Reusing RS4 items and drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS1Path = $null
-            $ReuseRS3Path = $ReuseSourcePath
+            $ReuseRS4Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'RS1andRS3') {
-            Write-Host "Reusing RS1 and RS3 items from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq 'RS1andRS4') {
+            Write-Host "Reusing RS1 and RS4 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
             $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS3Path = $ReuseSourcePath
+            $ReuseRS4Path = $ReuseSourcePath
         }
     }
 
@@ -76,9 +76,9 @@ Param(
     }
     $step++
 
-    Set-Progress -CurrentOperation "Copying RS3 cumulative update" -StepNumber $step
-    if ($ReuseRS3Path -eq $null) {
-        Copy-Item $(Get-RS3CumulativeUpdatePath) $rs3CumulativeUpdate
+    Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
+    if ($ReuseRS4Path -eq $null) {
+        Copy-Item $(Get-RS4CumulativeUpdatePath) $rs4CumulativeUpdate
     }
     $step++
 
@@ -90,10 +90,10 @@ Param(
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
     $step++
 
-    $skus = "Client", "VL", "Server"
+    $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS3CumulativeUpdate $rs3CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS3Path $ReuseRS3Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
         $step++
     }
 
@@ -101,8 +101,8 @@ Param(
     Split-Images -ImageName "RS1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS1Path
     $step++
 
-    Set-Progress -CurrentOperation "Splitting RS3.wim" -StepNumber $step
-    Split-Images -ImageName "RS3" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS3Path
+    Set-Progress -CurrentOperation "Splitting RS4.wim" -StepNumber $step
+    Split-Images -ImageName "RS4" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS4Path
     $step++
 
     Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
@@ -166,7 +166,7 @@ function Split-Images
 {
 Param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS3')]
+    [ValidateSet('RS1', 'RS4')]
     [string]$ImageName,
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,

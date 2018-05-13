@@ -1,19 +1,12 @@
 Param(
-    [ValidateSet('RS1', 'RS3')]
     [string]$Codebase,
     [Parameter(Mandatory=$true)]
     [string]$ImageName,
     [switch]$Compact
 )
 
-if ($Codebase -eq "RS1") {
-    $ImagePath = "\Images\RS1.swm"
-    $SplitImageFilePattern = "\Images\RS1*.swm"
-}
-elseif ($Codebase -eq "RS3") {
-    $ImagePath = "\Images\RS3.swm"
-    $SplitImageFilePattern = "\Images\RS3*.swm"
-}
+$ImagePath = "\Images\$($Codebase).swm"
+$SplitImageFilePattern = "\Images\$($Codebase)*.swm"
 
 $ScratchDir = "W:\DismScratch"
 New-Item -Path $ScratchDir -Type Directory | Out-Null

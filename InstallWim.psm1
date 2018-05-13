@@ -9,23 +9,23 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RS1CumulativeUpdate,
     [Parameter(Mandatory=$true)]
-    [string]$RS3CumulativeUpdate,
+    [string]$RS4CumulativeUpdate,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('Client', 'VL', 'Server')]
+    [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
     [string]$ReuseRS1Path,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseRS3Path
+    [string]$ReuseRS4Path
 )
     switch ($Sku) {
-        "Client" {
-            $sourceIso = Get-ClientIsoPath
-            $extractedWim = Join-Path $WinpeWorkingDir "temp\client.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS3.wim"
-            $codebase = "RS3"
-            $cumulativeUpdate = $RS3CumulativeUpdate
-            $reuseSourcePath = $ReuseRS3Path
+        "Consumer" {
+            $sourceIso = Get-ConsumerIsoPath
+            $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
+            $codebase = "RS4"
+            $cumulativeUpdate = $RS4CumulativeUpdate
+            $reuseSourcePath = $ReuseRS4Path
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -40,13 +40,13 @@ param(
                 "CompactEnabled" = $true
             }
         }
-        "VL" {
-            $sourceIso = Get-VLIsoPath
-            $extractedWim = Join-Path $WinpeWorkingDir "temp\enterprise.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS3.wim"
-            $codebase = "RS3"
-            $cumulativeUpdate = $RS3CumulativeUpdate
-            $reuseSourcePath = $ReuseRS3Path
+        "Business" {
+            $sourceIso = Get-BusinessIsoPath
+            $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
+            $codebase = "RS4"
+            $cumulativeUpdate = $RS4CumulativeUpdate
+            $reuseSourcePath = $ReuseRS4Path
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -102,7 +102,9 @@ param(
         $destinationName = $_["DestinationName"]
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
-            Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
+            if ($cumulativeUpdate) {
+                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
+            }
         }
         $step++
 
@@ -148,7 +150,7 @@ Param(
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
     [string]$DismScratchDir,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$CumulativeUpdate
 )
     $step = 0
@@ -227,7 +229,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS3')]
+    [ValidateSet('RS1', 'RS4')]
     [string]$codebase,
     [Parameter(Mandatory=$true)]
     $ImageInfo
