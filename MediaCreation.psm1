@@ -12,7 +12,7 @@ Param(
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
     $rs1CumulativeUpdate = Join-Path $tempDir "RS1CumulativeUpdate.msu"
-    # $rs4CumulativeUpdate = Join-Path $tempDir "RS4CumulativeUpdate.msu"
+    $rs4CumulativeUpdate = Join-Path $tempDir "RS4CumulativeUpdate.msu"
     $step = 0;
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -76,10 +76,10 @@ Param(
     }
     $step++
 
-    #Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
-    #if ($ReuseRS4Path -eq $null) {
-    #    Copy-Item $(Get-RS4CumulativeUpdatePath) $rs4CumulativeUpdate
-    #}
+    Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
+    if ($ReuseRS4Path -eq $null) {
+        Copy-Item $(Get-RS4CumulativeUpdatePath) $rs4CumulativeUpdate
+    }
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
@@ -93,7 +93,7 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
         $step++
     }
 

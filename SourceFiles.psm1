@@ -11,12 +11,12 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-04 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4093120)\windows10.0-kb4093120-x64_72c7d6ce20eb42c0df760cd13a917bbc1e57c0b7.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-05 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4103723)\windows10.0-kb4103723-x64_2adf2ea2d09b3052d241c40ba55e89741121e07e.msu"
 }
 
-#function Get-RS4CumulativeUpdatePath {
-#    return "E:\Big Stuff\Discs\Cumulative Updates\2018-04 Cumulative Update for Windows 10 Version 1709 for x64-based Systems (KB4093105)\windows10.0-kb4093105-x64_34cd83487c317ce53f547e3e4848ec0f22cb7b14.msu"
-#}
+function Get-RS4CumulativeUpdatePath {
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-05 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4103721)\windows10.0-kb4103721-x64_fcc746cd817e212ad32a5606b3db5a3333e030f8.msu"
+}
 
 function Get-SurfaceProDrivers {
     return "E:\Big Stuff\Discs\SurfacePro_Win10_150723_0.zip"
@@ -35,7 +35,7 @@ function Get-SurfacePro3Drivers {
 }
 
 function Get-SurfacePro4Drivers {
-    return "E:\Big Stuff\Discs\SurfacePro4_Win10_16299_1801001_0.msi"
+    return "E:\Big Stuff\Discs\SurfacePro4_Win10_16299_1801701_1.msi"
 }
 
 function Get-SurfaceBookDrivers {
@@ -43,19 +43,19 @@ function Get-SurfaceBookDrivers {
 }
 
 function Get-SurfaceStudioDrivers {
-    return "E:\Big Stuff\Discs\SurfaceStudio_Win10_16299_1801006_0.msi"
+    return "E:\Big Stuff\Discs\SurfaceStudio_Win10_16299_1802006_2.msi"
 }
 
 function Get-SurfacePro2017Drivers {
-    return "E:\Big Stuff\Discs\SurfacePro_Win10_16299_1710007_0.msi"
+    return "E:\Big Stuff\Discs\SurfacePro_WIFI_Win10_16299_1802107_6.msi"
 }
 
 function Get-SurfaceLaptopDrivers {
-    return "E:\Big Stuff\Discs\SurfaceLaptop_Win10_15063_1802008_1.msi"
+    return "E:\Big Stuff\Discs\SurfaceLaptop_Win10_17134_1802808_0.msi"
 }
 
 function Get-SurfaceBook2Drivers {
-    return "E:\Big Stuff\Discs\SurfaceBook2_Win10_16299_1801009_0.msi"
+    return "E:\Big Stuff\Discs\SurfaceBook2_Win10_17134_1802209_1.msi"
 }
 
 function Get-IntelRapidStorageDrivers {
