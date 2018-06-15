@@ -8,6 +8,7 @@ function Confirm-Environment {
         (Get-ConsumerIsoPath),
         (Get-BusinessIsoPath),
         (Get-ServerIsoPath),
+        (Get-RS1ServicingStackUpdatePath),
         (Get-RS1CumulativeUpdatePath),
         (Get-RS4CumulativeUpdatePath),
         (Get-SurfaceProDrivers),

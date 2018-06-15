@@ -11,6 +11,7 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
+    $rs1ServicingStackUpdate = Join-Path $tempDir "RS1ServicingStackUpdate.msu"
     $rs1CumulativeUpdate = Join-Path $tempDir "RS1CumulativeUpdate.msu"
     $rs4CumulativeUpdate = Join-Path $tempDir "RS4CumulativeUpdate.msu"
     $step = 0;
@@ -70,14 +71,20 @@ Param(
     Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseDriversPath
     $step++
 
-    Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
     if ($ReuseRS1Path -eq $null) {
+        Set-Progress -CurrentOperation "Copying RS1 servicing stack update" -StepNumber $step
+        Copy-Item $(Get-RS1ServicingStackUpdatePath) $rs1ServicingStackUpdate
+    }
+    $step++
+
+    if ($ReuseRS1Path -eq $null) {
+        Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
         Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
     }
     $step++
 
-    Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
     if ($ReuseRS4Path -eq $null) {
+        Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
         Copy-Item $(Get-RS4CumulativeUpdatePath) $rs4CumulativeUpdate
     }
     $step++
@@ -93,7 +100,7 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1ServicingStackUpdate $rs1ServicingStackUpdate -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
         $step++
     }
 
@@ -198,7 +205,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 14
+    $totalSteps = 15
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"

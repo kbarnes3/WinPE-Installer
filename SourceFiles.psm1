@@ -10,12 +10,16 @@ function Get-ServerIsoPath {
     return "E:\Big Stuff\Discs\en_windows_server_2016_x64_dvd_9327751.iso"
 }
 
+function Get-RS1ServicingStackUpdatePath {
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-05 Update for Windows Server 2016 for x64-based Systems (KB4132216)\windows10.0-kb4132216-x64_9cbeb1024166bdeceff90cd564714e1dcd01296e.msu"
+}
+
 function Get-RS1CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-05 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4103720)\windows10.0-kb4103720-x64_c1fb7676d38fffae5c28b9216220c1f033ce26ac.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4284880)\windows10.0-kb4284880-x64_34d88e02608fa8c7db3dda395434d93ba109169c.msu"
 }
 
 function Get-RS4CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-05 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4100403)\windows10.0-kb4100403-x64_229adccbfbaebe0bc98e463dd83bacd7e28e9e5b.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4284835)\windows10.0-kb4284835-x64_c019a11f02ce7ff6a946434f02442fe86b6dfa3c.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -27,7 +31,7 @@ function Get-SurfacePro2Drivers {
 }
 
 function Get-Surface3Drivers {
-    "E:\Big Stuff\Discs\Surface3_WiFi_Win10_161250_0.zip"
+    "E:\Big Stuff\Discs\Surface3_WiFi_Win10_17134_1801703_3.msi"
 }
 
 function Get-SurfacePro3Drivers {

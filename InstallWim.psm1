@@ -7,6 +7,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DismScratchDir,
     [Parameter(Mandatory=$true)]
+    [string]$RS1ServicingStackUpdate,
+    [Parameter(Mandatory=$true)]
     [string]$RS1CumulativeUpdate,
     [Parameter(Mandatory=$true)]
     [string]$RS4CumulativeUpdate,
@@ -24,6 +26,7 @@ param(
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
             $codebase = "RS4"
+            $servicingStackUpdate = $null
             $cumulativeUpdate = $RS4CumulativeUpdate
             $reuseSourcePath = $ReuseRS4Path
             $images =
@@ -45,6 +48,7 @@ param(
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
             $codebase = "RS4"
+            $servicingStackUpdate = $null
             $cumulativeUpdate = $RS4CumulativeUpdate
             $reuseSourcePath = $ReuseRS4Path
             $images =
@@ -60,6 +64,7 @@ param(
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS1.wim"
             $codebase = "RS1"
+            $servicingStackUpdate = $RS1ServicingStackUpdate
             $cumulativeUpdate = $RS1CumulativeUpdate
             $reuseSourcePath = $ReuseRS1Path
             $images =
@@ -102,8 +107,8 @@ param(
         $destinationName = $_["DestinationName"]
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
-            if ($cumulativeUpdate) {
-                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -CumulativeUpdate $cumulativeUpdate
+            if ($servicingStackUpdate -or $cumulativeUpdate) {
+                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -ServicingStackUpdate $servicingStackUpdate -CumulativeUpdate $cumulativeUpdate
             }
         }
         $step++
@@ -151,6 +156,8 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$DismScratchDir,
     [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdate,
+    [Parameter(Mandatory=$false)]
     [string]$CumulativeUpdate
 )
     $step = 0
@@ -174,8 +181,16 @@ Param(
     Mount-WindowsImage @mountParams | Out-Null
     $step++
 
-    Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
-    Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
+    if ($ServicingStackUpdate) {
+        Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
+        Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
+    }
+    $step++
+
+    if ($CumulativeUpdate) {
+        Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
+        Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
+    }
     $step++
 
     Set-UpdateProgress -CurrentOperation "Cleaning up image" -StepNumber $step
@@ -291,7 +306,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 4
+    $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
