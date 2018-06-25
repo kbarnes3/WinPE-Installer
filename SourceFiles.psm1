@@ -15,7 +15,7 @@ function Get-RS1ServicingStackUpdatePath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4284880)\windows10.0-kb4284880-x64_34d88e02608fa8c7db3dda395434d93ba109169c.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4284833)\windows10.0-kb4284833-x64_eb8d1b6306fe77caefec2109844be73ffc7587f6.msu"
 }
 
 function Get-RS4CumulativeUpdatePath {
