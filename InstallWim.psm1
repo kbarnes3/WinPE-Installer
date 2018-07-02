@@ -11,6 +11,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RS1CumulativeUpdate,
     [Parameter(Mandatory=$true)]
+    [string]$RS4ServicingStackUpdate,
+    [Parameter(Mandatory=$true)]
     [string]$RS4CumulativeUpdate,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
@@ -26,7 +28,7 @@ param(
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
             $codebase = "RS4"
-            $servicingStackUpdate = $null
+            $servicingStackUpdate = $RS4ServicingStackUpdate
             $cumulativeUpdate = $RS4CumulativeUpdate
             $reuseSourcePath = $ReuseRS4Path
             $images =
@@ -48,7 +50,7 @@ param(
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
             $codebase = "RS4"
-            $servicingStackUpdate = $null
+            $servicingStackUpdate = $RS4ServicingStackUpdate
             $cumulativeUpdate = $RS4CumulativeUpdate
             $reuseSourcePath = $ReuseRS4Path
             $images =
