@@ -15,15 +15,15 @@ function Get-RS1ServicingStackUpdatePath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4284833)\windows10.0-kb4284833-x64_eb8d1b6306fe77caefec2109844be73ffc7587f6.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-07 Cumulative Update for Windows 10 Version 1607 for x64-based Systems (KB4338814)\windows10.0-kb4338814-x64_f4a1df3470cc06192c5157c3f574ffdc4edadabd.msu"
 }
 
 function Get-RS4ServicingStackUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Update for Windows 10 Version 1803 for x64-based Systems (KB4338853)\windows10.0-kb4338853-x64_80cfbdddcd6b20f1230efdf19ce7eac1400e55e9.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-07 Update for Windows 10 Version 1803 for x64-based Systems (KB4343669)\windows10.0-kb4343669-x64_2a58320e44d3ff803bc7016b5d02f3e85482b46f.msu"
 }
 
 function Get-RS4CumulativeUpdatePath {
-    return "E:\Big Stuff\Discs\Cumulative Updates\2018-06 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4284848)\windows10.0-kb4284848-x64_c0f16e1e5fe0f81c17a8bfaa547b0b7140c5debc.msu"
+    return "E:\Big Stuff\Discs\Cumulative Updates\2018-07 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4338819)\windows10.0-kb4338819-x64_73cef45cbee3c689ddddf596aed7cb6a61092180.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -51,7 +51,7 @@ function Get-SurfaceBookDrivers {
 }
 
 function Get-SurfaceStudioDrivers {
-    return "E:\Big Stuff\Discs\SurfaceStudio_Win10_16299_1802006_2.msi"
+    return "E:\Big Stuff\Discs\SurfaceStudio_Win10_17134_1802206_0.msi"
 }
 
 function Get-SurfacePro2017Drivers {
