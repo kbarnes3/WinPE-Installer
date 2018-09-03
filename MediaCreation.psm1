@@ -123,6 +123,11 @@ Param(
     & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
     $step++
 
+    Set-Progress -CurrentOperation "Copying winpe.iso to $env:DISC_PATH" -StepNumber $step
+    $isoDestination = Join-Path $env:DISC_PATH "winpe.iso"
+    Start-BitsTransfer -Source winpe.iso -Destination $isoDestination
+    $step++
+
     Set-Progress -StepNumber $step
 
     Set-Location $winpeFinalDir
@@ -206,7 +211,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 15
+    $totalSteps = 16
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
