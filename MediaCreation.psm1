@@ -85,6 +85,12 @@ Param(
     $step++
 
     if ($ReuseRS4Path -eq $null) {
+        Set-Progress -CurrentOperation "Copying RS4 servicing stack update" -StepNumber $step
+        Copy-Item $(Get-RS4ServicingStackUpdatePath) $rs4ServicingStackUpdate
+    }
+    $step++
+
+    if ($ReuseRS4Path -eq $null) {
         Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
         Copy-Item $(Get-RS4CumulativeUpdatePath) $rs4CumulativeUpdate
     }
@@ -101,7 +107,7 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1ServicingStackUpdate $rs1ServicingStackUpdate -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1ServicingStackUpdate $rs1ServicingStackUpdate -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4ServicingStackUpdate $rs4ServicingStackUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
         $step++
     }
 
@@ -211,7 +217,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 16
+    $totalSteps = 17
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
