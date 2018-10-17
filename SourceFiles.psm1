@@ -15,7 +15,7 @@ function Get-RS1ServicingStackUpdatePath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2018-09 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4457127)\windows10.0-kb4457127-x64_53e4351d1e0233b3e55ed7fd70b6dca54b0ab878.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2018-10 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4462917)\windows10.0-kb4462917-x64_fde25fc4573e57f693bcab5096eafa778ff7b31c.msu"
 }
 
 function Get-RS4ServicingStackUpdatePath {
@@ -23,7 +23,7 @@ function Get-RS4ServicingStackUpdatePath {
 }
 
 function Get-RS4CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2018-09 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4458469)\windows10.0-kb4458469-x64_22139e5b137440eac5526d4c5c85762fcbe80030.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2018-10 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4462919)\windows10.0-kb4462919-x64_654232d26f359fcff9b2832e3b02133e066cb928.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -39,7 +39,7 @@ function Get-Surface3Drivers {
 }
 
 function Get-SurfacePro3Drivers {
-    return "$env:DISC_PATH\SurfacePro3_Win10_15063_1802002_0.msi"
+    return "$env:DISC_PATH\SurfacePro3_Win10_16299_1803002_0.msi"
 }
 
 function Get-SurfacePro4Drivers {
@@ -51,7 +51,7 @@ function Get-SurfaceBookDrivers {
 }
 
 function Get-SurfaceStudioDrivers {
-    return "$env:DISC_PATH\SurfaceStudio_Win10_17134_1802206_0.msi"
+    return "$env:DISC_PATH\SurfaceStudio_Win10_17134_1803506_3.msi"
 }
 
 function Get-SurfacePro2017Drivers {
