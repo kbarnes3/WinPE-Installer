@@ -15,7 +15,7 @@ function Get-RS1ServicingStackUpdatePath {
 }
 
 function Get-RS1CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2018-10 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4462917)\windows10.0-kb4462917-x64_fde25fc4573e57f693bcab5096eafa778ff7b31c.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2018-10 Cumulative Update for Windows Server 2016 for x64-based Systems (KB4462928)\windows10.0-kb4462928-x64_c3c3bd7c809ed0a53afab205ccbc229556f384c7.msu"
 }
 
 function Get-RS4ServicingStackUpdatePath {
