@@ -23,7 +23,7 @@ function Get-RS4ServicingStackUpdatePath {
 }
 
 function Get-RS4CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2018-10 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4462919)\windows10.0-kb4462919-x64_654232d26f359fcff9b2832e3b02133e066cb928.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2018-10 Cumulative Update for Windows 10 Version 1803 for x64-based Systems (KB4462933)\windows10.0-kb4462933-x64_8c5659658e553796cc340a52b47662205b3806a2.msu"
 }
 
 function Get-SurfaceProDrivers {
