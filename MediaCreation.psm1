@@ -4,17 +4,15 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS1Only', 'DriversOnly', 'RS1andDrivers', 'RS4andDrivers', 'RS1andRS4')]
+    [ValidateSet('All', 'RS5Only', 'DriversOnly')]
     [string]$ReuseSourceSet
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
-    $rs1ServicingStackUpdate = Join-Path $tempDir "RS1ServicingStackUpdate.msu"
-    $rs4ServicingStackUpdate = Join-Path $tempDir "RS4ServicingStackUpdate.msu"
-    $rs1CumulativeUpdate = Join-Path $tempDir "RS1CumulativeUpdate.msu"
-    $rs4CumulativeUpdate = Join-Path $tempDir "RS4CumulativeUpdate.msu"
+    $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
+    $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
     $step = 0;
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -23,38 +21,17 @@ Param(
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
-            $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS4Path = $ReuseSourcePath
+            $ReuseRS5Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'RS1Only') {
+        elseif ($ReuseSourceSet -eq 'RS5Only') {
             Write-Host "Reusing RS1 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
-            $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS4Path = $null
+            $ReuseRS5Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'DriversOnly') {
             Write-Host "Reusing drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
-            $ReuseRS1Path = $null
-            $ReuseRS4Path = $null
-        }
-        elseif ($ReuseSourceSet -eq 'RS1andDrivers') {
-            Write-Host "Reusing RS1 items and drivers from $ReuseSourcePath"
-            $ReuseDriversPath = $ReuseSourcePath
-            $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS4Path = $null
-        }
-        elseif ($ReuseSourceSet -eq 'RS4andDrivers') {
-            Write-Host "Reusing RS4 items and drivers from $ReuseSourcePath"
-            $ReuseDriversPath = $ReuseSourcePath
-            $ReuseRS1Path = $null
-            $ReuseRS4Path = $ReuseSourcePath
-        }
-        elseif ($ReuseSourceSet -eq 'RS1andRS4') {
-            Write-Host "Reusing RS1 and RS4 items from $ReuseSourcePath"
-            $ReuseDriversPath = $null
-            $ReuseRS1Path = $ReuseSourcePath
-            $ReuseRS4Path = $ReuseSourcePath
+            $ReuseRS5Path = $null
         }
     }
 
@@ -72,27 +49,15 @@ Param(
     Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseDriversPath
     $step++
 
-    if ($ReuseRS1Path -eq $null) {
-        Set-Progress -CurrentOperation "Copying RS1 servicing stack update" -StepNumber $step
-        Copy-Item $(Get-RS1ServicingStackUpdatePath) $rs1ServicingStackUpdate
+    if ($ReuseRS5Path -eq $null) {
+        Set-Progress -CurrentOperation "Copying RS5 servicing stack update" -StepNumber $step
+        Copy-Item $(Get-RS5ServicingStackUpdatePath) $rs5ServicingStackUpdate
     }
     $step++
 
-    if ($ReuseRS1Path -eq $null) {
-        Set-Progress -CurrentOperation "Copying RS1 cumulative update" -StepNumber $step
-        Copy-Item $(Get-RS1CumulativeUpdatePath) $rs1CumulativeUpdate
-    }
-    $step++
-
-    if ($ReuseRS4Path -eq $null) {
-        Set-Progress -CurrentOperation "Copying RS4 servicing stack update" -StepNumber $step
-        Copy-Item $(Get-RS4ServicingStackUpdatePath) $rs4ServicingStackUpdate
-    }
-    $step++
-
-    if ($ReuseRS4Path -eq $null) {
-        Set-Progress -CurrentOperation "Copying RS4 cumulative update" -StepNumber $step
-        Copy-Item $(Get-RS4CumulativeUpdatePath) $rs4CumulativeUpdate
+    if ($ReuseRS5Path -eq $null) {
+        Set-Progress -CurrentOperation "Copying RS5 cumulative update" -StepNumber $step
+        Copy-Item $(Get-RS5CumulativeUpdatePath) $rs5CumulativeUpdate
     }
     $step++
 
@@ -107,16 +72,12 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS1ServicingStackUpdate $rs1ServicingStackUpdate -RS1CumulativeUpdate $rs1CumulativeUpdate -RS4ServicingStackUpdate $rs4ServicingStackUpdate -RS4CumulativeUpdate $rs4CumulativeUpdate -Sku $_ -ReuseRS1Path $ReuseRS1Path -ReuseRS4Path $ReuseRS4Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -Sku $_ -ReuseRS5Path $ReuseRS5Path
         $step++
     }
 
-    Set-Progress -CurrentOperation "Splitting RS1.wim" -StepNumber $step
-    Split-Images -ImageName "RS1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS1Path
-    $step++
-
-    Set-Progress -CurrentOperation "Splitting RS4.wim" -StepNumber $step
-    Split-Images -ImageName "RS4" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS4Path
+    Set-Progress -CurrentOperation "Splitting RS5.wim" -StepNumber $step
+    Split-Images -ImageName "RS5" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS5Path
     $step++
 
     Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
@@ -185,7 +146,6 @@ function Split-Images
 {
 Param(
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS4')]
     [string]$ImageName,
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
@@ -217,7 +177,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 17
+    $totalSteps = 14
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
