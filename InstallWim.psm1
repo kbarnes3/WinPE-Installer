@@ -7,30 +7,24 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DismScratchDir,
     [Parameter(Mandatory=$true)]
-    [string]$RS1ServicingStackUpdate,
+    [string]$RS5ServicingStackUpdate,
     [Parameter(Mandatory=$true)]
-    [string]$RS1CumulativeUpdate,
-    [Parameter(Mandatory=$true)]
-    [string]$RS4ServicingStackUpdate,
-    [Parameter(Mandatory=$true)]
-    [string]$RS4CumulativeUpdate,
+    [string]$RS5CumulativeUpdate,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseRS1Path,
-    [Parameter(Mandatory=$false)]
-    [string]$ReuseRS4Path
+    [string]$ReuseRS5Path
 )
     switch ($Sku) {
         "Consumer" {
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
-            $codebase = "RS4"
-            $servicingStackUpdate = $RS4ServicingStackUpdate
-            $cumulativeUpdate = $RS4CumulativeUpdate
-            $reuseSourcePath = $ReuseRS4Path
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
+            $codebase = "RS5"
+            $servicingStackUpdate = $RS5ServicingStackUpdate
+            $cumulativeUpdate = $RS5CumulativeUpdate
+            $reuseSourcePath = $ReuseRS5Path
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -48,11 +42,11 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
-            $codebase = "RS4"
-            $servicingStackUpdate = $RS4ServicingStackUpdate
-            $cumulativeUpdate = $RS4CumulativeUpdate
-            $reuseSourcePath = $ReuseRS4Path
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
+            $codebase = "RS5"
+            $servicingStackUpdate = $RS5ServicingStackUpdate
+            $cumulativeUpdate = $RS5CumulativeUpdate
+            $reuseSourcePath = $ReuseRS5Path
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -64,33 +58,33 @@ param(
         "Server" {
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS1.wim"
-            $codebase = "RS1"
-            $servicingStackUpdate = $RS1ServicingStackUpdate
-            $cumulativeUpdate = $RS1CumulativeUpdate
-            $reuseSourcePath = $ReuseRS1Path
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
+            $codebase = "RS5"
+            $servicingStackUpdate = $RS5ServicingStackUpdate
+            $cumulativeUpdate = $RS5CumulativeUpdate
+            $reuseSourcePath = $ReuseRS5Path
             $images =
             @{
                 "SourceIndex" = 1; 
-                "DestinationName" = "Windows Server 2016 Standard";
+                "DestinationName" = "Windows Server 2019 Standard";
                 "ShortName" = "Server-Standard-Core"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 2; 
-                "DestinationName" = "Windows Server 2016 Standard (Desktop Experience)";
+                "DestinationName" = "Windows Server 2019 Standard (Desktop Experience)";
                 "ShortName" = "Server-Standard-Desktop"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 3; 
-                "DestinationName" = "Windows Server 2016 Datacenter";
+                "DestinationName" = "Windows Server 2019 Datacenter";
                 "ShortName" = "Server-Datacenter-Core"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 4; 
-                "DestinationName" = "Windows Server 2016 Datacenter (Desktop Experience)";
+                "DestinationName" = "Windows Server 2019 Datacenter (Desktop Experience)";
                 "ShortName" = "Server-Datacenter-Desktop"
                 "CompactEnabled" = $false
             }
@@ -246,7 +240,6 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [ValidateSet('RS1', 'RS4')]
     [string]$codebase,
     [Parameter(Mandatory=$true)]
     $ImageInfo
