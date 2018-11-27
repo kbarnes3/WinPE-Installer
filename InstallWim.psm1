@@ -42,11 +42,11 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS4.wim"
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
             $codebase = "RS5"
             $servicingStackUpdate = $RS5ServicingStackUpdate
             $cumulativeUpdate = $RS5CumulativeUpdate
-            $reuseSourcePath = $ReuseRS4Path
+            $reuseSourcePath = $ReuseRS5Path
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -58,11 +58,11 @@ param(
         "Server" {
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS1.wim"
-            $codebase = "RS1"
-            $servicingStackUpdate = $RS1ServicingStackUpdate
-            $cumulativeUpdate = $RS1CumulativeUpdate
-            $reuseSourcePath = $ReuseRS1Path
+            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
+            $codebase = "RS5"
+            $servicingStackUpdate = $RS5ServicingStackUpdate
+            $cumulativeUpdate = $RS5CumulativeUpdate
+            $reuseSourcePath = $ReuseRS5Path
             $images =
             @{
                 "SourceIndex" = 1; 
