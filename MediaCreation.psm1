@@ -24,7 +24,7 @@ Param(
             $ReuseRS5Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS5Only') {
-            Write-Host "Reusing RS1 items from $ReuseSourcePath"
+            Write-Host "Reusing RS5 items from $ReuseSourcePath"
             $ReuseDriversPath = $null
             $ReuseRS5Path = $ReuseSourcePath
         }

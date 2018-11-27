@@ -31,7 +31,7 @@ function Get-Surface3Drivers {
 }
 
 function Get-SurfacePro3Drivers {
-    return "$env:DISC_PATH\SurfacePro3_Win10_16299_1803002_0.msi"
+    return "$env:DISC_PATH\SurfacePro3_Win10_17134_1805002_1.msi"
 }
 
 function Get-SurfacePro4Drivers {
@@ -39,23 +39,39 @@ function Get-SurfacePro4Drivers {
 }
 
 function Get-SurfaceBookDrivers {
-    return "$env:DISC_PATH\SurfaceBook_Win10_16299_1802300_1.msi"
+    return "$env:DISC_PATH\SurfaceBook_Win10_17134_1805100_3.msi"
 }
 
 function Get-SurfaceStudioDrivers {
-    return "$env:DISC_PATH\SurfaceStudio_Win10_17134_1803506_3.msi"
+    return "$env:DISC_PATH\SurfaceStudio_Win10_17763_1805006_0.msi"
 }
 
 function Get-SurfacePro2017Drivers {
-    return "$env:DISC_PATH\SurfacePro_Win10_16299_1806007_3.msi"
+    return "$env:DISC_PATH\SurfacePro_Win10_17763_1807007_1.msi"
 }
 
 function Get-SurfaceLaptopDrivers {
-    return "$env:DISC_PATH\SurfaceLaptop_Win10_16299_1803508_1.msi"
+    return "$env:DISC_PATH\SurfaceLaptop_Win10_17763_1804508_0.msi"
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\SurfaceBook2_Win10_16299_1802809_0.msi"
+    return "$env:DISC_PATH\SurfaceBook2_Win10_17134_1802209_1.msi"
+}
+
+function Get-SurfaceGoDrivers {
+    return "$env:DISC_PATH\SurfaceGo_Win10_16299_1803010_WiFi_0.msi"
+}
+
+function Get-SurfaceLaptop2Drivers {
+    return "$env:DISC_PATH\SurfaceLaptop2_Win10_17763_1804808_3.msi"
+}
+
+function Get-SurfacePro6Drivers {
+    return "$env:DISC_PATH\SurfacePro6_Win10_17763_1808707_3.msi"
+}
+
+function Get-SurfaceStudio2Drivers {
+    return "$env:DISC_PATH\SurfaceStudio2_Win10_17763_1801710_0.msi"
 }
 
 function Get-IntelRapidStorageDrivers {
