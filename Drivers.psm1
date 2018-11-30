@@ -2,20 +2,21 @@ function Add-Drivers {
 Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
+    [Parameter(Mandatory=$true)]
+    [string]$DriversRoot,
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath
 )
     $driversScripts = Join-Path $WinpeWorkingDir "media\Scripts\Drivers"
-    $driversRoot = Join-Path $WinpeWorkingDir "media\Drivers"
 
     if ($ReuseSourcePath) {
-        Reuse-Drivers -DriversScripts $driversScripts -DriversRoot $driversRoot -ReuseSourcePath $ReuseSourcePath
+        Reuse-Drivers -DriversScripts $driversScripts -DriversRoot $DriversRoot -ReuseSourcePath $ReuseSourcePath
     }
     else {
         New-Item -Path $driversScripts -ItemType Directory | Out-Null
-        New-Item -Path $driversRoot -ItemType Directory | Out-Null
+        New-Item -Path $DriversRoot -ItemType Directory | Out-Null
 
-        Extract-Drivers -DriversScripts $driversScripts -DriversRoot $driversRoot
+        Extract-Drivers -DriversScripts $driversScripts -DriversRoot $DriversRoot
     }
 
 }

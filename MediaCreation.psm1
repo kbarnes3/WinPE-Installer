@@ -11,6 +11,7 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
+    $driversRoot = Join-Path $WinpeWorkingDir "media\Drivers"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
     $step = 0;
@@ -46,23 +47,23 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
-    Add-Drivers -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseDriversPath
+    Add-Drivers -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot -ReuseSourcePath $ReuseDriversPath
     $step++
 
-    if ($ReuseRS5Path -eq $null) {
+    if ($null -eq $ReuseRS5Path) {
         Set-Progress -CurrentOperation "Copying RS5 servicing stack update" -StepNumber $step
         Copy-Item $(Get-RS5ServicingStackUpdatePath) $rs5ServicingStackUpdate
     }
     $step++
 
-    if ($ReuseRS5Path -eq $null) {
+    if ($null -eq $ReuseRS5Path) {
         Set-Progress -CurrentOperation "Copying RS5 cumulative update" -StepNumber $step
         Copy-Item $(Get-RS5CumulativeUpdatePath) $rs5CumulativeUpdate
     }
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
-    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
+    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
     $step++
 
     Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step

@@ -3,6 +3,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
+    [string]$DriversRoot,
+    [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
     [string]$DismScratchDir
@@ -24,7 +26,7 @@ param(
     $step++
 
     Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
-    Add-WindowsDriver -Driver $(Get-IntelRapidStorageDrivers) -Path $MountTempDir -Recurse -ScratchDirectory $DismScratchDir | Out-Null
+    Add-Drivers -DriversRoot $DriversRoot -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
     $step++
 
     Set-Progress -CurrentOperation "Cleaning up boot.wim" -StepNumber $step
@@ -76,12 +78,37 @@ param(
 
     $packages | % {
         $packageName = Split-Path $_ -Leaf
-        Set-PackageProgress -PackageName $packageName  -StepNumber $step -TotalSteps $packages.Length
+        Set-PackageProgress -PackageName $packageName -StepNumber $step -TotalSteps $packages.Length
         Add-WindowsPackage  -PackagePath $_ -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
         $step++
     }
 
     Set-PackageProgress -StepNumber $packages.Length -TotalSteps $packages.Length
+}
+
+function Add-Drivers {
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$DriversRoot,
+    [Parameter(Mandatory=$true)]
+    [string]$MountTempDir,
+    [Parameter(Mandatory=$true)]
+    [string]$DismScratchDir 
+)
+    $driverDirs = @(Get-Item $(Get-IntelRapidStorageDrivers))
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter GPIO -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceHidMiniDriver -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceSerialHubDriver -Directory)
+
+    $step = 0
+
+    $driverDirs | % {
+        Set-DriverProgress -DriverPath $_.FullName -StepNumber $step -TotalSteps $driverDirs.Length
+        Add-WindowsDriver -Driver $_.FullName -Path $MountTempDir -Recurse -ScratchDirectory $DismScratchDir | Out-Null
+        $step++
+    }
+
+    Set-DriverProgress -StepNumber $driverDirs.Length -TotalSteps -$driverDirs.Length
 }
 
 
@@ -113,8 +140,26 @@ Param(
 )
     $currentOperation = "Adding $PackageName"
     $percent = $StepNumber / $totalSteps * 100
-    $completed = ($totalSteps -eq $StepNumber)
-    $status = "Package $($StepNumber + 1) of $totalSteps"
+    $completed = ($TotalSteps -eq $StepNumber)
+    $status = "Package $($StepNumber + 1) of $TotalSteps"
 
     Write-Progress -Id 2 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
+}
+
+function Set-DriverProgress
+{
+Param(
+    [Parameter(Mandatory=$false)]
+    [string]$DriverPath,
+    [Parameter(Mandatory=$true)]
+    [int]$StepNumber,
+    [Parameter(Mandatory=$true)]
+    [int]$TotalSteps
+)
+    $currentOperation = "Adding $DriverPath"
+    $percent = $StepNumber / $TotalSteps * 100
+    $completed = ($TotalSteps -eq $StepNumber)
+    $status = "Driver $($StepNumber + 1) of $TotalSteps"
+
+    Write-Progress -Id 3 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
 }
