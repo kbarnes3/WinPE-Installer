@@ -96,9 +96,9 @@ param(
     [string]$DismScratchDir 
 )
     $driverDirs = @(Get-Item $(Get-IntelRapidStorageDrivers))
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter GPIO -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceHidMiniDriver -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceSerialHubDriver -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter GPIO* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceHidMiniDriver* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceSerialHubDriver* -Directory)
 
     $step = 0
 
@@ -108,7 +108,7 @@ param(
         $step++
     }
 
-    Set-DriverProgress -StepNumber $driverDirs.Length -TotalSteps -$driverDirs.Length
+    Set-DriverProgress -StepNumber $driverDirs.Length -TotalSteps $driverDirs.Length
 }
 
 
