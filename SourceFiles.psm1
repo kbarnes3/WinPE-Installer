@@ -15,7 +15,7 @@ function Get-RS5ServicingStackUpdatePath {
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-01 Cumulative Update for Windows 10 Version 1809 for x64-based Systems (KB4480116)\windows10.0-kb4480116-x64_4c8672ed7ce1d839421a36c681f9d3f64c31fe37.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-01 Cumulative Update for Windows 10 Version 1809 for x64-based Systems (KB4476976)\windows10.0-kb4476976-x64_a9c241844c041cb8dbcf28b5635eecb1a57e028a.msu"
 }
 
 function Get-SurfaceProDrivers {
