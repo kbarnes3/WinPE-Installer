@@ -81,19 +81,21 @@ Param(
     Split-Images -ImageName "RS5" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS5Path
     $step++
 
-    Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
-    & cmd /c MakeWinPEMedia /ISO . winpe.iso | Out-Null
-    $step++
-
     $winpeFinalDir = "D:\WinPE_amd64"
 
     Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
     & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
     $step++
 
+    $isoPath = Join-Path $winpeFinalDir "winpe.iso"
+
+    Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
+    & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
+    $step++
+
     Set-Progress -CurrentOperation "Copying winpe.iso to $env:DISC_PATH" -StepNumber $step
     $isoDestination = Join-Path $env:DISC_PATH "winpe.iso"
-    Start-BitsTransfer -Source winpe.iso -Destination $isoDestination
+    Start-BitsTransfer -Source $isoPath -Destination $isoDestination
     $step++
 
     Set-Progress -StepNumber $step
