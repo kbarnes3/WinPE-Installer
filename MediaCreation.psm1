@@ -5,7 +5,8 @@ Param(
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
     [ValidateSet('All', 'RS5Only', 'DriversOnly')]
-    [string]$ReuseSourceSet
+    [string]$ReuseSourceSet,
+    [switch]$LowMemory
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
@@ -83,15 +84,27 @@ Param(
 
     $winpeFinalDir = "D:\WinPE_amd64"
 
-    Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-    & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
-    $step++
+    if ($LowMemory) {
+        Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
+        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        $step++
 
-    $isoPath = Join-Path $winpeFinalDir "winpe.iso"
+        $isoPath = Join-Path $winpeFinalDir "winpe.iso"
 
-    Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
-    & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
-    $step++
+        Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
+        & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
+        $step++
+    } else {
+        $isoPath = Join-Path $winpeWorkingDir "winpe.iso"
+
+        Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
+        & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
+        $step++
+
+        Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
+        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        $step++
+    }
 
     Set-Progress -CurrentOperation "Copying winpe.iso to $env:DISC_PATH" -StepNumber $step
     $isoDestination = Join-Path $env:DISC_PATH "winpe.iso"

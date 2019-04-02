@@ -3,9 +3,10 @@ Param(
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
     [ValidateSet('All', 'RS5Only', 'DriversOnly')]
-    [string]$ReuseSourceSet='All'
+    [string]$ReuseSourceSet='All',
+    [switch]$LowMemory
 )
 
 Import-Module $PSScriptRoot\WinPE.psd1 -Force
 
-New-WinPEInstallMedia -ReuseSourcePath $ReuseSourcePath -ReuseSourceSet $ReuseSourceSet
+New-WinPEInstallMedia -ReuseSourcePath $ReuseSourcePath -ReuseSourceSet $ReuseSourceSet -LowMemory:$LowMemory
