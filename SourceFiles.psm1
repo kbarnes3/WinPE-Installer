@@ -11,11 +11,11 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS5ServicingStackUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2018-11 Update for Windows 10 Version 1809 for x64-based Systems (KB4470788)\windows10.0-kb4470788-x64_76f112f2b02b1716cdc0cab6c40f73764759cb0d.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-03 Servicing Stack Update for Windows 10 Version 1809 for x64-based Systems (KB4493510)\windows10.0-kb4493510-x64_f692d391a4869d910c754895169dbd0d237a86da.msu"
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-03 Cumulative Update for Windows 10 Version 1809 for x64-based Systems (KB4489899)\windows10.0-kb4489899-x64_c155ece4afbee219e7dfb83df67a7f2baf7c0d1d.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-03 Cumulative Update for Windows 10 Version 1809 for x64-based Systems (KB4490481)\windows10.0-kb4490481-x64_a07dfdc8de3f0c2f590c950410a8a40522cd07dd.msu"
 }
 
 function Get-SurfaceProDrivers {
