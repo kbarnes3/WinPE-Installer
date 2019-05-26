@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', 'DriversOnly')]
+    [ValidateSet('All', 'RS5Only', '19H1Only', 'RS5And19H1', 'DriversOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -27,13 +27,20 @@ Param(
         }
         elseif ($ReuseSourceSet -eq 'RS5Only') {
             Write-Host "Reusing RS5 items from $ReuseSourcePath"
-            $ReuseDriversPath = $null
             $ReuseRS5Path = $ReuseSourcePath
+        }
+        elseif ($ReuseSourceSet -eq '19H1Only') {
+            Write-Host "Reusing 19H1 items from $ReuseSourcePath"
+            $Reuse19H1Path = $ReuseSourcePath
+        }
+        elseif ($ReuseSourceSet -eq 'RS5And19H1') {
+            Write-Host "Reusing RS5 and 19H1 items from $ReuseSourcePath"
+            $ReuseRS5Path = $ReuseSourcePath
+            $Reuse19H1Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'DriversOnly') {
             Write-Host "Reusing drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
-            $ReuseRS5Path = $null
         }
     }
 
@@ -74,12 +81,16 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -Sku $_ -ReuseRS5Path $ReuseRS5Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -19H1ServicingStackUpdate $null -19H1CumulativeUpdate $null -Sku $_ -ReuseRS5Path $ReuseRS5Path -Reuse19H1Path $Reuse19H1Path
         $step++
     }
 
     Set-Progress -CurrentOperation "Splitting RS5.wim" -StepNumber $step
     Split-Images -ImageName "RS5" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS5Path
+    $step++
+
+    Set-Progress -CurrentOperation "Splitting 19H1.wim" -StepNumber $step
+    Split-Images -ImageName "19H1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $Reuse19H1Path
     $step++
 
     $winpeFinalDir = "D:\WinPE_amd64"
@@ -193,7 +204,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 14
+    $totalSteps = 15
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"

@@ -10,21 +10,26 @@ param(
     [string]$RS5ServicingStackUpdate,
     [Parameter(Mandatory=$true)]
     [string]$RS5CumulativeUpdate,
+    [Parameter(Mandatory=$false)]
+    [string]$19H1ServicingStackUpdate,
+    [Parameter(Mandatory=$false)]
+    [string]$19H1CumulativeUpdate,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseRS5Path
+    [string]$ReuseRS5Path,
+    [Parameter(Mandatory=$false)]
+    [string]$Reuse19H1Path
 )
     switch ($Sku) {
         "Consumer" {
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
-            $codebase = "RS5"
-            $servicingStackUpdate = $RS5ServicingStackUpdate
-            $cumulativeUpdate = $RS5CumulativeUpdate
-            $reuseSourcePath = $ReuseRS5Path
+            $codebase = "19H1"
+            $servicingStackUpdate = $19H1ServicingStackUpdate
+            $cumulativeUpdate = $19H1CumulativeUpdate
+            $reuseSourcePath = $Reuse19H1Path
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -42,11 +47,10 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
-            $codebase = "RS5"
-            $servicingStackUpdate = $RS5ServicingStackUpdate
-            $cumulativeUpdate = $RS5CumulativeUpdate
-            $reuseSourcePath = $ReuseRS5Path
+            $codebase = "19H1"
+            $servicingStackUpdate = $19H1ServicingStackUpdate
+            $cumulativeUpdate = $19H1CumulativeUpdate
+            $reuseSourcePath = $Reuse19H1Path
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
@@ -58,7 +62,6 @@ param(
         "Server" {
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
-            $destinationWim = Join-Path $WinpeWorkingDir "temp\RS5.wim"
             $codebase = "RS5"
             $servicingStackUpdate = $RS5ServicingStackUpdate
             $cumulativeUpdate = $RS5CumulativeUpdate
@@ -111,6 +114,7 @@ param(
 
         Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
+            $destinationWim = "temp\$codebase.wim"
             Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
         }
         $step++
