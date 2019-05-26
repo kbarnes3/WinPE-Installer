@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', '19H1Only', 'RS5And19H1', 'DriversOnly')]
+    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', '19H1Only', '19H1AndDrivers', 'RS5And19H1', 'DriversOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -24,13 +24,24 @@ Param(
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS5Path = $ReuseSourcePath
+            $Reuse19H1Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS5Only') {
             Write-Host "Reusing RS5 items from $ReuseSourcePath"
             $ReuseRS5Path = $ReuseSourcePath
         }
+        elseif ($ReuseSourceSet -eq 'RS5AndDrivers') {
+            Write-Host "Reusing RS5 items and drivers from $ReuseSourcePath"
+            $ReuseDriversPath = $ReuseSourcePath
+            $ReuseRS5Path = $ReuseSourcePath
+        }
         elseif ($ReuseSourceSet -eq '19H1Only') {
             Write-Host "Reusing 19H1 items from $ReuseSourcePath"
+            $Reuse19H1Path = $ReuseSourcePath
+        }
+        elseif ($ReuseSourceSet -eq '19H1AndDrivers') {
+            Write-Host "Reusing 19H1 items and drivers from $ReuseSourcePath"
+            $ReuseDriversPath = $ReuseSourcePath
             $Reuse19H1Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS5And19H1') {

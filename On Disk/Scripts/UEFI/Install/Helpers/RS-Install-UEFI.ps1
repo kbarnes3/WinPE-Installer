@@ -13,7 +13,7 @@ New-Item -Path $ScratchDir -Type Directory | Out-Null
 
 # Apply the image to the Windows partition
 Expand-WindowsImage -ImagePath $ImagePath -SplitImageFilePattern $SplitImageFilePattern -Name $ImageName -ApplyPath W:\ -ScratchDirectory $ScratchDir -Compact:$Compact -ErrorAction Stop
-if (-Not (Test-Path W:\Windows)) {
+if (-Not (Test-Path W:\Windows\System32\Recovery\winre.wim)) {
     return
 }
 
