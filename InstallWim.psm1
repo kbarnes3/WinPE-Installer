@@ -11,9 +11,9 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RS5CumulativeUpdate,
     [Parameter(Mandatory=$false)]
-    [string]$19H1ServicingStackUpdate,
+    [string]$ServicingStackUpdate19H1,
     [Parameter(Mandatory=$false)]
-    [string]$19H1CumulativeUpdate,
+    [string]$CumulativeUpdate19H1,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
@@ -27,8 +27,8 @@ param(
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $codebase = "19H1"
-            $servicingStackUpdate = $19H1ServicingStackUpdate
-            $cumulativeUpdate = $19H1CumulativeUpdate
+            $servicingStackUpdate = $ServicingStackUpdate19H1
+            $cumulativeUpdate = $CumulativeUpdate19H1
             $reuseSourcePath = $Reuse19H1Path
             $images =
             @{
@@ -48,8 +48,8 @@ param(
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $codebase = "19H1"
-            $servicingStackUpdate = $19H1ServicingStackUpdate
-            $cumulativeUpdate = $19H1CumulativeUpdate
+            $servicingStackUpdate = $ServicingStackUpdate19H1
+            $cumulativeUpdate = $CumulativeUpdate19H1
             $reuseSourcePath = $Reuse19H1Path
             $images =
             @{

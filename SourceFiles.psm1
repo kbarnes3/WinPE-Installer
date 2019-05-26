@@ -27,7 +27,7 @@ function Get-SurfacePro2Drivers {
 }
 
 function Get-Surface3Drivers {
-    return "$env:DISC_PATH\Drivers\Surface3_WiFi_Win10_17134_1803003_0.msi"
+    return "$env:DISC_PATH\Drivers\Surface3_WiFi_Win10_18362_1900503_0.msi"
 }
 
 function Get-SurfacePro3Drivers {
@@ -39,11 +39,11 @@ function Get-SurfacePro4Drivers {
 }
 
 function Get-SurfaceBookDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_17134_1900500_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_18362_1901500_0.msi"
 }
 
 function Get-SurfaceStudioDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_17763_1805006_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_18362_1900506_0.msi"
 }
 
 function Get-SurfacePro2017Drivers {

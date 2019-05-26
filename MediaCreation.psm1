@@ -81,7 +81,7 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -19H1ServicingStackUpdate $null -19H1CumulativeUpdate $null -Sku $_ -ReuseRS5Path $ReuseRS5Path -Reuse19H1Path $Reuse19H1Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -ServicingStackUpdate19H1 $null -CumulativeUpdate19H1 $null -Sku $_ -ReuseRS5Path $ReuseRS5Path -Reuse19H1Path $Reuse19H1Path
         $step++
     }
 
