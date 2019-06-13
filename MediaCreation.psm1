@@ -15,6 +15,8 @@ Param(
     $driversRoot = Join-Path $WinpeWorkingDir "media\Drivers"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
+    $servicingStackUpdate19H1 = Join-Path $tempDir "19H1ServicingStackUpdate.msu"
+    $cumulativeUpdate19H1 = Join-Path $tempDir "19H1CumulativeUpdate.msu"
     $step = 0;
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -81,6 +83,18 @@ Param(
     }
     $step++
 
+    if ($null -eq $Reuse19H1Path) {
+        Set-Progress -CurrentOperation "Copying 19H1 servicing stack update" -StepNumber $step
+        Copy-Item $(Get-ServicingStackUpdatePath19H1) $servicingStackUpdate19H1
+    }
+    $step++
+
+    if ($null -eq $Reuse19H1Path) {
+        Set-Progress -CurrentOperation "Copying 19H1 cumulative update" -StepNumber $step
+        Copy-Item $(Get-CumulativeUpdatePath19H1) $cumulativeUpdate19H1
+    }
+    $step++
+
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
     Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
     $step++
@@ -92,7 +106,7 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | % {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -ServicingStackUpdate19H1 $null -CumulativeUpdate19H1 $null -Sku $_ -ReuseRS5Path $ReuseRS5Path -Reuse19H1Path $Reuse19H1Path
+        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -ServicingStackUpdate19H1 $servicingStackUpdate19H1 -CumulativeUpdate19H1 $cumulativeUpdate19H1 -Sku $_ -ReuseRS5Path $ReuseRS5Path -Reuse19H1Path $Reuse19H1Path
         $step++
     }
 
@@ -215,7 +229,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 15
+    $totalSteps = 17
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"

@@ -18,6 +18,14 @@ function Get-RS5CumulativeUpdatePath {
     return "$env:DISC_PATH\Cumulative Updates\2019-05 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4497934)\windows10.0-kb4497934-x64_2a3224347811199634033c289ee046f71639611e.msu"
 }
 
+function Get-ServicingStackUpdatePath19H1 {
+    return "$env:DISC_PATH\Cumulative Updates\2019-05 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4498523)\windows10.0-kb4498523-x64_a0ff434be44cddb3c4e6c9e3a9a8d150e3ddc5fa.msu"
+}
+
+function Get-CumulativeUpdatePath19H1 {
+    return "$env:DISC_PATH\Cumulative Updates\2019-05 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4497935)\windows10.0-kb4497935-x64_e1e15758afc9d32ca57779428d145cfba3a12e4b.msu"
+}
+
 function Get-SurfaceProDrivers {
     return "$env:DISC_PATH\Drivers\SurfacePro_Win10_150723_0.zip"
 }
