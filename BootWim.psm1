@@ -100,6 +100,7 @@ param(
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SPI* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceHidMiniDriver* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceSerialHubDriver* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter UART* -Directory)
 
     $step = 0
 
