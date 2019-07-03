@@ -30,8 +30,18 @@ New-Item -Path "R:\Recovery\WindowsRE" -Type Directory | Out-Null
 Remove-Item -Recurse -Force $ScratchDir
 
 Set-Location \Scripts\Drivers
-(Get-ChildItem).Name
+Write-Host "Available drivers: "
+Get-ChildItem | % { Write-Host ".\$($_.Name)" -ForegroundColor Yellow }
 
-Write-Host "`nWindows is installed! To install additional drivers,"
+$modelName = (Get-WmiObject Win32_ComputerSystemProduct).Name
+
+Write-Host "`nWindows is installed!"
+Write-Host "This computer reports that it is a '" -NoNewline
+Write-Host $modelName -ForegroundColor Yellow -NoNewline
+Write-Host "'. To install additional drivers,"
 Write-Host "run the appropriate script listed above. Otherwise,"
-Write-Host "run 'wpeutil shutdown' or 'wpeutil reboot'."
+Write-Host "run '" -NoNewline
+Write-Host "wpeutil shutdown" -ForegroundColor Yellow -NoNewline 
+Write-Host "' or '" -NoNewline
+Write-Host "wpeutil reboot" -ForegroundColor Yellow -NoNewline
+Write-Host "'."

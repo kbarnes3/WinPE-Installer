@@ -29,5 +29,9 @@ New-Item -Path "R:\Recovery\WindowsRE" -Type Directory | Out-Null
 
 Remove-Item -Recurse -Force $ScratchDir
 
-Write-Host "Windows is installed!"
-Write-Host "Run 'wpeutil shutdown' or 'wpeutil reboot'."
+Write-Host "`nWindows is installed!"
+Write-Host "Run '" -NoNewline
+Write-Host "wpeutil shutdown" -ForegroundColor Yellow -NoNewline 
+Write-Host "' or '" -NoNewline
+Write-Host "wpeutil reboot" -ForegroundColor Yellow -NoNewline
+Write-Host "'."

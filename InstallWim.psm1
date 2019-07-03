@@ -258,23 +258,22 @@ Param(
         New-Item -Path $uefiScripts -ItemType Directory | Out-Null
     }
 
-    $biosDefault = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Default.ps1"
-    New-Item -Path $biosDefault -ItemType File | Out-Null
-    Add-Content $biosDefault "& ..\Helpers\$($partitioningCodebase)-Install-BIOS.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`"`n"
-
-    $uefiDefault = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Default.ps1"
-    New-Item -Path $uefiDefault -ItemType File | Out-Null
-    Add-Content $uefiDefault "& ..\Helpers\$($partitioningCodebase)-Install-UEFI.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`"`n"
-
     if ($ImageInfo["CompactEnabled"]) {
-        $biosCompact = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS-Compact.ps1"
-        New-Item -Path $biosCompact -ItemType File | Out-Null
-        Add-Content $biosCompact "& ..\Helpers\$($partitioningCodebase)-Install-BIOS.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`" -Compact`n"
-
-        $uefiCompact = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI-Compact.ps1"
-        New-Item -Path $uefiCompact -ItemType File | Out-Null
-        Add-Content $uefiCompact "& ..\Helpers\$($partitioningCodebase)-Install-UEFI.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`" -Compact`n"
+        $firstLine = "Param([switch]`$Compact)"
     }
+    else {
+        $firstLine = "`$Compact = `$false"
+    }
+
+    $biosScript = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS.ps1"
+    New-Item -Path $biosScript -ItemType File | Out-Null
+    Add-Content $biosScript $firstLine
+    Add-Content $biosScript "& ..\Helpers\$($partitioningCodebase)-Install-BIOS.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`" -Compact:`$Compact"
+
+    $uefiScript = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI.ps1"
+    New-Item -Path $uefiScript -ItemType File | Out-Null
+    Add-Content $uefiScript $firstLine
+    Add-Content $uefiScript "& ..\Helpers\$($partitioningCodebase)-Install-UEFI.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`" -Compact:`$Compact"
 }
 
 function Set-Progress

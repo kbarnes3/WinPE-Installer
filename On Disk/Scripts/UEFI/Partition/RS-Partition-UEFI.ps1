@@ -21,5 +21,8 @@ Set-Content $partitionScript $scriptBody
 & diskpart /s $partitionScript
 
 Set-Location ..\Install\RS
-dir
+
+Write-Host "Available Windows SKUs: "
+Get-ChildItem | % { Write-Host ".\$($_.Name)" -ForegroundColor Yellow }
+
 Write-Host To install Windows, run the appropriate script listed above
