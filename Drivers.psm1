@@ -69,7 +69,7 @@ Param(
         }
 
         $script = Join-Path $driversScripts "$shortName.ps1"
-        Set-Content $script "Adding $friendlyName drivers. This may take a few minutes"
+        Set-Content $script "Write-Host `"Adding $friendlyName drivers. This may take a few minutes.`""
         Add-Content $script "New-Item -Path W:\DismScratch -Type Directory | Out-Null"
         Add-Content $script "Add-WindowsDriver -Path W: -Driver $driversMountPath -Recurse -ScratchDirectory `"W:\DismScratch`""
         Add-Content $script "Remove-Item -Recurse -Force W:\DismScratch"
