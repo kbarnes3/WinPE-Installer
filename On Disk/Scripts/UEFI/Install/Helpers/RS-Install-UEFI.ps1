@@ -38,7 +38,8 @@ $modelName = (Get-WmiObject Win32_ComputerSystemProduct).Name
 Write-Host "`nWindows is installed!"
 Write-Host "This computer reports that it is a '" -NoNewline
 Write-Host $modelName -ForegroundColor Yellow -NoNewline
-Write-Host "'. To install additional drivers,"
+Write-Host "'. "
+Write-Host "To install additional drivers,"
 Write-Host "run the appropriate script listed above. Otherwise,"
 Write-Host "run '" -NoNewline
 Write-Host "wpeutil shutdown" -ForegroundColor Yellow -NoNewline 
