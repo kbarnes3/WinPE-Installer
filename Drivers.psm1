@@ -74,7 +74,7 @@ Param(
         Add-Content $script "Add-WindowsDriver -Path W: -Driver $driversMountPath -Recurse -ScratchDirectory `"W:\DismScratch`""
         Add-Content $script "Remove-Item -Recurse -Force W:\DismScratch"
         Add-Content $script "Write-Host `"$friendlyName drivers added. `""
-        Add-Content $script "Write-Host `"run '`" -NoNewline"
+        Add-Content $script "Write-Host `"Run '`" -NoNewline"
         Add-Content $script "Write-Host `"wpeutil shutdown`" -ForegroundColor Yellow -NoNewline "
         Add-Content $script "Write-Host `"' or '`" -NoNewline"
         Add-Content $script "Write-Host `"wpeutil reboot`" -ForegroundColor Yellow -NoNewline"

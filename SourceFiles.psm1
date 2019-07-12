@@ -11,19 +11,19 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS5ServicingStackUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-06 Servicing Stack Update for Windows 10 Version 1809 for x64-based Systems (KB4504369)\windows10.0-kb4504369-x64_38b8c4dff79633757ee50837a735d3df0e75fa65.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB4509095)\windows10.0-kb4509095-x64_db55fad56f519812591f059826f4938733ec66da.msu"
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-06 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4509479)\windows10.0-kb4509479-x64_801a7e1cc7fc4a9ba3ca87aea28d97de305660b3.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4507469)\windows10.0-kb4507469-x64_5f3dbb0a076f7113a16dbe218b821a9c1589c96a.msu"
 }
 
 function Get-ServicingStackUpdatePath19H1 {
-    return "$env:DISC_PATH\Cumulative Updates\2019-06 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4506933)\windows10.0-kb4506933-x64_9505dd15c7588513f12aeb9efae1934e65e55efe.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4509096)\windows10.0-kb4509096-x64_7037ec335c58a4d6afa92c0d54c1f4400ad59372.msu"
 }
 
 function Get-CumulativeUpdatePath19H1 {
-    return "$env:DISC_PATH\Cumulative Updates\2019-06 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4501375)\windows10.0-kb4501375-x64_c54071d9b24a8efb7a48714883cf141a66b8c395.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4507453)\windows10.0-kb4507453-x64_79902381f303bd21104b0f9067c086e5dd6cd3f2.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -35,47 +35,47 @@ function Get-SurfacePro2Drivers {
 }
 
 function Get-Surface3Drivers {
-    return "$env:DISC_PATH\Drivers\Surface3_WiFi_Win10_18362_1900503_0.msi"
+    return "$env:DISC_PATH\Drivers\Surface3_WiFi_Win10_18362_1902003_0.msi"
 }
 
 function Get-SurfacePro3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro3_Win10_18362_1901002_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro3_Win10_18362_1902002_0.msi"
 }
 
 function Get-SurfacePro4Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro4_Win10_18362_1901501_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro4_Win10_18362_1902001_0.msi"
 }
 
 function Get-SurfaceBookDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_18362_1901500_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_18362_1902000_0.msi"
 }
 
 function Get-SurfaceStudioDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_18362_1900506_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_18362_1902006_0.msi"
 }
 
 function Get-SurfacePro2017Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro_Win10_18362_1901507_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro_Win10_18362_1902007_1.msi"
 }
 
 function Get-SurfaceLaptopDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop_Win10_18362_1901508_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop_Win10_18362_1902008_0.msi"
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_1901809_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_1902009_0.msi"
 }
 
 function Get-SurfaceGoDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo_Win10_17134_1901010_1.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceGo_Win10_17763_1902010_WiFi_1.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_1901508_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_1902008_0.msi"
 }
 
 function Get-SurfacePro6Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_1901507_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_1902007_0.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
