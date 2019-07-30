@@ -11,19 +11,19 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS5ServicingStackUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB4509095)\windows10.0-kb4509095-x64_db55fad56f519812591f059826f4938733ec66da.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB4512937)\windows10.0-kb4512937-x64_2a065a9ecfee76e3e457f3c596550e821358971c.msu"
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4507469)\windows10.0-kb4507469-x64_5f3dbb0a076f7113a16dbe218b821a9c1589c96a.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4505658)\windows10.0-kb4505658-x64_cb660f3191eba56217694635b48d50d36883c3f2.msu"
 }
 
 function Get-ServicingStackUpdatePath19H1 {
-    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4509096)\windows10.0-kb4509096-x64_7037ec335c58a4d6afa92c0d54c1f4400ad59372.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4508433)\windows10.0-kb4508433-x64_c4d6ffb6ee72a39da6c6c7e15a47d6e1520030e4.msu"
 }
 
 function Get-CumulativeUpdatePath19H1 {
-    return "$env:DISC_PATH\Cumulative Updates\2019-07 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4507453)\windows10.0-kb4507453-x64_79902381f303bd21104b0f9067c086e5dd6cd3f2.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-07 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4505903)\windows10.0-kb4505903-x64_af8c6ab868423055a750797b6d52c1bd67e15a95.msu"
 }
 
 function Get-SurfaceProDrivers {
