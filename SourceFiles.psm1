@@ -15,15 +15,15 @@ function Get-RS5ServicingStackUpdatePath {
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2019-08 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4511553)\windows10.0-kb4511553-x64_a67329ef92df959050847b10d583e6c54aa3b3d4.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-08 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4512534)\windows10.0-kb4512534-x64_65e8f81eb12cbd70bf426d62f98e77b4cd2f4c28.msu"
 }
 
 function Get-ServicingStackUpdatePath19H1 {
-    return "$env:DISC_PATH\Cumulative Updates\2019-07 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4508433)\windows10.0-kb4508433-x64_c4d6ffb6ee72a39da6c6c7e15a47d6e1520030e4.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-09 Servicing Stack Update for Windows 10 Version 1903 for x64-based Systems (KB4515383)\windows10.0-kb4515383-x64_33a465dd17f198241e23e286ee7565c3c28b2f9d.msu"
 }
 
 function Get-CumulativeUpdatePath19H1 {
-    return "$env:DISC_PATH\Cumulative Updates\2019-08 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4512508)\windows10.0-kb4512508-x64_1893edc9a11d760be11e49d2500170ceee8026d7.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2019-09 Cumulative Update for Windows 10 Version 1903 for x64-based Systems (KB4515384)\windows10.0-kb4515384-x64_d7e55a2589b1c603138c533b27b0d1222de975db.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -75,7 +75,7 @@ function Get-SurfaceLaptop2Drivers {
 }
 
 function Get-SurfacePro6Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_1904007_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_19.083.29713.0.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
