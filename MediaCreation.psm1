@@ -12,7 +12,7 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
-    $driversRoot = Join-Path $WinpeWorkingDir "media\Drivers"
+    $driversRoot = Join-Path $WinpeWorkingDir "drivers-media\Drivers"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
     $servicingStackUpdate19H1 = Join-Path $tempDir "19H1ServicingStackUpdate.msu"
@@ -101,6 +101,7 @@ Param(
 
     Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
+    & robocopy "/S" "/XX" "$PSScriptRoot\Driver Disk" "$(Join-Path $winpeWorkingDir "drivers-media")" | Out-Null
     $step++
 
     $skus = "Consumer", "Business", "Server"
@@ -132,9 +133,14 @@ Param(
         $step++
     } else {
         $isoPath = Join-Path $winpeWorkingDir "winpe.iso"
+        $driverIsoPath = Join-Path $winpeWorkingDir "winpe-drivers.iso"
 
         Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
         & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
+        $step++
+
+        Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
+        & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
         $step++
 
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
@@ -147,15 +153,17 @@ Param(
     Start-BitsTransfer -Source $isoPath -Destination $isoDestination
     $step++
 
+    Set-Progress -CurrentOperation "Copying winpe-drivers.iso to $env:DISC_PATH" -StepNumber $step
+    $isoDestination = Join-Path $env:DISC_PATH "winpe-drivers.iso"
+    Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
+    $step++
+
     Set-Progress -StepNumber $step
 
     Set-Location $winpeFinalDir
     Write-Host "All done!"
-    Write-Host "To make a bootable USB drive, run:"
-    Write-Host "MakeWinPEMedia /UFD $winpeFinalDir X:"
-    Write-Host "Where X: is the drive letter of your USB drive"
-    Write-Host "And existing drive can be updated by running:"
-    Write-Host "robocopy $winpeFinalDir\media X: /MIR /FFT /DST"
+    Write-Host "To create or update a bootable USB drive,"
+    Write-Host "please see this project's README.md"
 
     Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
 
@@ -229,7 +237,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 17
+    $totalSteps = 19
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"

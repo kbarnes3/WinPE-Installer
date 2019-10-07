@@ -29,20 +29,38 @@ New-Item -Path "R:\Recovery\WindowsRE" -Type Directory | Out-Null
 
 Remove-Item -Recurse -Force $ScratchDir
 
-Set-Location \Scripts\Drivers
-Write-Host "Available drivers: "
-Get-ChildItem | % { Write-Host ".\$($_.Name)" -ForegroundColor Yellow }
+# Try and find if we have a partition of drivers available
+(Get-Volume).DriveLetter | % { 
+    $PotentialFile = "$($_):\5c026ee5-9d8f-4f93-bcd1-abc5d31bdbba"
+    if (Test-Path $PotentialFile) { 
+        $driverDriveLetter = $_
+    }
+}
+$driverScripts = Join-Path "$($driverDriveLetter):" "Scripts\Drivers"
 
-$modelName = (Get-WmiObject Win32_ComputerSystemProduct).Name
-
-Write-Host "`nWindows is installed!"
-Write-Host "This computer reports that it is a '" -NoNewline
-Write-Host $modelName -ForegroundColor Yellow -NoNewline
-Write-Host "'. "
-Write-Host "To install additional drivers,"
-Write-Host "run the appropriate script listed above. Otherwise,"
-Write-Host "run '" -NoNewline
-Write-Host "wpeutil shutdown" -ForegroundColor Yellow -NoNewline 
-Write-Host "' or '" -NoNewline
-Write-Host "wpeutil reboot" -ForegroundColor Yellow -NoNewline
-Write-Host "'."
+if (Test-Path $driverScripts) {
+    Set-Location $driverScripts
+    Write-Host "Available drivers: "
+    Get-ChildItem | % { Write-Host ".\$($_.Name)" -ForegroundColor Yellow }
+    
+    $modelName = (Get-WmiObject Win32_ComputerSystemProduct).Name
+    
+    Write-Host "`nWindows is installed!"
+    Write-Host "This computer reports that it is a '" -NoNewline
+    Write-Host $modelName -ForegroundColor Yellow -NoNewline
+    Write-Host "'. "
+    Write-Host "To install additional drivers,"
+    Write-Host "run the appropriate script listed above. Otherwise,"
+    Write-Host "run '" -NoNewline
+    Write-Host "wpeutil shutdown" -ForegroundColor Yellow -NoNewline 
+    Write-Host "' or '" -NoNewline
+    Write-Host "wpeutil reboot" -ForegroundColor Yellow -NoNewline
+    Write-Host "'."
+} else {
+    Write-Host "`nWindows is installed!"
+    Write-Host "Run '" -NoNewline
+    Write-Host "wpeutil shutdown" -ForegroundColor Yellow -NoNewline 
+    Write-Host "' or '" -NoNewline
+    Write-Host "wpeutil reboot" -ForegroundColor Yellow -NoNewline
+    Write-Host "'."
+}

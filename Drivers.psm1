@@ -7,10 +7,10 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath
 )
-    $driversScripts = Join-Path $WinpeWorkingDir "media\Scripts\Drivers"
+    $driversScripts = Join-Path $WinpeWorkingDir "drivers-media\Scripts\Drivers"
 
     if ($ReuseSourcePath) {
-        Reuse-Drivers -DriversScripts $driversScripts -DriversRoot $DriversRoot -ReuseSourcePath $ReuseSourcePath
+        Reuse-Drivers -WinpeWorkingDir $WinpeWorkingDir -ReuseSourcePath $ReuseSourcePath
     }
     else {
         New-Item -Path $driversScripts -ItemType Directory | Out-Null
@@ -86,18 +86,15 @@ Param(
 function Reuse-Drivers {
 Param(
     [Parameter(Mandatory=$true)]
-    [string]$DriversScripts,
-    [Parameter(Mandatory=$true)]
-    [string]$DriversRoot,
+    [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
     [string]$ReuseSourcePath
     )
 
-    $sourceScripts = Join-Path $ReuseSourcePath "media\Scripts\Drivers"
-    $sourceDrivers = Join-Path $ReuseSourcePath "media\Drivers"
+    $sourcePath = Join-Path $ReuseSourcePath "drivers-media"
+    $destPath = Join-Path $WinpeWorkingDir "drivers-media"
 
-    Copy-Item $sourceScripts $DriversScripts -Recurse
-    Copy-Item $sourceDrivers $DriversRoot -Recurse
+    Copy-Item $sourcePath $destPath -Recurse
 }
 
 function Set-Progress

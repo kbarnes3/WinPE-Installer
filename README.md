@@ -15,3 +15,24 @@ It requires many files to create the bootable disc:
 * [7-Zip](http://www.7-zip.org/) needs to be installed
 
 To produce the installer, run Setup-WinPE.ps1 from an Administrator Deployment and Imaging Tools Environment.
+
+To copy the resulting files to a new USB key (64 GB minimum), run the following commands as an administrator:
+* `diskpart`
+* `LIST DISK`
+* `SELECT DISK n` where `n` is the disk number of your USB key. Make sure to get this right!
+* `CONVERT MBR` This command may fail with "The specified drive is not convertible". This is fine.
+* `CLEAN`
+* `CREATE PARTITION PRIMARY SIZE=16384`
+* `FORMAT FS=FAT32 LABEL="WINPE" QUICK`
+* `ACTIVE`
+* `ASSIGN`
+* `CREATE PARTITION PRIMARY`
+* `FORMAT FS=EXFAT LABEL="DRIVERS" QUICK`
+* `ASSIGN`
+* `EXIT`
+
+Then copy the contents onto the newly created drives with `robocoopy`:
+* `robocopy X:\WinPE_amd64\media Y: /MIR /FFT /DST` where X: is your local drive with a generated installed and Y: is the newly created "WINPE" partition.
+* `robocopy X:\WinPE_amd64\drivers-media Z: /MIR /FFT /DST` where X: is your local drive with a generated installed and Z: is the newly created "DRIVERS" partition.
+
+To update an existing drive, just run the two `robocopy` commands above.
