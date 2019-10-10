@@ -127,9 +127,14 @@ Param(
         $step++
 
         $isoPath = Join-Path $winpeFinalDir "winpe.iso"
+        $driverIsoPath = Join-Path $winpeFinalDir "winpe-drivers.iso"
 
         Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
         & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
+        $step++
+
+        Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
+        & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
         $step++
     } else {
         $isoPath = Join-Path $winpeWorkingDir "winpe.iso"
