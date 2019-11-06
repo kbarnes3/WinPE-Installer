@@ -44,7 +44,10 @@ Param(
         @{"friendlyName" = "Surface Go"; "source" = Get-SurfaceGoDrivers},
         @{"friendlyName" = "Surface Laptop 2"; "source" = Get-SurfaceLaptop2Drivers},
         @{"friendlyName" = "Surface Pro 6"; "source" = Get-SurfacePro6Drivers},
-        @{"friendlyName" = "Surface Studio 2"; "source" = Get-SurfaceStudio2Drivers}
+        @{"friendlyName" = "Surface Studio 2"; "source" = Get-SurfaceStudio2Drivers},
+        @{"friendlyName" = "Surface Pro 7"; "source" = Get-SurfacePro7Drivers},
+        @{"friendlyName" = "Surface Laptop 3 (Intel)"; "source" = Get-SurfaceLaptop3IntelDrivers},
+        @{"friendlyName" = "Surface Laptop 3 (AMD)"; "source" = Get-SurfaceLaptop3AmdDrivers}
 
     for ($i = 0; $i -lt $devices.Length; $i++) {
         $device = $devices[$i]
