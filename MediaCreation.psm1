@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', '19H1Only', '19H1AndDrivers', 'RS5And19H1', 'DriversOnly')]
+    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', '19H2Only', '19H2AndDrivers', 'RS5And19H2', 'DriversOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -15,8 +15,8 @@ Param(
     $driversRoot = Join-Path $WinpeWorkingDir "drivers-media\Drivers"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
-    $servicingStackUpdate19H1 = Join-Path $tempDir "19H1ServicingStackUpdate.msu"
-    $cumulativeUpdate19H1 = Join-Path $tempDir "19H1CumulativeUpdate.msu"
+    $servicingStackUpdate19H2 = Join-Path $tempDir "19H2ServicingStackUpdate.msu"
+    $cumulativeUpdate19H2 = Join-Path $tempDir "19H2CumulativeUpdate.msu"
     $step = 0;
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -26,7 +26,7 @@ Param(
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS5Path = $ReuseSourcePath
-            $Reuse19H1Path = $ReuseSourcePath
+            $Reuse19H2Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS5Only') {
             Write-Host "Reusing RS5 items from $ReuseSourcePath"
@@ -37,19 +37,19 @@ Param(
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS5Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq '19H1Only') {
-            Write-Host "Reusing 19H1 items from $ReuseSourcePath"
-            $Reuse19H1Path = $ReuseSourcePath
+        elseif ($ReuseSourceSet -eq '19H2Only') {
+            Write-Host "Reusing 19H2 items from $ReuseSourcePath"
+            $Reuse19H2Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq '19H1AndDrivers') {
-            Write-Host "Reusing 19H1 items and drivers from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq '19H2AndDrivers') {
+            Write-Host "Reusing 19H2 items and drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
-            $Reuse19H1Path = $ReuseSourcePath
+            $Reuse19H2Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'RS5And19H1') {
-            Write-Host "Reusing RS5 and 19H1 items from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq 'RS5And19H2') {
+            Write-Host "Reusing RS5 and 19H2 items from $ReuseSourcePath"
             $ReuseRS5Path = $ReuseSourcePath
-            $Reuse19H1Path = $ReuseSourcePath
+            $Reuse19H2Path = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'DriversOnly') {
             Write-Host "Reusing drivers from $ReuseSourcePath"
@@ -67,8 +67,10 @@ Param(
     Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir -DismScratch $dismScratchDir
     $step++
 
-    Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
-    Add-Drivers -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot -ReuseSourcePath $ReuseDriversPath
+    if ($null -eq $ReuseDriversPath) {
+        Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
+        Add-Drivers -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot
+    }
     $step++
 
     if ($null -eq $ReuseRS5Path) {
@@ -83,15 +85,15 @@ Param(
     }
     $step++
 
-    if ($null -eq $Reuse19H1Path) {
-        Set-Progress -CurrentOperation "Copying 19H1 servicing stack update" -StepNumber $step
-        Copy-Item $(Get-ServicingStackUpdatePath19H1) $servicingStackUpdate19H1
+    if ($null -eq $Reuse19H2Path) {
+        Set-Progress -CurrentOperation "Copying 19H2 servicing stack update" -StepNumber $step
+        Copy-Item $(Get-ServicingStackUpdatePath19H2) $servicingStackUpdate19H2
     }
     $step++
 
-    if ($null -eq $Reuse19H1Path) {
-        Set-Progress -CurrentOperation "Copying 19H1 cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePath19H1) $cumulativeUpdate19H1
+    if ($null -eq $Reuse19H2Path) {
+        Set-Progress -CurrentOperation "Copying 19H2 cumulative update" -StepNumber $step
+        Copy-Item $(Get-CumulativeUpdatePath19H2) $cumulativeUpdate19H2
     }
     $step++
 
@@ -101,13 +103,25 @@ Param(
 
     Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
-    & robocopy "/S" "/XX" "$PSScriptRoot\Driver Disk" "$(Join-Path $winpeWorkingDir "drivers-media")" | Out-Null
+    if ($null -eq $ReuseDriversPath) {
+        & robocopy "/S" "/XX" "$PSScriptRoot\Driver Disk" "$(Join-Path $winpeWorkingDir "drivers-media")" | Out-Null
+    }
     $step++
 
     $skus = "Consumer", "Business", "Server"
-    $skus | % {
+    $skus | ForEach-Object {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir -RS5ServicingStackUpdate $rs5ServicingStackUpdate -RS5CumulativeUpdate $rs5CumulativeUpdate -ServicingStackUpdate19H1 $servicingStackUpdate19H1 -CumulativeUpdate19H1 $cumulativeUpdate19H1 -Sku $_ -ReuseRS5Path $ReuseRS5Path -Reuse19H1Path $Reuse19H1Path
+        Update-InstallWim
+            -WinpeWorkingDir $winpeWorkingDir
+            -MountTempDir $mountTempDir
+            -DismScratchDir $dismScratchDir
+            -RS5ServicingStackUpdate $rs5ServicingStackUpdate
+            -RS5CumulativeUpdate $rs5CumulativeUpdate
+            -ServicingStackUpdate19H2 $servicingStackUpdate19H2
+            -CumulativeUpdate19H2 $cumulativeUpdate19H2
+            -Sku $_
+            -ReuseRS5Path $ReuseRS5Path
+            -Reuse19H2Path $Reuse19H2Path
         $step++
     }
 
@@ -123,7 +137,11 @@ Param(
 
     if ($LowMemory) {
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        if ($null -eq $ReuseDriversPath) {
+            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        } else {
+            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp drivers-media /XF winpe-drivers.iso | Out-Null
+        }
         $step++
 
         $isoPath = Join-Path $winpeFinalDir "winpe.iso"
@@ -133,8 +151,10 @@ Param(
         & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
         $step++
 
-        Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
-        & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
+        if ($null -eq $ReuseDriversPath) {
+            Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
+            & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
+        }
         $step++
     } else {
         $isoPath = Join-Path $winpeWorkingDir "winpe.iso"
@@ -144,12 +164,18 @@ Param(
         & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
         $step++
 
-        Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
-        & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
+        if ($null -eq $ReuseDriversPath) {
+            Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
+            & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
+        }
         $step++
 
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        if ($null -eq $ReuseDriversPath) {
+            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        } else {
+            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp drivers-media /XF winpe-drivers.iso | Out-Null
+        }
         $step++
     }
 
@@ -158,9 +184,11 @@ Param(
     Start-BitsTransfer -Source $isoPath -Destination $isoDestination
     $step++
 
-    Set-Progress -CurrentOperation "Copying winpe-drivers.iso to $env:DISC_PATH" -StepNumber $step
-    $isoDestination = Join-Path $env:DISC_PATH "winpe-drivers.iso"
-    Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
+    if ($null -eq $ReuseDriversPath) {
+        Set-Progress -CurrentOperation "Copying winpe-drivers.iso to $env:DISC_PATH" -StepNumber $step
+        $isoDestination = Join-Path $env:DISC_PATH "winpe-drivers.iso"
+        Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
+    }
     $step++
 
     Set-Progress -StepNumber $step
