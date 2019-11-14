@@ -96,11 +96,11 @@ param(
     [string]$DismScratchDir 
 )
     $driverDirs = @(Get-Item $(Get-IntelRapidStorageDrivers))
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter GPIO* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SPI* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceHidMiniDriver* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter SurfaceSerialHubDriver* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter UART* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *GPIO* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SPI* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SurfaceHidMini* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SurfaceSerialHub* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *UART* -Directory)
 
     $step = 0
 

@@ -57,6 +57,10 @@ Param(
         }
     }
 
+    if ($ReuseDriversPath -ne $null) {
+        $driversRoot = Join-Path $ReuseDriversPath "drivers-media\Drivers"
+    }
+
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
     Confirm-Environment -ErrorAction Stop | Out-Null
     $step++
@@ -111,16 +115,16 @@ Param(
     $skus = "Consumer", "Business", "Server"
     $skus | ForEach-Object {
         Set-Progress -CurrentOperation "Preparing $_ SKUs" -StepNumber $step
-        Update-InstallWim
-            -WinpeWorkingDir $winpeWorkingDir
-            -MountTempDir $mountTempDir
-            -DismScratchDir $dismScratchDir
-            -RS5ServicingStackUpdate $rs5ServicingStackUpdate
-            -RS5CumulativeUpdate $rs5CumulativeUpdate
-            -ServicingStackUpdate19H2 $servicingStackUpdate19H2
-            -CumulativeUpdate19H2 $cumulativeUpdate19H2
-            -Sku $_
-            -ReuseRS5Path $ReuseRS5Path
+        Update-InstallWim `
+            -WinpeWorkingDir $winpeWorkingDir `
+            -MountTempDir $mountTempDir `
+            -DismScratchDir $dismScratchDir `
+            -RS5ServicingStackUpdate $rs5ServicingStackUpdate `
+            -RS5CumulativeUpdate $rs5CumulativeUpdate `
+            -ServicingStackUpdate19H2 $servicingStackUpdate19H2 `
+            -CumulativeUpdate19H2 $cumulativeUpdate19H2 `
+            -Sku $_ `
+            -ReuseRS5Path $ReuseRS5Path `
             -Reuse19H2Path $Reuse19H2Path
         $step++
     }
@@ -129,8 +133,8 @@ Param(
     Split-Images -ImageName "RS5" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS5Path
     $step++
 
-    Set-Progress -CurrentOperation "Splitting 19H1.wim" -StepNumber $step
-    Split-Images -ImageName "19H1" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $Reuse19H1Path
+    Set-Progress -CurrentOperation "Splitting 19H2.wim" -StepNumber $step
+    Split-Images -ImageName "19H2" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $Reuse19H2Path
     $step++
 
     $winpeFinalDir = "D:\WinPE_amd64"

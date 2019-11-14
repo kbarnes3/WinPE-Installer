@@ -3,21 +3,14 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [string]$DriversRoot,
-    [Parameter(Mandatory=$false)]
-    [string]$ReuseSourcePath
+    [string]$DriversRoot
 )
     $driversScripts = Join-Path $WinpeWorkingDir "drivers-media\Scripts\Drivers"
 
-    if ($ReuseSourcePath) {
-        Reuse-Drivers -WinpeWorkingDir $WinpeWorkingDir -ReuseSourcePath $ReuseSourcePath
-    }
-    else {
-        New-Item -Path $driversScripts -ItemType Directory | Out-Null
-        New-Item -Path $DriversRoot -ItemType Directory | Out-Null
+    New-Item -Path $driversScripts -ItemType Directory | Out-Null
+    New-Item -Path $DriversRoot -ItemType Directory | Out-Null
 
-        Extract-Drivers -DriversScripts $driversScripts -DriversRoot $DriversRoot
-    }
+    Extract-Drivers -DriversScripts $driversScripts -DriversRoot $DriversRoot
 
 }
 Export-ModuleMember Add-Drivers
@@ -84,20 +77,6 @@ Param(
         Add-Content $script "Write-Host `"'.`""
     }
     Set-Progress -StepNumber $devices.Length -TotalSteps $devices.Length
-}
-
-function Reuse-Drivers {
-Param(
-    [Parameter(Mandatory=$true)]
-    [string]$WinpeWorkingDir,
-    [Parameter(Mandatory=$true)]
-    [string]$ReuseSourcePath
-    )
-
-    $sourcePath = Join-Path $ReuseSourcePath "drivers-media"
-    $destPath = Join-Path $WinpeWorkingDir "drivers-media"
-
-    Copy-Item $sourcePath $destPath -Recurse
 }
 
 function Set-Progress
