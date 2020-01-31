@@ -24,7 +24,7 @@ Get-PhysicalDisk | Format-Table @{Name="DiskNumber"; Expression={$_.DeviceId}},
         return "" + [System.Math]::Round($size,2) + " " + $postfixes[$i];}}
 Write-Host "To partition your disk run:"
 Write-Host "    .\RS-Partition-$($FirmwareMode).ps1 -DiskNumber n " -ForegroundColor Yellow -NoNewline 
-Write-Host "// For Windows 10 Version 1903 and Windows Server 2019"
+Write-Host "// For Windows 10 Version 1909 and Windows Server 2019"
 if ($FirmwareMode -eq "BIOS") {
     Write-Host "    .\RS-Partition-BIOS-VHD.ps1 -DiskNumber n -VhdName Filename " -ForegroundColor Yellow -NoNewline 
     Write-Host "// If you know what you are doing"
