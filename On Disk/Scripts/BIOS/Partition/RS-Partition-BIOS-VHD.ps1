@@ -2,9 +2,20 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$DiskNumber,
     [Parameter(Mandatory=$true)]
-    [string]$VhdName
+    [string]$VhdName,
+    [switch]$ForceFormatUSB
 )
 
+if (-Not $ForceFormatUSB) {
+    $disk = Get-PhysicalDisk -DeviceNumber $DiskNumber
+    if ($disk.BusType -eq "USB") {
+        $errorMessage = @'
+You are attempting to format a USB device. This is probably not what you want.
+If you are really, really sure you want to do this, pass the -ForceFormatUSB flag to this script.
+'@
+        throw $errorMessage
+    }
+}
 
 $scriptName = "RS-BIOS.txt"
 $tempDir = "X:\Temp"
