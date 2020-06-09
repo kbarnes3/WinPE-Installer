@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', '19H2Only', '19H2AndDrivers', 'RS5And19H2', 'DriversOnly')]
+    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', 'VbOnly', 'VbAndDrivers', 'RS5AndVb', 'DriversOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -15,8 +15,8 @@ Param(
     $driversRoot = Join-Path $WinpeWorkingDir "drivers-media\Drivers"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
-    $servicingStackUpdate19H2 = Join-Path $tempDir "19H2ServicingStackUpdate.msu"
-    $cumulativeUpdate19H2 = Join-Path $tempDir "19H2CumulativeUpdate.msu"
+    $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
+    $cumulativeUpdateVb = Join-Path $tempDir "VbCumulativeUpdate.msu"
     $step = 0;
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -26,7 +26,7 @@ Param(
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS5Path = $ReuseSourcePath
-            $Reuse19H2Path = $ReuseSourcePath
+            $ReuseVbPath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'RS5Only') {
             Write-Host "Reusing RS5 items from $ReuseSourcePath"
@@ -37,19 +37,19 @@ Param(
             $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS5Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq '19H2Only') {
-            Write-Host "Reusing 19H2 items from $ReuseSourcePath"
-            $Reuse19H2Path = $ReuseSourcePath
+        elseif ($ReuseSourceSet -eq 'VbOnly') {
+            Write-Host "Reusing Vb items from $ReuseSourcePath"
+            $ReuseVbPath = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq '19H2AndDrivers') {
-            Write-Host "Reusing 19H2 items and drivers from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq 'VbAndDrivers') {
+            Write-Host "Reusing Vb items and drivers from $ReuseSourcePath"
             $ReuseDriversPath = $ReuseSourcePath
-            $Reuse19H2Path = $ReuseSourcePath
+            $ReuseVbPath = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'RS5And19H2') {
-            Write-Host "Reusing RS5 and 19H2 items from $ReuseSourcePath"
+        elseif ($ReuseSourceSet -eq 'RS5AndVb') {
+            Write-Host "Reusing RS5 and Vb items from $ReuseSourcePath"
             $ReuseRS5Path = $ReuseSourcePath
-            $Reuse19H2Path = $ReuseSourcePath
+            $ReuseVbPath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'DriversOnly') {
             Write-Host "Reusing drivers from $ReuseSourcePath"
@@ -89,15 +89,15 @@ Param(
     }
     $step++
 
-    if ($null -eq $Reuse19H2Path) {
-        Set-Progress -CurrentOperation "Copying 19H2 servicing stack update" -StepNumber $step
-        Copy-Item $(Get-ServicingStackUpdatePath19H2) $servicingStackUpdate19H2
+    if ($null -eq $ReuseVbPath) {
+        Set-Progress -CurrentOperation "Copying Vb servicing stack update" -StepNumber $step
+        Copy-Item $(Get-ServicingStackUpdatePathVb) $servicingStackUpdateVb
     }
     $step++
 
-    if ($null -eq $Reuse19H2Path) {
-        Set-Progress -CurrentOperation "Copying 19H2 cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePath19H2) $cumulativeUpdate19H2
+    if ($null -eq $ReuseVbPath) {
+        Set-Progress -CurrentOperation "Copying Vb cumulative update" -StepNumber $step
+        Copy-Item $(Get-CumulativeUpdatePathVb) $cumulativeUpdateVb
     }
     $step++
 
@@ -121,11 +121,11 @@ Param(
             -DismScratchDir $dismScratchDir `
             -RS5ServicingStackUpdate $rs5ServicingStackUpdate `
             -RS5CumulativeUpdate $rs5CumulativeUpdate `
-            -ServicingStackUpdate19H2 $servicingStackUpdate19H2 `
-            -CumulativeUpdate19H2 $cumulativeUpdate19H2 `
+            -ServicingStackUpdateVb $servicingStackUpdateVb `
+            -CumulativeUpdateVb $cumulativeUpdateVb `
             -Sku $_ `
             -ReuseRS5Path $ReuseRS5Path `
-            -Reuse19H2Path $Reuse19H2Path
+            -ReuseVbPath $ReuseVbPath
         $step++
     }
 
@@ -133,8 +133,8 @@ Param(
     Split-Images -ImageName "RS5" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS5Path
     $step++
 
-    Set-Progress -CurrentOperation "Splitting 19H2.wim" -StepNumber $step
-    Split-Images -ImageName "19H2" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $Reuse19H2Path
+    Set-Progress -CurrentOperation "Splitting Vb.wim" -StepNumber $step
+    Split-Images -ImageName "Vb" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseVbPath
     $step++
 
     $winpeFinalDir = "D:\WinPE_amd64"
