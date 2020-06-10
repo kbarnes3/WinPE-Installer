@@ -10,8 +10,8 @@ function Confirm-Environment {
         (Get-ServerIsoPath),
         (Get-RS5ServicingStackUpdatePath),
         (Get-RS5CumulativeUpdatePath),
-        (Get-ServicingStackUpdatePath19H2),
-        (Get-CumulativeUpdatePath19H2),
+        (Get-ServicingStackUpdatePathVb),
+        (Get-CumulativeUpdatePathVb),
         (Get-SurfaceProDrivers),
         (Get-SurfacePro2Drivers),
         (Get-Surface3Drivers),
@@ -29,6 +29,8 @@ function Confirm-Environment {
         (Get-SurfacePro7Drivers),
         (Get-SurfaceLaptop3IntelDrivers),
         (Get-SurfaceLaptop3AmdDrivers),
+        (Get-SurfaceBook3Drivers),
+        (Get-SurfaceGo2Drivers),
         (Get-IntelRapidStorageDrivers)
 
     $SourceFiles | % {

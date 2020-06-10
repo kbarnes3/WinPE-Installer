@@ -11,25 +11,25 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RS5CumulativeUpdate,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdate19H2,
+    [string]$ServicingStackUpdateVb,
     [Parameter(Mandatory=$false)]
-    [string]$CumulativeUpdate19H2,
+    [string]$CumulativeUpdateVb,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
     [string]$ReuseRS5Path,
     [Parameter(Mandatory=$false)]
-    [string]$Reuse19H2Path
+    [string]$ReuseVbPath
 )
     switch ($Sku) {
         "Consumer" {
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
-            $codebase = "19H2"
-            $servicingStackUpdate = $ServicingStackUpdate19H2
-            $cumulativeUpdate = $CumulativeUpdate19H2
-            $reuseSourcePath = $Reuse19H2Path
+            $codebase = "Vb"
+            $servicingStackUpdate = $ServicingStackUpdateVb
+            $cumulativeUpdate = $CumulativeUpdateVb
+            $reuseSourcePath = $ReuseVbPath
             $images =
             @{
                 "SourceName" = "Windows 10 Home"; 
@@ -47,10 +47,10 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $codebase = "19H2"
-            $servicingStackUpdate = $ServicingStackUpdate19H2
-            $cumulativeUpdate = $CumulativeUpdate19H2
-            $reuseSourcePath = $Reuse19H2Path
+            $codebase = "Vb"
+            $servicingStackUpdate = $ServicingStackUpdateVb
+            $cumulativeUpdate = $CumulativeUpdateVb
+            $reuseSourcePath = $ReuseVbPath
             $images =
             @{
                 "SourceName" = "Windows 10 Enterprise"; 
