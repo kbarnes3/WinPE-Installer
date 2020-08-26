@@ -23,7 +23,7 @@ function Get-ServicingStackUpdatePathVb {
 }
 
 function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2020-08 Cumulative Update for Windows 10 Version 2004 for x86-based Systems (KB4566782)\windows10.0-kb4566782-x86_0adc38be15da4a4486350ef75884eb1ab4308147.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2020-08 Cumulative Update for Windows 10 Version 2004 for x64-based Systems (KB4566782)\windows10.0-kb4566782-x64_cb0654ccf595c514c722ba79c5aad2567ee0ff45.msu"
 }
 
 function Get-SurfaceProDrivers {
