@@ -11,19 +11,19 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS5ServicingStackUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2020-08 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB4566424)\windows10.0-kb4566424-x64_3d5bfb3e572029861cfb02c69de6b909153f5856.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2020-09 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB4570332)\windows10.0-kb4570332-x64_e6d793a79a9424f23feef4e4bcc00c5a883b78da.msu"
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2020-08 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4565349)\windows10.0-kb4565349-x64_919b9f31d4ccfa91183fbb9bab8c2975529e66b6.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2020-09 Cumulative Update for Windows Server 2019 for x64-based Systems (KB4570333)\windows10.0-kb4570333-x64_8c3c376b98addc84ef5c6c59de3b59cb33436fee.msu"
 }
 
 function Get-ServicingStackUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2020-08 Servicing Stack Update for Windows 10 Version 2004 for x64-based Systems (KB4570334)\windows10.0-kb4570334-x64_ba511aeaff89c0d9ed999541909dd50758280132.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2020-09 Servicing Stack Update for Windows 10 Version 2004 for x64-based Systems (KB4577266)\windows10.0-kb4577266-x64_126987f629769e860cd7985371754db91685ea16.msu"
 }
 
 function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2020-08 Cumulative Update for Windows 10 Version 2004 for x64-based Systems (KB4566782)\windows10.0-kb4566782-x64_cb0654ccf595c514c722ba79c5aad2567ee0ff45.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2020-09 Cumulative Update for Windows 10 Version 2004 for x64-based Systems (KB4571756)\windows10.0-kb4571756-x64_66f7130a68dd9748511454436b3ffb61730d9775.msu"
 }
 
 function Get-SurfaceProDrivers {
@@ -47,7 +47,7 @@ function Get-SurfacePro4Drivers {
 }
 
 function Get-SurfaceBookDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_18362_20.041.8407.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_18362_20.082.25857.0.msi"
 }
 
 function Get-SurfaceStudioDrivers {
@@ -55,23 +55,23 @@ function Get-SurfaceStudioDrivers {
 }
 
 function Get-SurfacePro2017Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro_Win10_18362_20.061.15734.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro_Win10_18362_20.081.13957.0.msi"
 }
 
 function Get-SurfaceLaptopDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop_Win10_18362_20.060.3885.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop_Win10_18362_20.081.7304.0.msi"
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_20.063.34545.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_20.082.26911.0.msi"
 }
 
 function Get-SurfaceGoDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo_Win10_17763_2000101_WiFi_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceGo_Win10_18362_20.085.33990_WiFi_0.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_20.041.9869.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_20.081.7138.0.msi"
 }
 
 function Get-SurfacePro6Drivers {
@@ -91,11 +91,11 @@ function Get-SurfaceLaptop3IntelDrivers {
 }
 
 function Get-SurfaceLaptop3AmdDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_amd_Win10_18362_20.053.37902.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_amd_Win10_18362_20.080.5742.0.msi"
 }
 
 function Get-SurfaceBook3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win10_18362_20.051.9924.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win10_18362_20.080.5654.0.msi"
 }
 
 function Get-SurfaceGo2Drivers {
