@@ -2,6 +2,8 @@ function New-WinPEDriverMedia {
     $DriverDir = Get-WinPEDriverDir
     $step = 0
 
+    Start-Process KeepAwake.exe -WindowStyle Minimized
+
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
     Confirm-Environment -IgnoreWinPEDriverDir -ErrorAction Stop | Out-Null
     $step++
@@ -36,6 +38,9 @@ function New-WinPEDriverMedia {
     Write-Host "All done!"
     Write-Host "To create or update a bootable USB drive,"
     Write-Host "please see this project's README.md"
+
+    Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
+    Push-Location $PSScriptRoot
 }
 Export-ModuleMember New-WinPEDriverMedia
 

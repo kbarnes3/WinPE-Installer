@@ -139,6 +139,7 @@ Param(
     Write-Host "please see this project's README.md"
 
     Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
+    Push-Location $PSScriptRoot
 
 }
 Export-ModuleMember New-WinPEInstallMedia
