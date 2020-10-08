@@ -1,7 +1,15 @@
 function Confirm-Environment {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [Switch]
+        $IgnoreWinPEDriverDir
+    )
     if (-Not $env:WinPERoot) {
         throw "Setup-WinPE must be run from a Deployment and Imaging Tools Environment"
     }
+
+    $env:Path += ";C:\Program Files\7-Zip\"
 
     $SourceFiles =
         ("R:\"),
@@ -32,6 +40,10 @@ function Confirm-Environment {
         (Get-SurfaceBook3Drivers),
         (Get-SurfaceGo2Drivers),
         (Get-IntelRapidStorageDrivers)
+
+    if (-Not $IgnoreWinPEDriverDir) {
+        $SourceFiles += (Get-WinPEDriverDir)
+    }
 
     $SourceFiles | % {
         if (-Not ($_))

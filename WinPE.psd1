@@ -20,6 +20,7 @@ FunctionsToExport = @(
 
     # Drivers.psm1
     "Add-Drivers",
+    "New-WinPEDriverMedia",
 
     # InstallWim.psm1
     "Update-InstallWim",
@@ -28,6 +29,7 @@ FunctionsToExport = @(
     "New-WinPEInstallMedia",
 
     # SourceFiles.psm1
+    "Get-WinPEDriverDir",
     "Get-ConsumerIsoPath",
     "Get-BusinessIsoPath",
     "Get-ServerIsoPath",

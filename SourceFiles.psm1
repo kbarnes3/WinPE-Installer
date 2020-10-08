@@ -1,3 +1,8 @@
+
+function Get-WinPEDriverDir {
+    return "D:\WinPE_amd64_drivers"
+}
+
 function Get-ConsumerIsoPath {
     return "$env:DISC_PATH\en_windows_10_consumer_editions_version_2004_x64_dvd_8d28c5d7.iso"
 }

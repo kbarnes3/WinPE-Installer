@@ -1,16 +1,56 @@
+function New-WinPEDriverMedia {
+    $DriverDir = Get-WinPEDriverDir
+    $step = 0
+
+    Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
+    Confirm-Environment -IgnoreWinPEDriverDir -ErrorAction Stop | Out-Null
+    $step++
+
+    Set-Progress -CurrentOperation "Removing existing drivers" -StepNumber $step
+    if (Test-Path $DriverDir) {
+        Remove-Item $DriverDir -Recurse -Force
+    }
+    $step++
+    
+    Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
+    Add-Drivers -WinpeWorkingDir $DriverDir
+    $step++
+
+    Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step
+    & robocopy "/S" "/XX" "$PSScriptRoot\Driver Disk" "$(Join-Path $DriverDir "media")" | Out-Null
+    $step++
+
+    Push-Location $DriverDir
+    $driverIsoPath = Join-Path $DriverDir "winpe-drivers.iso"
+
+    Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
+    & oscdimg -u1 -udfver102 ".\media" $driverIsoPath | Out-Null
+    $step++
+
+    Set-Progress -CurrentOperation "Copying winpe-drivers.iso to $env:DISC_PATH" -StepNumber $step
+    $isoDestination = Join-Path $env:DISC_PATH "winpe-drivers.iso"
+    Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
+    $step++
+
+    Set-Progress -StepNumber $step
+    Write-Host "All done!"
+    Write-Host "To create or update a bootable USB drive,"
+    Write-Host "please see this project's README.md"
+}
+Export-ModuleMember New-WinPEDriverMedia
+
 function Add-Drivers {
 Param(
     [Parameter(Mandatory=$true)]
-    [string]$WinpeWorkingDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DriversRoot
+    [string]$WinpeWorkingDir
 )
-    $driversScripts = Join-Path $WinpeWorkingDir "drivers-media\Scripts\Drivers"
+    $driversScripts = Join-Path $WinpeWorkingDir "media\Scripts\Drivers"
+    $driversRoot = Join-Path $WinpeWorkingDir "media\Drivers"
 
     New-Item -Path $driversScripts -ItemType Directory | Out-Null
     New-Item -Path $DriversRoot -ItemType Directory | Out-Null
 
-    Extract-Drivers -DriversScripts $driversScripts -DriversRoot $DriversRoot
+    Extract-Drivers -DriversScripts $driversScripts -DriversRoot $driversRoot
 
 }
 Export-ModuleMember Add-Drivers
@@ -48,7 +88,7 @@ Param(
         $device = $devices[$i]
         $friendlyName = $device["friendlyName"]
         $source = $device["source"]
-        Set-Progress -FriendlyName $friendlyName -StepNumber $i -TotalSteps $devices.Length
+        Set-ExtractProgress -FriendlyName $friendlyName -StepNumber $i -TotalSteps $devices.Length
         $shortName = $friendlyName
         $shortName = $shortName.replace(" ","")
         $shortName = $shortName.replace("(","")
@@ -78,10 +118,26 @@ Param(
         Add-Content $script "Write-Host `"wpeutil reboot`" -ForegroundColor Yellow -NoNewline"
         Add-Content $script "Write-Host `"'.`""
     }
-    Set-Progress -StepNumber $devices.Length -TotalSteps $devices.Length
+    Set-ExtractProgress -StepNumber $devices.Length -TotalSteps $devices.Length
 }
 
 function Set-Progress
+{
+Param(
+    [Parameter(Mandatory=$false)]
+    [string]$CurrentOperation,
+    [Parameter(Mandatory=$true)]
+    [int]$StepNumber
+)
+    $totalSteps = 6
+    $percent = $StepNumber / $totalSteps * 100
+    $completed = ($totalSteps -eq $StepNumber)
+    $status = "Step $($StepNumber + 1) of $totalSteps"
+
+    Write-Progress -Id 0 -Activity "Generating WinPE Drivers" -CurrentOperation $CurrentOperation -PercentComplete $percent -Status $status -Completed:$completed
+}
+
+function Set-ExtractProgress
 {
 Param(
     [Parameter(Mandatory=$false)]
@@ -101,4 +157,5 @@ Param(
 
     Write-Progress -Id 1 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
 }
+
 
