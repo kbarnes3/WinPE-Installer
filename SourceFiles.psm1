@@ -1,3 +1,8 @@
+
+function Get-WinPEDriverDir {
+    return "D:\WinPE_amd64_drivers"
+}
+
 function Get-ConsumerIsoPath {
     return "$env:DISC_PATH\en_windows_10_consumer_editions_version_2004_x64_dvd_8d28c5d7.iso"
 }
@@ -75,7 +80,7 @@ function Get-SurfaceLaptop2Drivers {
 }
 
 function Get-SurfacePro6Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_20.054.41487.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_20.081.14036.0.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
@@ -83,11 +88,11 @@ function Get-SurfaceStudio2Drivers {
 }
 
 function Get-SurfacePro7Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7_Win10_18362_20.072.23016.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro7_Win10_18362_20.082.25905.0.msi"
 }
 
 function Get-SurfaceLaptop3IntelDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_intel_Win10_18362_20.072.28623.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_intel_Win10_18362_20.082.25671.0.msi"
 }
 
 function Get-SurfaceLaptop3AmdDrivers {
@@ -95,7 +100,7 @@ function Get-SurfaceLaptop3AmdDrivers {
 }
 
 function Get-SurfaceBook3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win10_18362_20.080.5654.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win10_18362_20.083.37048.0.msi"
 }
 
 function Get-SurfaceGo2Drivers {

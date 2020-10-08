@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', 'VbOnly', 'VbAndDrivers', 'RS5AndVb', 'DriversOnly')]
+    [ValidateSet('All', 'RS5Only', 'VbOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -12,19 +12,17 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $dismScratchDir = Join-Path $tempDir "DismScratch"
-    $driversRoot = Join-Path $WinpeWorkingDir "drivers-media\Drivers"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
     $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
     $cumulativeUpdateVb = Join-Path $tempDir "VbCumulativeUpdate.msu"
-    $step = 0;
+    $step = 0
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
 
     if ($ReuseSourcePath) {
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
-            $ReuseDriversPath = $ReuseSourcePath
             $ReuseRS5Path = $ReuseSourcePath
             $ReuseVbPath = $ReuseSourcePath
         }
@@ -32,49 +30,18 @@ Param(
             Write-Host "Reusing RS5 items from $ReuseSourcePath"
             $ReuseRS5Path = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'RS5AndDrivers') {
-            Write-Host "Reusing RS5 items and drivers from $ReuseSourcePath"
-            $ReuseDriversPath = $ReuseSourcePath
-            $ReuseRS5Path = $ReuseSourcePath
-        }
         elseif ($ReuseSourceSet -eq 'VbOnly') {
             Write-Host "Reusing Vb items from $ReuseSourcePath"
             $ReuseVbPath = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'VbAndDrivers') {
-            Write-Host "Reusing Vb items and drivers from $ReuseSourcePath"
-            $ReuseDriversPath = $ReuseSourcePath
-            $ReuseVbPath = $ReuseSourcePath
-        }
-        elseif ($ReuseSourceSet -eq 'RS5AndVb') {
-            Write-Host "Reusing RS5 and Vb items from $ReuseSourcePath"
-            $ReuseRS5Path = $ReuseSourcePath
-            $ReuseVbPath = $ReuseSourcePath
-        }
-        elseif ($ReuseSourceSet -eq 'DriversOnly') {
-            Write-Host "Reusing drivers from $ReuseSourcePath"
-            $ReuseDriversPath = $ReuseSourcePath
-        }
-    }
-
-    if ($ReuseDriversPath -ne $null) {
-        $driversRoot = Join-Path $ReuseDriversPath "drivers-media\Drivers"
     }
 
     Set-Progress -CurrentOperation "Validating required source files" -StepNumber $step
     Confirm-Environment -ErrorAction Stop | Out-Null
     $step++
 
-    $env:Path += ";C:\Program Files\7-Zip\"
-
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
     Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir -DismScratch $dismScratchDir
-    $step++
-
-    if ($null -eq $ReuseDriversPath) {
-        Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
-        Add-Drivers -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot
-    }
     $step++
 
     if ($null -eq $ReuseRS5Path) {
@@ -102,14 +69,11 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
-    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $driversRoot -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
+    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $(Get-WinPEDriverDir) -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
     $step++
 
     Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step
     & robocopy "/S" "/XX" "$PSScriptRoot\On Disk" "$(Join-Path $winpeWorkingDir "media")" | Out-Null
-    if ($null -eq $ReuseDriversPath) {
-        & robocopy "/S" "/XX" "$PSScriptRoot\Driver Disk" "$(Join-Path $winpeWorkingDir "drivers-media")" | Out-Null
-    }
     $step++
 
     $skus = "Consumer", "Business", "Server"
@@ -141,58 +105,30 @@ Param(
 
     if ($LowMemory) {
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-        if ($null -eq $ReuseDriversPath) {
-            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
-        } else {
-            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp drivers-media /XF winpe-drivers.iso | Out-Null
-        }
+        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
         $step++
 
         $isoPath = Join-Path $winpeFinalDir "winpe.iso"
-        $driverIsoPath = Join-Path $winpeFinalDir "winpe-drivers.iso"
 
         Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
         & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
         $step++
 
-        if ($null -eq $ReuseDriversPath) {
-            Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
-            & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
-        }
-        $step++
     } else {
         $isoPath = Join-Path $winpeWorkingDir "winpe.iso"
-        $driverIsoPath = Join-Path $winpeWorkingDir "winpe-drivers.iso"
 
         Set-Progress -CurrentOperation "Creating winpe.iso" -StepNumber $step
         & cmd /c MakeWinPEMedia /ISO . $isoPath | Out-Null
-        $step++
-
-        if ($null -eq $ReuseDriversPath) {
-            Set-Progress -CurrentOperation "Creating winpe-drivers.iso" -StepNumber $step
-            & oscdimg -u1 -udfver102 ".\drivers-media" $driverIsoPath | Out-Null
-        }
         $step++
 
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-        if ($null -eq $ReuseDriversPath) {
-            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
-        } else {
-            & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp drivers-media /XF winpe-drivers.iso | Out-Null
-        }
+        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
         $step++
     }
 
     Set-Progress -CurrentOperation "Copying winpe.iso to $env:DISC_PATH" -StepNumber $step
     $isoDestination = Join-Path $env:DISC_PATH "winpe.iso"
     Start-BitsTransfer -Source $isoPath -Destination $isoDestination
-    $step++
-
-    if ($null -eq $ReuseDriversPath) {
-        Set-Progress -CurrentOperation "Copying winpe-drivers.iso to $env:DISC_PATH" -StepNumber $step
-        $isoDestination = Join-Path $env:DISC_PATH "winpe-drivers.iso"
-        Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
-    }
     $step++
 
     Set-Progress -StepNumber $step
@@ -203,6 +139,7 @@ Param(
     Write-Host "please see this project's README.md"
 
     Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
+    Push-Location $PSScriptRoot
 
 }
 Export-ModuleMember New-WinPEInstallMedia
@@ -274,7 +211,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 19
+    $totalSteps = 16
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
