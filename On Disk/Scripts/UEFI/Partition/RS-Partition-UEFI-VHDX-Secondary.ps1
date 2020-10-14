@@ -2,7 +2,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$DiskNumber,
     [Parameter(Mandatory=$true)]
-    [string]$VhdName,
+    [string]$VhdxName,
     [switch]$ForceFormatUSB
 )
 
@@ -17,9 +17,9 @@ If you are really, really sure you want to do this, pass the -ForceFormatUSB fla
     }
 }
 
-$scriptName = "RS-BIOS.txt"
+$scriptName = "RS-UEFI-Remount.txt"
 $tempDir = "X:\Temp"
-$partitionScript = Join-Path $tempDir $scriptName
+$remountScript = Join-Path $tempDir $scriptName
 
 if (-Not (Test-Path $tempDir)) {
     New-Item -Path $tempDir -Type Directory | Out-Null
@@ -30,20 +30,22 @@ $scriptBody = $scriptBody -replace "\*\*DISKNUMBER\*\*", $DiskNumber
 $scriptBody = $scriptBody -replace "\*\*MAINPARTITION\*\*", "V"
 $scriptBody = $scriptBody -replace "\*\*MAINLABEL\*\*", "VHDs"
 
-Set-Content $partitionScript $scriptBody
-& diskpart /s $partitionScript
+Set-Content $remountScript $scriptBody
+& diskpart /s $remountScript
 
-New-Item -Path "V:\VHDs" -Type Directory | Out-Null
+if (-Not(Test-Path "V:\VHDs")) {
+    New-Item -Path "V:\VHDs" -Type Directory | Out-Null
+}
 
-if (-Not ($VhdName.ToLower().EndsWith(".vhd"))) {
-    $VhdName += ".vhd"
+if (-Not ($VhdxName.ToLower().EndsWith(".vhdx"))) {
+    $VhdxName += ".vhdx"
 }
 
 $scriptPart2Name = "RS-VHD.txt"
 $vhdScript = Join-Path $tempDir $scriptPart2Name
 
 $scriptPart2Body = Get-Content "\DiskPart\$($scriptPart2Name)"
-$scriptPart2Body = $scriptPart2Body -replace "\*\*VHDNAME\*\*", $VhdName
+$scriptPart2Body = $scriptPart2Body -replace "\*\*VHDNAME\*\*", $VhdxName
 
 Set-Content $vhdScript $scriptPart2Body
 & diskpart /s $vhdScript

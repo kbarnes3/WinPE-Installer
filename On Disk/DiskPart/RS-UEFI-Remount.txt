@@ -1,0 +1,21 @@
+rem == RS-UEFI-REMOUNT.txt ==
+rem == These commands are used with DiskPart to
+rem    create four partitions
+rem    for a UEFI/GPT-based PC.
+rem    Adjust the partition sizes to fill the drive
+rem    as necessary. ==
+select disk **DISKNUMBER**
+rem == 1. System partition =========================
+select partition 1
+assign letter="S"
+rem == 2. Microsoft Reserved (MSR) partition =======
+rem == Nothing to do for this partition
+rem == 3. Windows partition ========================
+rem ==    a. Create the Windows partition ==========
+select partition 3
+assign letter="**MAINPARTITION**"
+rem === 4. Recovery partition ======================
+select partition 4
+assign letter="R"
+list volume
+exit
