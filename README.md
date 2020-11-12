@@ -31,7 +31,7 @@ To copy the resulting files to a new USB key (64 GB minimum), run the following 
 * `ASSIGN`
 * `EXIT`
 
-Then copy the contents onto the newly created drives with `robocoopy`:
+Then copy the contents onto the newly created drives with `robocopy`:
 * `robocopy X:\WinPE_amd64\media Y: /MIR /FFT /DST` where X: is your local drive with a generated installed and Y: is the newly created "WINPE" partition.
 * `robocopy X:\WinPE_amd64_drivers\media Z: /MIR /FFT /DST` where X: is your local drive with a generated installed and Z: is the newly created "DRIVERS" partition.
 
