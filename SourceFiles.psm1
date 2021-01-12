@@ -56,7 +56,7 @@ function Get-SurfaceBookDrivers {
 }
 
 function Get-SurfaceStudioDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_18362_20.051.10386.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_18362_20.112.20492.0.msi"
 }
 
 function Get-SurfacePro2017Drivers {
@@ -100,7 +100,7 @@ function Get-SurfaceLaptop3AmdDrivers {
 }
 
 function Get-SurfaceBook3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win10_18362_20.101.10165.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win10_18362_20.104.43234.0.msi"
 }
 
 function Get-SurfaceGo2Drivers {
