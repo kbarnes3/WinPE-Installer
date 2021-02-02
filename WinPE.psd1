@@ -57,6 +57,7 @@ FunctionsToExport = @(
     "Get-SurfaceBook3Drivers",
     "Get-SurfaceGo2Drivers",
     "Get-SurfaceLaptopGoDrivers",
+    "Get-SurfacePro7PlusDrivers",
     "Get-IntelRapidStorageDrivers",
 
     # Validation.psm1

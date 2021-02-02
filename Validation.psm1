@@ -40,6 +40,7 @@ function Confirm-Environment {
         (Get-SurfaceBook3Drivers),
         (Get-SurfaceGo2Drivers),
         (Get-SurfaceLaptopGoDrivers),
+        (Get-SurfacePro7PlusDrivers),
         (Get-IntelRapidStorageDrivers)
 
     if (-Not $IgnoreWinPEDriverDir) {
