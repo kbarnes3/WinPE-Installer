@@ -16,7 +16,7 @@ It requires many files to create the bootable disc:
 
 To produce the installer, run Setup-Drivers.ps1 followed by Setup-WinPE.ps1 from an Administrator Deployment and Imaging Tools Environment.
 
-To copy the resulting files to a new USB key (64 GB minimum), run the following commands as an administrator:
+To copy the resulting files to a new USB key (128 GB minimum), run the following commands as an administrator:
 * `diskpart`
 * `LIST DISK`
 * `SELECT DISK n` where `n` is the disk number of your USB key. Make sure to get this right!
