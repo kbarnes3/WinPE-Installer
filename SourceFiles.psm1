@@ -16,11 +16,11 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS5ServicingStackUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2021-03 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB5000859)\windows10.0-kb5000859-x64_d3e9e3c07a849c42e2d5906fa908fb31941a1026.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-04 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB5001404)\windows10.0-kb5001404-x64_9f03f10f91f3273357c6664de75c7f21e1ff474f.msu"
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2021-03 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5000822)\windows10.0-kb5000822-x64_567b66c719842beeaaf49e6332aa6f3477c225a7.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-04 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5001342)\windows10.0-kb5001342-x64_ddf38137b7616d101d9f82dcf7b9c6b2ae6be327.msu"
 }
 
 function Get-ServicingStackUpdatePathVb {
@@ -28,7 +28,7 @@ function Get-ServicingStackUpdatePathVb {
 }
 
 function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2021-03 Cumulative Update for Windows 10 Version 20H2 for x64-based Systems (KB5000802)\windows10.0-kb5000802-x64_f1da84b3bfa1c402d98dfb3815b1f81d7dceb001.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-04 Cumulative Update for Windows 10 Version 20H2 for x64-based Systems (KB5001330)\windows10.0-kb5001330-x64_48f2955cc5688bf56b32be1cca4cd1f02f1d36e2.msu"
 }
 
 function Get-SurfaceProDrivers {
