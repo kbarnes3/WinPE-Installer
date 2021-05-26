@@ -14,7 +14,8 @@ Param(
     $dismScratchDir = Join-Path $tempDir "DismScratch"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
-    $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
+    # $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
+    $servicingStackUpdateVb = $null
     $cumulativeUpdateVb = Join-Path $tempDir "VbCumulativeUpdate.msu"
     $step = 0
 
@@ -58,7 +59,7 @@ Param(
 
     if ($null -eq $ReuseVbPath) {
         Set-Progress -CurrentOperation "Copying Vb servicing stack update" -StepNumber $step
-        Copy-Item $(Get-ServicingStackUpdatePathVb) $servicingStackUpdateVb
+        # Copy-Item $(Get-ServicingStackUpdatePathVb) $servicingStackUpdateVb
     }
     $step++
 
@@ -196,6 +197,7 @@ Param(
         $swm = Join-Path $imagesDir "$($ImageName).swm"
 
         Split-WindowsImage -ImagePath $wim -SplitImagePath $swm -FileSize 2048 | Out-Null
+        Remove-Item -Path $wim | Out-Null
     }
     else {
         $sourceImagesFiles = Join-Path $ReuseSourcePath "media\Images\$($ImageName)*.swm"

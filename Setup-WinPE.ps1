@@ -2,7 +2,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', 'RS5AndDrivers', 'VbOnly', 'VbAndDrivers', 'RS5AndVb', 'DriversOnly')]
+    [ValidateSet('All', 'RS5Only', 'VbOnly')]
     [string]$ReuseSourceSet='All',
     [switch]$LowMemory
 )

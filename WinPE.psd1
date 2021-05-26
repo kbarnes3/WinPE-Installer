@@ -35,7 +35,7 @@ FunctionsToExport = @(
     "Get-ServerIsoPath",
     "Get-RS5ServicingStackUpdatePath",
     "Get-RS5CumulativeUpdatePath",
-    "Get-ServicingStackUpdatePathVb",
+    # "Get-ServicingStackUpdatePathVb",
     "Get-CumulativeUpdatePathVb",
     "Get-SurfaceProDrivers",
     "Get-SurfacePro2Drivers",
