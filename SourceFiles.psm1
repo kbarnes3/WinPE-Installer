@@ -4,11 +4,11 @@ function Get-WinPEDriverDir {
 }
 
 function Get-ConsumerIsoPath {
-    return "$env:DISC_PATH\en_windows_10_consumer_editions_version_21h1_x64_dvd_540c0dd4.iso"
+    return "$env:DISC_PATH\en_windows_10_consumer_editions_version_21h1_updated_jun_2021_x64_dvd_a6b56a79.iso"
 }
 
 function Get-BusinessIsoPath {
-    return "$env:DISC_PATH\en_windows_10_business_editions_version_21h1_x64_dvd_ec5a76c1.iso"
+    return "$env:DISC_PATH\en_windows_10_business_editions_version_21h1_updated_jun_2021_x64_dvd_8222df3d.iso"
 }
 
 function Get-ServerIsoPath {
@@ -28,7 +28,7 @@ function Get-RS5CumulativeUpdatePath {
 # }
 
 function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2021-05 Cumulative Update for Windows 10 Version 20H2 for x64-based Systems (KB5003173)\windows10.0-kb5003173-x64_4e3b4345ad6e3bf44183d6f25879a0c5ca1b7ef9.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows 10 Version 21H1 for x64-based Systems (KB5004945)\windows10.0-kb5004945-x64_db8eafe34a43930a0d7c54d6464ff78dad605fb7.msu"
 }
 
 function Get-SurfaceProDrivers {
