@@ -20,7 +20,7 @@ function Get-RS5ServicingStackUpdatePath {
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2021-06 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5003646)\windows10.0-kb5003646-x64_ef50cfb8e8067dd27c13ae7c4150d20cb346b3bf.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5004947)\windows10.0-kb5004947-x64_c00ea7cdbfc6c5c637873b3e5305e56fafc4c074.msu"
 }
 
 # function Get-ServicingStackUpdatePathVb {

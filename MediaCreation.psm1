@@ -102,11 +102,15 @@ Param(
     Split-Images -ImageName "Vb" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseVbPath
     $step++
 
+    Set-Progress -CurrentOperation "Removing temp files" -StepNumber $step
+    Remove-Item -Recurse -Force "$winpeWorkingDir\temp"
+    $step++
+
     $winpeFinalDir = "D:\WinPE_amd64"
 
     if ($LowMemory) {
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        & robocopy /MIR $winpeWorkingDir $winpeFinalDir | Out-Null
         $step++
 
         $isoPath = Join-Path $winpeFinalDir "winpe.iso"
@@ -123,7 +127,7 @@ Param(
         $step++
 
         Set-Progress -CurrentOperation "Copying out of RAM drive to $winpeFinalDir" -StepNumber $step
-        & robocopy /MIR $winpeWorkingDir $winpeFinalDir /XD temp | Out-Null
+        & robocopy /MIR $winpeWorkingDir $winpeFinalDir | Out-Null
         $step++
     }
 
@@ -213,7 +217,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 16
+    $totalSteps = 17
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     $status = "Step $($StepNumber + 1) of $totalSteps"
