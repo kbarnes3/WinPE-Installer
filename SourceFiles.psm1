@@ -20,7 +20,7 @@ function Get-RS5ServicingStackUpdatePath {
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5004947)\windows10.0-kb5004947-x64_c00ea7cdbfc6c5c637873b3e5305e56fafc4c074.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5004244)\windows10.0-kb5004244-x64_5685623313a6de061e0c42fed3391c29750a6b1b.msu"
 }
 
 # function Get-ServicingStackUpdatePathVb {
@@ -28,7 +28,7 @@ function Get-RS5CumulativeUpdatePath {
 # }
 
 function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows 10 Version 21H1 for x64-based Systems (KB5004945)\windows10.0-kb5004945-x64_db8eafe34a43930a0d7c54d6464ff78dad605fb7.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows 10 Version 21H1 for x64-based Systems (KB5004237)\windows10.0-kb5004237-x64_9a7c569f5656d99533e9e945e8063251758ce4c0.msu"
 }
 
 function Get-SurfaceProDrivers {
