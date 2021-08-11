@@ -4,11 +4,11 @@ function Get-WinPEDriverDir {
 }
 
 function Get-ConsumerIsoPath {
-    return "$env:DISC_PATH\en_windows_10_consumer_editions_version_21h1_updated_jun_2021_x64_dvd_a6b56a79.iso"
+    return "$env:DISC_PATH\en_windows_10_consumer_editions_version_21h1_updated_jul_2021_x64_dvd_13fe1567.iso"
 }
 
 function Get-BusinessIsoPath {
-    return "$env:DISC_PATH\en_windows_10_business_editions_version_21h1_updated_jun_2021_x64_dvd_8222df3d.iso"
+    return "$env:DISC_PATH\en_windows_10_business_editions_version_21h1_updated_jul_2021_x64_dvd_ac09d03e.iso"
 }
 
 function Get-ServerIsoPath {
@@ -16,11 +16,11 @@ function Get-ServerIsoPath {
 }
 
 function Get-RS5ServicingStackUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2021-06 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB5003711)\windows10.0-kb5003711-x64_577dc9cfe2e84d23b193aae2678b12e777fc7e55.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-08 Servicing Stack Update for Windows Server 2019 for x64-based Systems (KB5005112)\windows10.0-kb5005112-x64_81d09dc6978520e1a6d44b3b15567667f83eba2c.msu"
 }
 
 function Get-RS5CumulativeUpdatePath {
-    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5004244)\windows10.0-kb5004244-x64_5685623313a6de061e0c42fed3391c29750a6b1b.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-08 Cumulative Update for Windows Server 2019 for x64-based Systems (KB5005030)\windows10.0-kb5005030-x64_222160abfb75f543a693ca773dbcd0553ace6f03.msu"
 }
 
 # function Get-ServicingStackUpdatePathVb {
@@ -28,7 +28,7 @@ function Get-RS5CumulativeUpdatePath {
 # }
 
 function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2021-07 Cumulative Update for Windows 10 Version 21H1 for x64-based Systems (KB5004237)\windows10.0-kb5004237-x64_9a7c569f5656d99533e9e945e8063251758ce4c0.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-08 Cumulative Update for Windows 10 Version 21H1 for x64-based Systems (KB5005033)\windows10.0-kb5005033-x64_ebab415d7a65f0b33f93e9a30875d74baa8930a7.msu"
 }
 
 function Get-SurfaceProDrivers {

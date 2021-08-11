@@ -5,16 +5,14 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DriversRoot,
     [Parameter(Mandatory=$true)]
-    [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir
+    [string]$MountTempDir
 )
     $bootWim = Join-Path $WinpeWorkingDir "media\sources\boot.wim"
     $bootWimTemp = Join-Path $WinpeWorkingDir "media\sources\boot2.wim"
     $step = 0
 
     Set-Progress -CurrentOperation "Mounting boot.wim" -StepNumber $step
-    Mount-WindowsImage -ImagePath $bootWim -Index 1 -Path $MountTempDir -ScratchDirectory $DismScratchDir -ErrorAction Stop | Out-Null
+    Mount-WindowsImage -ImagePath $bootWim -Index 1 -Path $MountTempDir -ErrorAction Stop | Out-Null
     $step++
 
     Set-Progress -CurrentOperation "Copying new files" -StepNumber $step
@@ -22,19 +20,19 @@ param(
     $step++
 
     Set-Progress -CurrentOperation "Adding packages" -StepNumber $step
-    Add-Packages -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
+    Add-Packages -MountTempDir $MountTempDir
     $step++
 
     Set-Progress -CurrentOperation "Adding drivers" -StepNumber $step
-    Add-Drivers -DriversRoot $DriversRoot -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
+    Add-Drivers -DriversRoot $DriversRoot -MountTempDir $MountTempDir
     $step++
 
     Set-Progress -CurrentOperation "Cleaning up boot.wim" -StepNumber $step
-    & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" "/ScratchDir:$DismScratchDir" | Out-Null
+    & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" | Out-Null
     $step++
 
     Set-Progress -CurrentOperation "Dismounting boot.wim" -StepNumber $step
-    Dismount-WindowsImage -Path $MountTempDir -Save -ScratchDirectory $DismScratchDir | Out-Null
+    Dismount-WindowsImage -Path $MountTempDir -Save | Out-Null
     $step++
 
     Set-Progress -CurrentOperation "Exporting boot.wim" -StepNumber $step
@@ -50,9 +48,7 @@ Export-ModuleMember Update-BootWim
 function Add-Packages {
 param(
     [Parameter(Mandatory=$true)]
-    [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir
+    [string]$MountTempDir
 )
     $packages =
         "C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-FMAPI.cab",
@@ -79,7 +75,7 @@ param(
     $packages | % {
         $packageName = Split-Path $_ -Leaf
         Set-PackageProgress -PackageName $packageName -StepNumber $step -TotalSteps $packages.Length
-        Add-WindowsPackage  -PackagePath $_ -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
+        Add-WindowsPackage  -PackagePath $_ -Path $MountTempDir | Out-Null
         $step++
     }
 
@@ -91,9 +87,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DriversRoot,
     [Parameter(Mandatory=$true)]
-    [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir 
+    [string]$MountTempDir
 )
     $driverDirs = @(Get-Item $(Get-IntelRapidStorageDrivers))
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *GPIO* -Directory)
@@ -106,7 +100,7 @@ param(
 
     $driverDirs | % {
         Set-DriverProgress -DriverPath $_.FullName -StepNumber $step -TotalSteps $driverDirs.Length
-        Add-WindowsDriver -Driver $_.FullName -Path $MountTempDir -Recurse -ScratchDirectory $DismScratchDir | Out-Null
+        Add-WindowsDriver -Driver $_.FullName -Path $MountTempDir -Recurse | Out-Null
         $step++
     }
 

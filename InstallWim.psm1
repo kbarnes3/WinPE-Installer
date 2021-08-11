@@ -5,8 +5,6 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir,
-    [Parameter(Mandatory=$true)]
     [string]$RS5ServicingStackUpdate,
     [Parameter(Mandatory=$true)]
     [string]$RS5CumulativeUpdate,
@@ -107,7 +105,7 @@ param(
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             if ($servicingStackUpdate -or $cumulativeUpdate) {
-                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir -ServicingStackUpdate $servicingStackUpdate -CumulativeUpdate $cumulativeUpdate
+                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -ServicingStackUpdate $servicingStackUpdate -CumulativeUpdate $cumulativeUpdate
             }
         }
         $step++
@@ -115,7 +113,7 @@ param(
         Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             $destinationWim = "temp\$codebase.wim"
-            Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir -DismScratchDir $DismScratchDir
+            Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir 
         }
         $step++
 
@@ -153,8 +151,6 @@ Param(
     $ImageInfo,
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir,
     [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdate,
     [Parameter(Mandatory=$false)]
@@ -166,7 +162,6 @@ Param(
     $mountParams = @{
         "ImagePath" = $SourceWim;
         "Path" = $MountTempDir;
-        "ScratchDirectory" = $DismScratchDir;
         "ErrorAction" = "Stop"}
 
     if ($ImageInfo["SourceName"]) {
@@ -183,22 +178,22 @@ Param(
 
     if ($ServicingStackUpdate) {
         Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
-        Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
+        Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $MountTempDir | Out-Null
     }
     $step++
 
     if ($CumulativeUpdate) {
         Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
-        Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir -ScratchDirectory $DismScratchDir | Out-Null
+        Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir | Out-Null
     }
     $step++
 
     Set-UpdateProgress -CurrentOperation "Cleaning up image" -StepNumber $step
-    & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" "/ScratchDir:$DismScratchDir" | Out-Null
+    & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" | Out-Null
     $step++
 
     Set-UpdateProgress -CurrentOperation "Dismounting image" -StepNumber $step
-    Dismount-WindowsImage -Path $MountTempDir -Save -ScratchDirectory $DismScratchDir | Out-Null
+    Dismount-WindowsImage -Path $MountTempDir -Save  | Out-Null
     $step++
 
     Set-UpdateProgress -StepNumber $step
@@ -214,16 +209,13 @@ Param(
     [Parameter(Mandatory=$true)]
     $ImageInfo,
     [Parameter(Mandatory=$true)]
-    [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir
+    [string]$MountTempDir
 )
     $exportParams = @{
         "SourceImagePath" = $SourceWim;
         "DestinationImagePath" = $DestinationWim;
         "DestinationName" = $ImageInfo["DestinationName"];
         "CompressionType" = "maximum"
-        "ScratchDirectory" = $DismScratchDir
     }
 
     if ($ImageInfo["SourceName"]) {

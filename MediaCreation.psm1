@@ -11,7 +11,6 @@ Param(
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    $dismScratchDir = Join-Path $tempDir "DismScratch"
     $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
     $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
     # $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
@@ -42,7 +41,7 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
-    Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir -DismScratch $dismScratchDir
+    Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir
     $step++
 
     if ($null -eq $ReuseRS5Path) {
@@ -70,7 +69,7 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
-    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $(Get-WinPEDriverDir) -MountTempDir $mountTempDir -DismScratchDir $dismScratchDir
+    Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $(Get-WinPEDriverDir) -MountTempDir $mountTempDir
     $step++
 
     Set-Progress -CurrentOperation "Copying scripts" -StepNumber $step
@@ -83,7 +82,6 @@ Param(
         Update-InstallWim `
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
-            -DismScratchDir $dismScratchDir `
             -RS5ServicingStackUpdate $rs5ServicingStackUpdate `
             -RS5CumulativeUpdate $rs5CumulativeUpdate `
             -ServicingStackUpdateVb $servicingStackUpdateVb `
@@ -157,9 +155,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
-    [string]$TempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$DismScratchDir
+    [string]$TempDir
 )
     if (Test-Path $WinpeWorkingDir) {
         Remove-Item -Recurse -Force $WinpeWorkingDir -ErrorAction Stop | Out-Null
@@ -177,8 +173,6 @@ Param(
     New-Item -Path $scriptsDir -ItemType Directory | Out-Null
 
     New-Item -Path $TempDir -ItemType Directory | Out-Null
-
-    New-Item -Path $DismScratchDir -ItemType Directory | Out-Null
 }
 
 function Split-Images
