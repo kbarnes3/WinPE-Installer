@@ -6,9 +6,9 @@ param(
     [string]$MountTempDir,
     [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdateVb,
-    [Parameter(Mandatory=$false)]
-    [string]$CumulativeUpdateVb,
     [Parameter(Mandatory=$true)]
+    [string]$CumulativeUpdateVb,
+    [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdateFe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateFe,

@@ -4,11 +4,11 @@ function Get-WinPEDriverDir {
 }
 
 function Get-ConsumerIsoPath {
-    return "$env:DISC_PATH\en_windows_10_consumer_editions_version_21h1_updated_jul_2021_x64_dvd_13fe1567.iso"
+    return "$env:DISC_PATH\en-us_windows_10_consumer_editions_version_21h1_updated_aug_2021_x64_dvd_00b6a9c2.iso"
 }
 
 function Get-BusinessIsoPath {
-    return "$env:DISC_PATH\en_windows_10_business_editions_version_21h1_updated_jul_2021_x64_dvd_ac09d03e.iso"
+    return "$env:DISC_PATH\en-us_windows_10_business_editions_version_21h1_updated_aug_2021_x64_dvd_43d18505.iso"
 }
 
 function Get-ServerIsoPath {
