@@ -67,25 +67,25 @@ param(
             $images =
             @{
                 "SourceIndex" = 1; 
-                "DestinationName" = "Windows Server 2019 Standard";
+                "DestinationName" = "Windows Server 2022 Standard";
                 "ShortName" = "Server-Standard-Core"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 2; 
-                "DestinationName" = "Windows Server 2019 Standard (Desktop Experience)";
+                "DestinationName" = "Windows Server 2022 Standard (Desktop Experience)";
                 "ShortName" = "Server-Standard-Desktop"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 3; 
-                "DestinationName" = "Windows Server 2019 Datacenter";
+                "DestinationName" = "Windows Server 2022 Datacenter";
                 "ShortName" = "Server-Datacenter-Core"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 4; 
-                "DestinationName" = "Windows Server 2019 Datacenter (Desktop Experience)";
+                "DestinationName" = "Windows Server 2022 Datacenter (Desktop Experience)";
                 "ShortName" = "Server-Datacenter-Desktop"
                 "CompactEnabled" = $false
             }
