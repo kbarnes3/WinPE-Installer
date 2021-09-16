@@ -4,21 +4,21 @@ param(
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$RS5ServicingStackUpdate,
-    [Parameter(Mandatory=$true)]
-    [string]$RS5CumulativeUpdate,
     [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdateVb,
     [Parameter(Mandatory=$false)]
     [string]$CumulativeUpdateVb,
     [Parameter(Mandatory=$true)]
+    [string]$ServicingStackUpdateFe,
+    [Parameter(Mandatory=$true)]
+    [string]$CumulativeUpdateFe,
+    [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseRS5Path,
+    [string]$ReuseVbPath,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseVbPath
+    [string]$ReuseFePath
 )
     switch ($Sku) {
         "Consumer" {
@@ -60,10 +60,10 @@ param(
         "Server" {
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
-            $codebase = "RS5"
-            $servicingStackUpdate = $RS5ServicingStackUpdate
-            $cumulativeUpdate = $RS5CumulativeUpdate
-            $reuseSourcePath = $ReuseRS5Path
+            $codebase = "Fe"
+            $servicingStackUpdate = $ServicingStackUpdateFe
+            $cumulativeUpdate = $CumulativeUpdateFe
+            $reuseSourcePath = $ReuseFePath
             $images =
             @{
                 "SourceIndex" = 1; 
@@ -100,7 +100,7 @@ param(
     }
     $step++
 
-    $images | % {
+    $images | ForEach-Object {
         $destinationName = $_["DestinationName"]
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {

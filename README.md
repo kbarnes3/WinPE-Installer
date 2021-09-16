@@ -6,7 +6,7 @@ A set of scripts that produce a bootable WinPE disc capable of installing a wide
 These scripts make a lot of assumptions about local paths that are probably wrong on your computer.
 
 It requires many files to create the bootable disc:
-* [Windows 10 ADK, version 2004](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed
+* [Windows Server 2022 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on
 * Windows .isos, available from MSDN with a subscription
 * The latest Cumulative Updates for Windows 10, available from [here](https://support.microsoft.com/en-us/topic/windows-10-update-history-1b6aac92-bf01-42b5-b158-f80c6d93eb11)
 * The latest Cumulative Updates for Windows Server, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2022-update-history-e1caa597-00c5-4ab9-9f3e-8212fe80b2ee)
