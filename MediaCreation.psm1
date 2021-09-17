@@ -4,18 +4,18 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'RS5Only', 'VbOnly')]
+    [ValidateSet('All', 'VbOnly', 'FeOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    $rs5ServicingStackUpdate = Join-Path $tempDir "RS5ServicingStackUpdate.msu"
-    $rs5CumulativeUpdate = Join-Path $tempDir "RS5CumulativeUpdate.msu"
     # $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
     $servicingStackUpdateVb = $null
     $cumulativeUpdateVb = Join-Path $tempDir "VbCumulativeUpdate.msu"
+    $servicingStackUpdateFe = $null
+    $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
     $step = 0
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -23,16 +23,16 @@ Param(
     if ($ReuseSourcePath) {
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
-            $ReuseRS5Path = $ReuseSourcePath
             $ReuseVbPath = $ReuseSourcePath
-        }
-        elseif ($ReuseSourceSet -eq 'RS5Only') {
-            Write-Host "Reusing RS5 items from $ReuseSourcePath"
-            $ReuseRS5Path = $ReuseSourcePath
+            $ReuseFePath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'VbOnly') {
             Write-Host "Reusing Vb items from $ReuseSourcePath"
             $ReuseVbPath = $ReuseSourcePath
+        }
+        elseif ($ReuseSourceSet -eq 'FeOnly') {
+            Write-Host "Reusing Fe items from $ReuseSourcePath"
+            $ReuseFePath = $ReuseSourcePath
         }
     }
 
@@ -44,18 +44,6 @@ Param(
     Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir
     $step++
 
-    if ($null -eq $ReuseRS5Path) {
-        Set-Progress -CurrentOperation "Copying RS5 servicing stack update" -StepNumber $step
-        Copy-Item $(Get-RS5ServicingStackUpdatePath) $rs5ServicingStackUpdate
-    }
-    $step++
-
-    if ($null -eq $ReuseRS5Path) {
-        Set-Progress -CurrentOperation "Copying RS5 cumulative update" -StepNumber $step
-        Copy-Item $(Get-RS5CumulativeUpdatePath) $rs5CumulativeUpdate
-    }
-    $step++
-
     if ($null -eq $ReuseVbPath) {
         Set-Progress -CurrentOperation "Copying Vb servicing stack update" -StepNumber $step
         # Copy-Item $(Get-ServicingStackUpdatePathVb) $servicingStackUpdateVb
@@ -65,6 +53,18 @@ Param(
     if ($null -eq $ReuseVbPath) {
         Set-Progress -CurrentOperation "Copying Vb cumulative update" -StepNumber $step
         Copy-Item $(Get-CumulativeUpdatePathVb) $cumulativeUpdateVb
+    }
+    $step++
+
+    if ($null -eq $ReuseFePath) {
+        Set-Progress -CurrentOperation "Copying Fe servicing stack update" -StepNumber $step
+        # Copy-Item $(Get-ServicingStackUpdatePathFe) $servicingStackUpdateFe
+    }
+    $step++
+
+    if ($null -eq $ReuseFePath) {
+        Set-Progress -CurrentOperation "Copying Fe cumulative update" -StepNumber $step
+        Copy-Item $(Get-CumulativeUpdatePathFe) $cumulativeUpdateFe
     }
     $step++
 
@@ -82,22 +82,22 @@ Param(
         Update-InstallWim `
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
-            -RS5ServicingStackUpdate $rs5ServicingStackUpdate `
-            -RS5CumulativeUpdate $rs5CumulativeUpdate `
             -ServicingStackUpdateVb $servicingStackUpdateVb `
             -CumulativeUpdateVb $cumulativeUpdateVb `
+            -ServicingStackUpdateFe $servicingStackUpdateFe `
+            -CumulativeUpdateFe $cumulativeUpdateFe `
             -Sku $_ `
-            -ReuseRS5Path $ReuseRS5Path `
-            -ReuseVbPath $ReuseVbPath
+            -ReuseVbPath $ReuseVbPath `
+            -ReuseFePath $ReuseFePath
         $step++
     }
 
-    Set-Progress -CurrentOperation "Splitting RS5.wim" -StepNumber $step
-    Split-Images -ImageName "RS5" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseRS5Path
-    $step++
-
     Set-Progress -CurrentOperation "Splitting Vb.wim" -StepNumber $step
     Split-Images -ImageName "Vb" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseVbPath
+    $step++
+
+    Set-Progress -CurrentOperation "Splitting Fe.wim" -StepNumber $step
+    Split-Images -ImageName "Fe" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseFePath
     $step++
 
     Set-Progress -CurrentOperation "Removing temp files" -StepNumber $step
