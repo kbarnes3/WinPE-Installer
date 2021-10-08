@@ -4,18 +4,18 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'VbOnly', 'FeOnly')]
+    [ValidateSet('All', 'FeOnly', 'CoOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    # $servicingStackUpdateVb = Join-Path $tempDir "VbServicingStackUpdate.msu"
-    $servicingStackUpdateVb = $null
-    $cumulativeUpdateVb = Join-Path $tempDir "VbCumulativeUpdate.msu"
     $servicingStackUpdateFe = $null
     $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
+    $servicingStackUpdateCo = $null
+    # $cumulativeUpdateCo = Join-Path $tempDir "CoCumulativeUpdate.msu"
+    $cumulativeUpdateCo = $null
     $step = 0
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -23,16 +23,16 @@ Param(
     if ($ReuseSourcePath) {
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
-            $ReuseVbPath = $ReuseSourcePath
             $ReuseFePath = $ReuseSourcePath
-        }
-        elseif ($ReuseSourceSet -eq 'VbOnly') {
-            Write-Host "Reusing Vb items from $ReuseSourcePath"
-            $ReuseVbPath = $ReuseSourcePath
+            $ReuseCoPath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'FeOnly') {
             Write-Host "Reusing Fe items from $ReuseSourcePath"
             $ReuseFePath = $ReuseSourcePath
+        }
+        elseif ($ReuseSourceSet -eq 'CoOnly') {
+            Write-Host "Reusing Co items from $ReuseSourcePath"
+            $ReuseCoPath = $ReuseSourcePath
         }
     }
 
@@ -44,18 +44,6 @@ Param(
     Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir
     $step++
 
-    if ($null -eq $ReuseVbPath) {
-        Set-Progress -CurrentOperation "Copying Vb servicing stack update" -StepNumber $step
-        # Copy-Item $(Get-ServicingStackUpdatePathVb) $servicingStackUpdateVb
-    }
-    $step++
-
-    if ($null -eq $ReuseVbPath) {
-        Set-Progress -CurrentOperation "Copying Vb cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePathVb) $cumulativeUpdateVb
-    }
-    $step++
-
     if ($null -eq $ReuseFePath) {
         Set-Progress -CurrentOperation "Copying Fe servicing stack update" -StepNumber $step
         # Copy-Item $(Get-ServicingStackUpdatePathFe) $servicingStackUpdateFe
@@ -65,6 +53,18 @@ Param(
     if ($null -eq $ReuseFePath) {
         Set-Progress -CurrentOperation "Copying Fe cumulative update" -StepNumber $step
         Copy-Item $(Get-CumulativeUpdatePathFe) $cumulativeUpdateFe
+    }
+    $step++
+
+    if ($null -eq $ReuseCoPath) {
+        Set-Progress -CurrentOperation "Copying Co servicing stack update" -StepNumber $step
+        # Copy-Item $(Get-ServicingStackUpdatePathCo) $servicingStackUpdateCo
+    }
+    $step++
+
+    if ($null -eq $ReuseCoPath) {
+        Set-Progress -CurrentOperation "Copying Co cumulative update" -StepNumber $step
+        # Copy-Item $(Get-CumulativeUpdatePathCo) $cumulativeUpdateCo
     }
     $step++
 
@@ -82,22 +82,22 @@ Param(
         Update-InstallWim `
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
-            -ServicingStackUpdateVb $servicingStackUpdateVb `
-            -CumulativeUpdateVb $cumulativeUpdateVb `
             -ServicingStackUpdateFe $servicingStackUpdateFe `
             -CumulativeUpdateFe $cumulativeUpdateFe `
+            -ServicingStackUpdateCo $servicingStackUpdateCo `
+            -CumulativeUpdateCo $cumulativeUpdateCo `
             -Sku $_ `
-            -ReuseVbPath $ReuseVbPath `
-            -ReuseFePath $ReuseFePath
+            -ReuseFePath $ReuseFePath `
+            -ReuseCoPath $ReuseCoPath
         $step++
     }
 
-    Set-Progress -CurrentOperation "Splitting Vb.wim" -StepNumber $step
-    Split-Images -ImageName "Vb" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseVbPath
-    $step++
-
     Set-Progress -CurrentOperation "Splitting Fe.wim" -StepNumber $step
     Split-Images -ImageName "Fe" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseFePath
+    $step++
+
+    Set-Progress -CurrentOperation "Splitting Co.wim" -StepNumber $step
+    Split-Images -ImageName "Co" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseCoPath
     $step++
 
     Set-Progress -CurrentOperation "Removing temp files" -StepNumber $step
