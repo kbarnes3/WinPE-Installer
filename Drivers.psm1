@@ -69,17 +69,7 @@ Param(
     )
 
     $devices =
-        @{"friendlyName" = "Surface Pro"; "source" = Get-SurfaceProDrivers},
-        @{"friendlyName" = "Surface Pro 2"; "source" = Get-SurfacePro2Drivers},
-        @{"friendlyName" = "Surface 3"; "source" = Get-Surface3Drivers},
-        @{"friendlyName" = "Surface Pro 3"; "source" = Get-SurfacePro3Drivers},
-        @{"friendlyName" = "Surface Pro 4"; "source" = Get-SurfacePro4Drivers},
-        @{"friendlyName" = "Surface Book"; "source" = Get-SurfaceBookDrivers},
-        @{"friendlyName" = "Surface Studio"; "source" = Get-SurfaceStudioDrivers},
-        @{"friendlyName" = "Surface Pro (2017)"; "source" = Get-SurfacePro2017Drivers},
-        @{"friendlyName" = "Surface Laptop"; "source" = Get-SurfaceLaptopDrivers},
         @{"friendlyName" = "Surface Book 2"; "source" = Get-SurfaceBook2Drivers},
-        @{"friendlyName" = "Surface Go"; "source" = Get-SurfaceGoDrivers},
         @{"friendlyName" = "Surface Laptop 2"; "source" = Get-SurfaceLaptop2Drivers},
         @{"friendlyName" = "Surface Pro 6"; "source" = Get-SurfacePro6Drivers},
         @{"friendlyName" = "Surface Studio 2"; "source" = Get-SurfaceStudio2Drivers},
