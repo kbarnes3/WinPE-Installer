@@ -5,39 +5,39 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateVb,
-    [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateVb,
-    [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdateFe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateFe,
+    [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdateCo,
+    [Parameter(Mandatory=$false)]
+    [string]$CumulativeUpdateCo,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseVbPath,
+    [string]$ReuseFePath,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseFePath
+    [string]$ReuseCoPath
 )
     switch ($Sku) {
         "Consumer" {
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
-            $codebase = "Vb"
-            $servicingStackUpdate = $ServicingStackUpdateVb
-            $cumulativeUpdate = $CumulativeUpdateVb
-            $reuseSourcePath = $ReuseVbPath
+            $codebase = "Co"
+            $servicingStackUpdate = $ServicingStackUpdateCo
+            $cumulativeUpdate = $CumulativeUpdateCo
+            $reuseSourcePath = $ReuseCoPath
             $images =
             @{
-                "SourceName" = "Windows 10 Home"; 
-                "DestinationName" = "Windows 10 Home";
+                "SourceName" = "Windows 11 Home"; 
+                "DestinationName" = "Windows 11 Home";
                 "ShortName" = "Home"
                 "CompactEnabled" = $true
             },
             @{
-                "SourceName" = "Windows 10 Pro"; 
-                "DestinationName" = "Windows 10 Pro";
+                "SourceName" = "Windows 11 Pro"; 
+                "DestinationName" = "Windows 11 Pro";
                 "ShortName" = "Pro"
                 "CompactEnabled" = $true
             }
@@ -45,14 +45,14 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $codebase = "Vb"
-            $servicingStackUpdate = $ServicingStackUpdateVb
-            $cumulativeUpdate = $CumulativeUpdateVb
-            $reuseSourcePath = $ReuseVbPath
+            $codebase = "Co"
+            $servicingStackUpdate = $ServicingStackUpdateCo
+            $cumulativeUpdate = $CumulativeUpdateCo
+            $reuseSourcePath = $ReuseCoPath
             $images =
             @{
-                "SourceName" = "Windows 10 Enterprise"; 
-                "DestinationName" = "Windows 10 Enterprise";
+                "SourceName" = "Windows 11 Enterprise"; 
+                "DestinationName" = "Windows 11 Enterprise";
                 "ShortName" = "Enterprise"
                 "CompactEnabled" = $true
             }

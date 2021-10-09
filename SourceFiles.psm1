@@ -4,23 +4,15 @@ function Get-WinPEDriverDir {
 }
 
 function Get-ConsumerIsoPath {
-    return "$env:DISC_PATH\en-us_windows_10_consumer_editions_version_21h1_updated_aug_2021_x64_dvd_00b6a9c2.iso"
+    return "$env:DISC_PATH\en-us_windows_11_consumer_editions_x64_dvd_bd3cf8df.iso"
 }
 
 function Get-BusinessIsoPath {
-    return "$env:DISC_PATH\en-us_windows_10_business_editions_version_21h1_updated_aug_2021_x64_dvd_43d18505.iso"
+    return "$env:DISC_PATH\en-us_windows_11_business_editions_x64_dvd_3a304c08.iso"
 }
 
 function Get-ServerIsoPath {
     return "$env:DISC_PATH\en-us_windows_server_2022_x64_dvd_620d7eac.iso"
-}
-
-# function Get-ServicingStackUpdatePathVb {
-#     return "$env:DISC_PATH\Cumulative Updates\2021-05 Cumulative Update for Windows 10 Version 20H2 for x64-based Systems (KB5003173)\windows10.0-kb5003173-x64_4e3b4345ad6e3bf44183d6f25879a0c5ca1b7ef9.msu"
-# }
-
-function Get-CumulativeUpdatePathVb {
-    return "$env:DISC_PATH\Cumulative Updates\2021-09 Cumulative Update for Windows 10 Version 21H1 for x64-based Systems (KB5005565)\windows10.0-kb5005565-x64_5b36501e18065cb2ef54d4bb02b0e2b27cd683d0.msu"
 }
 
 # function Get-ServicingStackUpdatePathFe {
@@ -31,48 +23,16 @@ function Get-CumulativeUpdatePathFe {
     return "$env:DISC_PATH\Cumulative Updates\2021-09 Cumulative Update for Microsoft server operating system version 21H2 for x64-based Systems (KB5005575)\windows10.0-kb5005575-x64_3a3260bcbb501fe3a5f6db2df6d0dbf7798e3f6d.msu"
 }
 
-function Get-SurfaceProDrivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro_Win10_150723_0.zip"
-}
+# function Get-ServicingStackUpdatePathCo {
+#     return ""
+# }
 
-function Get-SurfacePro2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro2_Win10_160501_2.zip"
-}
-
-function Get-Surface3Drivers {
-    return "$env:DISC_PATH\Drivers\Surface3_WiFi_Win10_18362_1902003_0.msi"
-}
-
-function Get-SurfacePro3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro3_Win10_18362_1902002_0.msi"
-}
-
-function Get-SurfacePro4Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro4_Win10_18362_21.061.12819.0.msi"
-}
-
-function Get-SurfaceBookDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook_Win10_18362_21.062.17202.0.msi"
-}
-
-function Get-SurfaceStudioDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio_Win10_18362_21.052.24295.0.msi"
-}
-
-function Get-SurfacePro2017Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro_Win10_18362_21.063.33116.0.msi"
-}
-
-function Get-SurfaceLaptopDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop_Win10_18362_21.062.23115.0.msi"
-}
+# function Get-CumulativeUpdatePathCo {
+#     return ""
+# }
 
 function Get-SurfaceBook2Drivers {
     return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_21.064.42912.0.msi"
-}
-
-function Get-SurfaceGoDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo_Win10_18362_21.063.23730_WiFi_0.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {

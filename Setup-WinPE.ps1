@@ -2,7 +2,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'VbOnly', 'FeOnly')]
+    [ValidateSet('All', 'FeOnly', 'CoOnly')]
     [string]$ReuseSourceSet='All',
     [switch]$LowMemory
 )
