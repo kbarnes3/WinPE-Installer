@@ -19,7 +19,7 @@ rem == 3. Windows partition ========================
 rem ==    a. Create the Windows partition ==========
 create partition primary 
 rem ==    b. Create space for the recovery tools ===
-shrink minimum=500
+shrink minimum=1024
 rem       ** NOTE: Update this size to match the
 rem                size of the recovery tools 
 rem                (winre.wim)                    **

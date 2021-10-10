@@ -241,10 +241,6 @@ Param(
     $ImageInfo
 )
     $partitioningCodebase = "RS"
-    $biosScripts = Join-Path $WinpeWorkingDir "\media\Scripts\BIOS\Install\$partitioningCodebase"
-    if (-Not (Test-Path $biosScripts)) {
-        New-Item -Path $biosScripts -ItemType Directory | Out-Null
-    }
     $uefiScripts = Join-Path $WinpeWorkingDir "\media\Scripts\UEFI\Install\$partitioningCodebase"
     if (-Not (Test-Path $uefiScripts)) {
         New-Item -Path $uefiScripts -ItemType Directory | Out-Null
@@ -256,11 +252,6 @@ Param(
     else {
         $firstLine = "`$Compact = `$false"
     }
-
-    $biosScript = Join-Path $biosScripts "$($ImageInfo["ShortName"])-BIOS.ps1"
-    New-Item -Path $biosScript -ItemType File | Out-Null
-    Add-Content $biosScript $firstLine
-    Add-Content $biosScript "& ..\Helpers\$($partitioningCodebase)-Install-BIOS.ps1 -Codebase $codebase -ImageName `"$($ImageInfo["DestinationName"])`" -Compact:`$Compact"
 
     $uefiScript = Join-Path $uefiScripts "$($ImageInfo["ShortName"])-UEFI.ps1"
     New-Item -Path $uefiScript -ItemType File | Out-Null
