@@ -14,8 +14,7 @@ Param(
     $servicingStackUpdateFe = $null
     $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
     $servicingStackUpdateCo = $null
-    # $cumulativeUpdateCo = Join-Path $tempDir "CoCumulativeUpdate.msu"
-    $cumulativeUpdateCo = $null
+    $cumulativeUpdateCo = Join-Path $tempDir "CoCumulativeUpdate.msu"
     $step = 0
 
     Start-Process KeepAwake.exe -WindowStyle Minimized
@@ -64,7 +63,7 @@ Param(
 
     if ($null -eq $ReuseCoPath) {
         Set-Progress -CurrentOperation "Copying Co cumulative update" -StepNumber $step
-        # Copy-Item $(Get-CumulativeUpdatePathCo) $cumulativeUpdateCo
+        Copy-Item $(Get-CumulativeUpdatePathCo) $cumulativeUpdateCo
     }
     $step++
 

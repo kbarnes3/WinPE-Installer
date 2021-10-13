@@ -10,7 +10,7 @@ param(
     [string]$CumulativeUpdateFe,
     [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdateCo,
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateCo,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]

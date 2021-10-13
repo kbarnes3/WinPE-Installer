@@ -8,7 +8,7 @@ These scripts make a lot of assumptions about local paths that are probably wron
 It requires many files to create the bootable disc:
 * [Windows 11 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on
 * Windows .isos, available from MSDN with a subscription
-* The latest Cumulative Updates for Windows 11, not yet available
+* The latest Cumulative Updates for Windows 11, available from [here](https://support.microsoft.com/en-us/topic/windows-11-update-history-a19cd327-b57f-44b9-84e0-26ced7109ba9)
 * The latest Cumulative Updates for Windows Server 2022, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2022-update-history-e1caa597-00c5-4ab9-9f3e-8212fe80b2ee)
 * The required Servicing Stack Updates for Windows, as noted on the individual cumulative update pages
 * Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined)

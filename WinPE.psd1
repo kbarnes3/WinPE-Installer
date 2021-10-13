@@ -36,7 +36,7 @@ FunctionsToExport = @(
     # "Get-ServicingStackUpdatePathFe",
     "Get-CumulativeUpdatePathFe",
     # "Get-ServicingStackUpdatePathCo",
-    # "Get-CumulativeUpdatePathCo",
+    "Get-CumulativeUpdatePathCo",
     "Get-SurfaceBook2Drivers",
     "Get-SurfaceLaptop2Drivers",
     "Get-SurfacePro6Drivers",
