@@ -50,6 +50,9 @@ FunctionsToExport = @(
     "Get-SurfacePro7PlusDrivers",
     "Get-SurfaceLaptop4IntelDrivers",
     "Get-SurfaceLaptop4AmdDrivers",
+    "Get-SurfaceGo3Drivers",
+    "Get-SurfaceLaptopStudioDrivers",
+    "Get-SurfacePro8Drivers",
     "Get-IntelRapidStorageDrivers",
 
     # Validation.psm1
