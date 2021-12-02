@@ -32,15 +32,15 @@ function Get-CumulativeUpdatePathCo {
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_21.064.42912.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_21.101.14869.0.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_21.084.38889.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_21.101.11630.0.msi"
 }
 
 function Get-SurfacePro6Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_21.063.33434.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_18362_21.101.14415.0.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
