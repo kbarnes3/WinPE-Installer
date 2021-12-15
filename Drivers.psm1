@@ -155,9 +155,8 @@ Param(
     }
     $percent = $StepNumber / $TotalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
-    $status = "Device $($StepNumber + 1) of $totalSteps"
 
-    Write-Progress -Id 1 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 1 -ParentId 0 -Activity "Adding drivers" -PercentComplete $percent -Status $currentOperation -Completed:$completed
 }
 
 

@@ -158,7 +158,7 @@ Param(
 )
     $step = 0
 
-    Set-UpdateProgress -CurrentOperation "Mounting image" -StepNumber $step
+    Set-UpdateProgress -ImageName $ImageInfo["DestinationName"] -CurrentOperation "Mounting image" -StepNumber $step
     $mountParams = @{
         "ImagePath" = $SourceWim;
         "Path" = $MountTempDir;
@@ -274,14 +274,18 @@ Param(
     $totalSteps = ($ImageCount * $perImageSteps) + $otherSteps
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
-    $status = "Step $($StepNumber + 1) of $totalSteps"
+    if ($completed) {
+        $CurrentOperation = "Done"
+    }
 
-    Write-Progress -Id 1 -Activity " " -CurrentOperation $CurrentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 1 -ParentId 0 -Activity "Updating images" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }
 
 function Set-UpdateProgress
 {
 Param(
+    [Parameter(Mandatory=$false)]
+    [string]$ImageName,
     [Parameter(Mandatory=$false)]
     [string]$CurrentOperation,
     [Parameter(Mandatory=$true)]
@@ -290,7 +294,9 @@ Param(
     $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
-    $status = "Step $($StepNumber + 1) of $totalSteps"
+    if ($completed) {
+        $CurrentOperation = "Done"
+    }
 
-    Write-Progress -Id 2 -Activity " " -CurrentOperation $CurrentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 2 -Activity "Updating $ImageName" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }

@@ -119,9 +119,8 @@ Param(
     $totalSteps = 7
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
-    $status = "Step $($StepNumber + 1) of $totalSteps"
 
-    Write-Progress -Id 1 -Activity " " -CurrentOperation $CurrentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 1 -ParentId 0 -Activity "Configuring boot.wim" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }
 
 function Set-PackageProgress
@@ -137,9 +136,8 @@ Param(
     $currentOperation = "Adding $PackageName"
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($TotalSteps -eq $StepNumber)
-    $status = "Package $($StepNumber + 1) of $TotalSteps"
 
-    Write-Progress -Id 2 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 2 -ParentId 1 -Activity "Adding packages" -PercentComplete $percent -Status $currentOperation -Completed:$completed
 }
 
 function Set-DriverProgress
@@ -155,7 +153,6 @@ Param(
     $currentOperation = "Adding $DriverPath"
     $percent = $StepNumber / $TotalSteps * 100
     $completed = ($TotalSteps -eq $StepNumber)
-    $status = "Driver $($StepNumber + 1) of $TotalSteps"
 
-    Write-Progress -Id 3 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 3 -ParentId 1 -Activity "Adding drivers"  -PercentComplete $percent -Status $currentOperation -Completed:$completed
 }
