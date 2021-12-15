@@ -20,7 +20,7 @@ function Get-ServerIsoPath {
 # }
 
 function Get-CumulativeUpdatePathFe {
-    return "$env:DISC_PATH\Cumulative Updates\2021-11 Cumulative Update for Microsoft server operating system version 21H2 for x64-based Systems (KB5007205)\windows10.0-kb5007205-x64_5b030cc5dcd977d6c7fbba5dfa312834f7fed906.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-12 Cumulative Update for Microsoft server operating system version 21H2 for x64-based Systems (KB5008223)\windows10.0-kb5008223-x64_6eb8c24eac891708c50cdbcdd7c6568f5622e9d0.msu"
 }
 
 # function Get-ServicingStackUpdatePathCo {
@@ -28,7 +28,7 @@ function Get-CumulativeUpdatePathFe {
 # }
 
 function Get-CumulativeUpdatePathCo {
-    return "$env:DISC_PATH\Cumulative Updates\2021-11 Cumulative Update for Windows 11 for x64-based Systems (KB5007215)\windows10.0-kb5007215-x64_31a2971850c333e5a0b20568ede502f0df623d9e.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2021-12 Cumulative Update for Windows 11 for x64-based Systems (KB5008215)\windows10.0-kb5008215-x64_8b19785f2a319bd716c6cee9fbf345cf19f6941b.msu"
 }
 
 function Get-SurfaceBook2Drivers {
