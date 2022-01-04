@@ -34,7 +34,7 @@ function New-WinPEDriverMedia {
     Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
     $step++
 
-    Set-Progress -StepNumber $step
+    Set-Progress -CurrentOperation "Done" -StepNumber $step
     Write-Host "All done!"
     Write-Host "To create or update a bootable USB drive,"
     Write-Host "please see this project's README.md"
@@ -134,9 +134,8 @@ Param(
     $totalSteps = 6
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
-    $status = "Step $($StepNumber + 1) of $totalSteps"
 
-    Write-Progress -Id 0 -Activity "Generating WinPE Drivers" -CurrentOperation $CurrentOperation -PercentComplete $percent -Status $status -Completed:$completed
+    Write-Progress -Id 0 -Activity "Generating WinPE Drivers" -Status $CurrentOperation -PercentComplete $percent -Completed:$completed
 }
 
 function Set-ExtractProgress
@@ -149,7 +148,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$TotalSteps
 )
-    $currentOperation = $null
+    $currentOperation = "Done"
     if ($FriendlyName) {
         $currentOperation = "Adding $FriendlyName drivers"
     }
