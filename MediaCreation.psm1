@@ -213,6 +213,9 @@ Param(
     $totalSteps = 17
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
+    if ($completed) {
+        $CurrentOperation = "Done"
+    }
 
     Write-Progress -Id 0 -Activity "Generating WinPE Installer" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }

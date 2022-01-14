@@ -119,6 +119,9 @@ Param(
     $totalSteps = 7
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
+    if ($completed) {
+        $CurrentOperation = "Done"
+    }
 
     Write-Progress -Id 1 -ParentId 0 -Activity "Configuring boot.wim" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }
