@@ -91,7 +91,7 @@ function Get-SurfaceLaptopStudioDrivers {
 }
 
 function Get-SurfacePro8Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_21.094.43070.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_22.013.38579.0.msi"
 }
 
 function Get-IntelRapidStorageDrivers {
