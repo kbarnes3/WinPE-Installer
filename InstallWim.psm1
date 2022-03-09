@@ -298,5 +298,5 @@ Param(
         $CurrentOperation = "Done"
     }
 
-    Write-Progress -Id 2 -Activity "Updating $ImageName" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
+    Write-Progress -Id 2 -ParentId 1 -Activity "Updating $ImageName" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }
