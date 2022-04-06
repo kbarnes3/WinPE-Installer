@@ -32,11 +32,11 @@ function Get-CumulativeUpdatePathCo {
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_18362_21.101.14869.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_19041_22.023.33295.0.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_18362_21.101.11630.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_19041_22.021.14301.0.msi"
 }
 
 function Get-SurfacePro6Drivers {
@@ -44,19 +44,19 @@ function Get-SurfacePro6Drivers {
 }
 
 function Get-SurfaceStudio2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio2_Win10_18362_21.111.6920.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceStudio2_Win10_19041_22.020.2939.0.msi"
 }
 
 function Get-SurfacePro7Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7_Win11_22000_21.092.22602.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro7_Win11_22000_22.011.9935.0.msi"
 }
 
 function Get-SurfaceLaptop3IntelDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_intel_Win10_18362_21.091.14218.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_intel_Win11_22000_22.011.9779.0.msi"
 }
 
 function Get-SurfaceLaptop3AmdDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_amd_Win10_18362_21.071.8492.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_amd_Win11_22000_22.020.5648.0.msi"
 }
 
 function Get-SurfaceBook3Drivers {
@@ -64,22 +64,22 @@ function Get-SurfaceBook3Drivers {
 }
 
 function Get-SurfaceGo2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo2_Win10_18362_21.091.03540_0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceGo2_Win10_18362_22.013.15000_0.msi"
 }
 
 function Get-SurfaceLaptopGoDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptopGo_Win10_18363_21.112.16896.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptopGo_Win11_22000_22.021.14347.0.msi"
 }
 
 function Get-SurfacePro7PlusDrivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_21.122.20178.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_22.012.28496.0.msi"
 }
 function Get-SurfaceLaptop4IntelDrivers {
     return "$env:DISC_PATH\Drivers\SurfaceLaptop4_intel_Win11_22000_22.011.9895.0.msi"
 }
 
 function Get-SurfaceLaptop4AmdDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop4_amd_Win11_22000_21.111.15693.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptop4_amd_Win11_22000_22.030.2733.0.msi"
 }
 
 function Get-SurfaceGo3Drivers {
