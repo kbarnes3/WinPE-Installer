@@ -60,7 +60,7 @@ function Get-SurfaceLaptop3AmdDrivers {
 }
 
 function Get-SurfaceBook3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win11_22000_22.042.20166.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win11_22000_22.050.4264.0.msi"
 }
 
 function Get-SurfaceGo2Drivers {
@@ -87,11 +87,11 @@ function Get-SurfaceGo3Drivers {
 }
 
 function Get-SurfaceLaptopStudioDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptopStudio_Win11_22000_22.034.41310.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceLaptopStudio_Win11_22000_22.052.22842.0.msi"
 }
 
 function Get-SurfacePro8Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_22.011.9739.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_22.041.6912.0.msi"
 }
 
 function Get-IntelRapidStorageDrivers {
