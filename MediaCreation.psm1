@@ -17,7 +17,7 @@ Param(
     $cumulativeUpdateCo = Join-Path $tempDir "CoCumulativeUpdate.msu"
     $step = 0
 
-    Start-Process KeepAwake.exe -WindowStyle Minimized
+    Suspend-Suspending
 
     if ($ReuseSourcePath) {
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
@@ -140,7 +140,7 @@ Param(
     Write-Host "To create or update a bootable USB drive,"
     Write-Host "please see this project's README.md"
 
-    Stop-Process -Name KeepAwake -ErrorAction SilentlyContinue
+    Resume-Suspending
     Push-Location $PSScriptRoot
 
 }

@@ -9,6 +9,7 @@ Description = 'WinPE creation utilities'
 NestedModules = @(
     ".\BootWim.psm1",
     ".\Drivers.psm1",
+    ".\KeepAwake.psm1",
     ".\InstallWim.psm1",
     ".\MediaCreation.psm1",
     ".\SourceFiles.psm1",
@@ -21,6 +22,10 @@ FunctionsToExport = @(
     # Drivers.psm1
     "Add-Drivers",
     "New-WinPEDriverMedia",
+
+    # KeepAwake.psm1
+    "Suspend-Suspending",
+    "Resume-Suspending",
 
     # InstallWim.psm1
     "Update-InstallWim",
