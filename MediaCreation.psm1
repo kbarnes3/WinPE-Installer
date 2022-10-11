@@ -4,17 +4,15 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'FeOnly', 'CoOnly')]
+    [ValidateSet('All', 'FeOnly', 'NiOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    $servicingStackUpdateFe = $null
     $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
-    $servicingStackUpdateCo = $null
-    $cumulativeUpdateCo = Join-Path $tempDir "CoCumulativeUpdate.msu"
+    $cumulativeUpdateNi = Join-Path $tempDir "NiCumulativeUpdate.msu"
     $step = 0
 
     Suspend-Suspending
@@ -23,15 +21,15 @@ Param(
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseFePath = $ReuseSourcePath
-            $ReuseCoPath = $ReuseSourcePath
+            $ReuseNiPath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'FeOnly') {
             Write-Host "Reusing Fe items from $ReuseSourcePath"
             $ReuseFePath = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'CoOnly') {
-            Write-Host "Reusing Co items from $ReuseSourcePath"
-            $ReuseCoPath = $ReuseSourcePath
+        elseif ($ReuseSourceSet -eq 'NiOnly') {
+            Write-Host "Reusing Ni items from $ReuseSourcePath"
+            $ReuseNiPath = $ReuseSourcePath
         }
     }
 
@@ -44,26 +42,14 @@ Param(
     $step++
 
     if ($null -eq $ReuseFePath) {
-        Set-Progress -CurrentOperation "Copying Fe servicing stack update" -StepNumber $step
-        # Copy-Item $(Get-ServicingStackUpdatePathFe) $servicingStackUpdateFe
-    }
-    $step++
-
-    if ($null -eq $ReuseFePath) {
         Set-Progress -CurrentOperation "Copying Fe cumulative update" -StepNumber $step
         Copy-Item $(Get-CumulativeUpdatePathFe) $cumulativeUpdateFe
     }
     $step++
 
-    if ($null -eq $ReuseCoPath) {
-        Set-Progress -CurrentOperation "Copying Co servicing stack update" -StepNumber $step
-        # Copy-Item $(Get-ServicingStackUpdatePathCo) $servicingStackUpdateCo
-    }
-    $step++
-
-    if ($null -eq $ReuseCoPath) {
-        Set-Progress -CurrentOperation "Copying Co cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePathCo) $cumulativeUpdateCo
+    if ($null -eq $ReuseNiPath) {
+        Set-Progress -CurrentOperation "Copying Ni cumulative update" -StepNumber $step
+        Copy-Item $(Get-CumulativeUpdatePathNi) $cumulativeUpdateNi
     }
     $step++
 
@@ -81,13 +67,11 @@ Param(
         Update-InstallWim `
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
-            -ServicingStackUpdateFe $servicingStackUpdateFe `
             -CumulativeUpdateFe $cumulativeUpdateFe `
-            -ServicingStackUpdateCo $servicingStackUpdateCo `
-            -CumulativeUpdateCo $cumulativeUpdateCo `
+            -CumulativeUpdateNi $cumulativeUpdateNi `
             -Sku $_ `
             -ReuseFePath $ReuseFePath `
-            -ReuseCoPath $ReuseCoPath
+            -ReuseNiPath $ReuseNiPath
         $step++
     }
 
@@ -95,8 +79,8 @@ Param(
     Split-Images -ImageName "Fe" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseFePath
     $step++
 
-    Set-Progress -CurrentOperation "Splitting Co.wim" -StepNumber $step
-    Split-Images -ImageName "Co" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseCoPath
+    Set-Progress -CurrentOperation "Splitting Ni.wim" -StepNumber $step
+    Split-Images -ImageName "Ni" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseNiPath
     $step++
 
     Set-Progress -CurrentOperation "Removing temp files" -StepNumber $step
@@ -210,7 +194,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 17
+    $totalSteps = 15
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {

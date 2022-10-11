@@ -4,31 +4,23 @@ function Get-WinPEDriverDir {
 }
 
 function Get-ConsumerIsoPath {
-    return "$env:DISC_PATH\en-us_windows_11_consumer_editions_x64_dvd_bd3cf8df.iso"
+    return "$env:DISC_PATH\en-us_windows_11_consumer_editions_version_22h2_updated_sep_2022_x64_dvd_f408dad5.iso"
 }
 
 function Get-BusinessIsoPath {
-    return "$env:DISC_PATH\en-us_windows_11_business_editions_x64_dvd_3a304c08.iso"
+    return "$env:DISC_PATH\en-us_windows_11_business_editions_version_22h2_updated_sep_2022_x64_dvd_840da535.iso"
 }
 
 function Get-ServerIsoPath {
     return "$env:DISC_PATH\en-us_windows_server_2022_x64_dvd_620d7eac.iso"
 }
 
-# function Get-ServicingStackUpdatePathFe {
-#     return ""
-# }
-
 function Get-CumulativeUpdatePathFe {
-    return "$env:DISC_PATH\Cumulative Updates\2022-09 Cumulative Update for Microsoft server operating system version 21H2 for x64-based Systems (KB5017316)\windows10.0-kb5017316-x64_f80e106e113fe039e5dd39e9b7b2c61922983598.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2022-10 Cumulative Update for Microsoft server operating system version 21H2 for x64-based Systems (KB5018421)\windows10.0-kb5018421-x64_e29a9445290be21deec74ff0cd0a21e757a74e0d.msu"
 }
 
-# function Get-ServicingStackUpdatePathCo {
-#     return ""
-# }
-
-function Get-CumulativeUpdatePathCo {
-    return "$env:DISC_PATH\Cumulative Updates\2022-09 Cumulative Update for Windows 11 for x64-based Systems (KB5017328)\windows10.0-kb5017328-x64_8fe5ec9c4d810679fb6b028280244f783c5acd09.msu"
+function Get-CumulativeUpdatePathNi {
+    return "$env:DISC_PATH\Cumulative Updates\2022-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5018427)\windows11.0-kb5018427-x64_f597bef95fdfe3727ecfd09ae4a9c1cfa6545dd9.msu"
 }
 
 function Get-SurfaceBook2Drivers {
