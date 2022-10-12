@@ -4,30 +4,25 @@ param(
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
-    [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateFe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateFe,
-    [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateCo,
     [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateCo,
+    [string]$CumulativeUpdateNi,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
     [string]$ReuseFePath,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseCoPath
+    [string]$ReuseNiPath
 )
     switch ($Sku) {
         "Consumer" {
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
-            $codebase = "Co"
-            $servicingStackUpdate = $ServicingStackUpdateCo
-            $cumulativeUpdate = $CumulativeUpdateCo
-            $reuseSourcePath = $ReuseCoPath
+            $codebase = "Ni"
+            $cumulativeUpdate = $CumulativeUpdateNi
+            $reuseSourcePath = $ReuseNiPath
             $images =
             @{
                 "SourceName" = "Windows 11 Home"; 
@@ -45,10 +40,9 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $codebase = "Co"
-            $servicingStackUpdate = $ServicingStackUpdateCo
-            $cumulativeUpdate = $CumulativeUpdateCo
-            $reuseSourcePath = $ReuseCoPath
+            $codebase = "Ni"
+            $cumulativeUpdate = $CumulativeUpdateNi
+            $reuseSourcePath = $ReuseNiPath
             $images =
             @{
                 "SourceName" = "Windows 11 Enterprise"; 
@@ -61,7 +55,6 @@ param(
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
             $codebase = "Fe"
-            $servicingStackUpdate = $ServicingStackUpdateFe
             $cumulativeUpdate = $CumulativeUpdateFe
             $reuseSourcePath = $ReuseFePath
             $images =
@@ -104,8 +97,8 @@ param(
         $destinationName = $_["DestinationName"]
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
-            if ($servicingStackUpdate -or $cumulativeUpdate) {
-                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -ServicingStackUpdate $servicingStackUpdate -CumulativeUpdate $cumulativeUpdate
+            if ($cumulativeUpdate) {
+                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -CumulativeUpdate $cumulativeUpdate
             }
         }
         $step++
@@ -152,8 +145,6 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdate,
-    [Parameter(Mandatory=$false)]
     [string]$CumulativeUpdate
 )
     $step = 0
@@ -174,12 +165,6 @@ Param(
         throw "Unable to identify image to mount for $($ImageInfo["DestinationName"])"
     }
     Mount-WindowsImage @mountParams | Out-Null
-    $step++
-
-    if ($ServicingStackUpdate) {
-        Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
-        Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $MountTempDir | Out-Null
-    }
     $step++
 
     if ($CumulativeUpdate) {
@@ -291,7 +276,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 5
+    $totalSteps = 4
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
