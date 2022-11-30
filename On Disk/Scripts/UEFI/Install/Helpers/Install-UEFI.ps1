@@ -45,7 +45,7 @@ $driverScripts = Join-Path "$($driverDriveLetter):" "Scripts\Drivers"
 if (Test-Path $driverScripts) {
     Set-Location $driverScripts
     Write-Host "Available drivers: "
-    Get-ChildItem | % { Write-Host ".\$($_.Name)" -ForegroundColor Yellow }
+    Get-ChildItem | Sort-Object | ForEach-Object { Write-Host ".\$($_.Name)" -ForegroundColor Yellow }
     
     $modelName = (Get-WmiObject Win32_ComputerSystemProduct).Name
     
