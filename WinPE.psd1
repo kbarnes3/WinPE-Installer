@@ -13,7 +13,8 @@ NestedModules = @(
     ".\InstallWim.psm1",
     ".\MediaCreation.psm1",
     ".\SourceFiles.psm1",
-    ".\Validation.psm1")
+    ".\Validation.psm1",
+    ".\WinREWim.psm1")
 
 FunctionsToExport = @(
     # BootWim.psm1
@@ -63,7 +64,10 @@ FunctionsToExport = @(
     "Get-IntelRapidStorageDrivers",
 
     # Validation.psm1
-    "Confirm-Environment"
+    "Confirm-Environment",
+
+    # WinREWim.psm1
+    "Update-WinREImage"
     )
 
 CmdletsToExport = @()
