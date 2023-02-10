@@ -10,6 +10,7 @@ Param(
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
+    $winREmountTempDir = "C:\WinRE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
     $cumulativeUpdateNi = Join-Path $tempDir "NiCumulativeUpdate.msu"
@@ -38,7 +39,7 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
-    Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir
+    Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -WinREMountTempDir $winREmountTempDir -TempDir $tempDir
     $step++
 
     if ($null -eq $ReuseFePath) {
@@ -67,6 +68,7 @@ Param(
         Update-InstallWim `
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
+            -WinREMountTempDir $winREMountTempDir `
             -CumulativeUpdateFe $cumulativeUpdateFe `
             -CumulativeUpdateNi $cumulativeUpdateNi `
             -Sku $_ `
@@ -138,6 +140,8 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
+    [string]$WinREMountTempDir,
+    [Parameter(Mandatory=$true)]
     [string]$TempDir
 )
     if (Test-Path $WinpeWorkingDir) {
@@ -151,6 +155,11 @@ Param(
         Remove-Item -Recurse -Force $MountTempDir -ErrorAction Stop | Out-Null
     }
     New-Item -Path $MountTempDir -ItemType Directory | Out-Null
+
+    if (Test-Path $WinREMountTempDir) {
+        Remove-Item -Recurse -Force $WinREMountTempDir -ErrorAction Stop | Out-Null
+    }
+    New-Item -Path $WinREMountTempDir -ItemType Directory | Out-Null
 
     $scriptsDir = Join-Path $WinpeWorkingDir "media\Scripts"
     New-Item -Path $scriptsDir -ItemType Directory | Out-Null

@@ -5,6 +5,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
+    [string]$WinREMountTempDir,
+    [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateFe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateNi,
@@ -98,7 +100,7 @@ param(
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             if ($cumulativeUpdate) {
-                Update-Image -SourceWim $extractedWim -ImageInfo $_ -MountTempDir $MountTempDir -CumulativeUpdate $cumulativeUpdate
+                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -CumulativeUpdate $cumulativeUpdate
             }
         }
         $step++
@@ -107,6 +109,8 @@ param(
         if (-Not $reuseSourcePath) {
             $destinationWim = "temp\$codebase.wim"
             Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir 
+            $version = (Get-WindowsImage -ImagePath $destinationWim -Name $destinationName).Version
+            Write-Host "$destinationName updated to $version"
         }
         $step++
 
@@ -139,11 +143,17 @@ function Update-Image
 {
 Param(
     [Parameter(Mandatory=$true)]
+    [string]$WinpeWorkingDir,
+    [Parameter(Mandatory=$true)]
     [string]$SourceWim,
     [Parameter(Mandatory=$true)]
     $ImageInfo,
     [Parameter(Mandatory=$true)]
+    [string]$Codebase,
+    [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
+    [Parameter(Mandatory=$true)]
+    [string]$WinREMountTempDir,
     [Parameter(Mandatory=$false)]
     [string]$CumulativeUpdate
 )
@@ -170,6 +180,17 @@ Param(
     if ($CumulativeUpdate) {
         Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
         Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir | Out-Null
+    }
+    $step++
+
+    if ($CumulativeUpdate) {
+        Set-UpdateProgress -CurrentOperation "Applying update to WinRE.wim" -StepNumber $step
+        Update-WinREImage `
+            -WinpeWorkingDir $WinpeWorkingDir `
+            -Codebase $Codebase `
+            -MountTempDir $MountTempDir `
+            -WinREMountTempDir $WinREMountTempDir `
+            -CumulativeUpdate $CumulativeUpdate
     }
     $step++
 
@@ -276,7 +297,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 4
+    $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
