@@ -84,7 +84,7 @@ function Get-SurfacePro7Drivers {
 }
 
 function Get-SurfacePro7PlusDrivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_22.093.33213.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_23.012.18721.0.msi"
 }
 
 function Get-SurfacePro8Drivers {
