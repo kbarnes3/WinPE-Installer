@@ -16,11 +16,11 @@ function Get-ServerIsoPath {
 }
 
 function Get-CumulativeUpdatePathFe {
-    return "$env:DISC_PATH\Cumulative Updates\2023-04 Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems (KB5025230)\windows10.0-kb5025230-x64_a73c874bf9a0f3a2c4df0b7bdeb29226c34ee9f0.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2023-05 Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems (KB5026370)\windows10.0-kb5026370-x64_326b544b01f483102e1140d62cedcbec9e27f449.msu"
 }
 
 function Get-CumulativeUpdatePathNi {
-    return "$env:DISC_PATH\Cumulative Updates\2023-04 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)\windows11.0-kb5025239-x64_e9f2f715cfce56adc6b875512f0088aa4b3b10eb.msu"
+    return "$env:DISC_PATH\Cumulative Updates\2023-05 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5026372)\windows11.0-kb5026372-x64_d2e542ce70571b093d815adb9013ed467a3e0a85.msu"
 }
 
 function Get-SurfaceBook2Drivers {
