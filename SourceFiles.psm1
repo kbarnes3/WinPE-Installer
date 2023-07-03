@@ -24,7 +24,7 @@ function Get-CumulativeUpdatePathNi {
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win10_19041_22.080.2839.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win11_22000_23.060.1495.0.msi"
 }
 
 function Get-SurfaceBook3Drivers {
@@ -36,7 +36,7 @@ function Get-SurfaceGo2Drivers {
 }
 
 function Get-SurfaceGo3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo3_Win10_19042_22.111.14054.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfaceGo3_Win11_22000_23.060.1210.0.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {
@@ -76,7 +76,7 @@ function Get-SurfaceLaptopStudioDrivers {
 }
 
 function Get-SurfacePro6Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro6_Win10_19041_22.074.41199.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro6_Win11_22000_23.060.62.0.msi"
 }
 
 function Get-SurfacePro7Drivers {
@@ -84,11 +84,11 @@ function Get-SurfacePro7Drivers {
 }
 
 function Get-SurfacePro7PlusDrivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_23.042.24250.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_23.062.17311.0.msi"
 }
 
 function Get-SurfacePro8Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_23.041.9917.0.msi"
+    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_23.062.19726.0.msi"
 }
 
 function Get-SurfacePro9Drivers {
