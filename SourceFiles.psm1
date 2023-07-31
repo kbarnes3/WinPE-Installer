@@ -3,6 +3,30 @@ function Get-WinPEDriverDir {
     return "D:\WinPE_amd64_drivers"
 }
 
+$DriversPath = "$env:DISC_PATH\Drivers"
+
+function Find-SourceFile {
+[CmdletBinding()]
+Param (
+    [Parameter()]
+    [String]
+    $Directory,
+    [Parameter()]
+    [String]
+    $Pattern
+)
+    $matchingFiles = Get-ChildItem -Path $Directory -Filter $Pattern
+    if ($matchingFiles.Count -ne 1) {
+        Write-Error "Searching $Directory for $Pattern found $($matchingFiles.Count) matches"
+        $matchingFiles | ForEach-Object {
+            Write-Error $_.FullName
+        }
+        throw $False
+    }
+
+    return $matchingFiles.FullName
+}
+
 function Get-ConsumerIsoPath {
     return "$env:DISC_PATH\en-us_windows_11_consumer_editions_version_22h2_updated_sep_2022_x64_dvd_f408dad5.iso"
 }
@@ -24,83 +48,83 @@ function Get-CumulativeUpdatePathNi {
 }
 
 function Get-SurfaceBook2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook2_Win11_22000_23.060.1495.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceBook2*.msi"
 }
 
 function Get-SurfaceBook3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceBook3_Win11_22000_23.041.6652.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceBook3*.msi"
 }
 
 function Get-SurfaceGo2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo2_Win10_19042_23.024.31080_0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceGo2*.msi"
 }
 
 function Get-SurfaceGo3Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceGo3_Win11_22000_23.060.1210.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceGo3*.msi"
 }
 
 function Get-SurfaceLaptop2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop2_Win10_19041_22.080.1424.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop2*.msi"
 }
 
 function Get-SurfaceLaptop3IntelDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_intel_Win11_22000_23.034.44302.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop3_intel*.msi"
 }
 
 function Get-SurfaceLaptop3AmdDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop3_amd_Win11_22000_22.020.5648.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop3_amd*.msi"
 }
 
 function Get-SurfaceLaptop4IntelDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop4_intel_Win11_22000_23.042.26034.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop4_intel*.msi"
 }
 
 function Get-SurfaceLaptop4AmdDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop4_amd_Win11_22000_22.101.7108.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop4_amd*.msi"
 }
 
 function Get-SurfaceLaptop5Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptop5_Win11_22621_22.102.17243.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop5*.msi"
 }
 
 function Get-SurfaceLaptopGoDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptopGo_Win11_22000_23.051.14656.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptopGo_*.msi"
 }
 
 function Get-SurfaceLaptopGo2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptopGo2_Win10_19044_23.040.1114.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptopGo2*.msi"
 }
 
 function Get-SurfaceLaptopStudioDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceLaptopStudio_Win11_22000_23.042.24585.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptopStudio*.msi"
 }
 
 function Get-SurfacePro6Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro6_Win11_22000_23.060.62.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro6*.msi"
 }
 
 function Get-SurfacePro7Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7_Win11_22000_23.013.33004.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro7_*.msi"
 }
 
 function Get-SurfacePro7PlusDrivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro7+_Win11_22000_23.062.17311.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro7+_*.msi"
 }
 
 function Get-SurfacePro8Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro8_Win11_22000_23.062.19726.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro8_*.msi"
 }
 
 function Get-SurfacePro9Drivers {
-    return "$env:DISC_PATH\Drivers\SurfacePro9_Win11_22621_23.044.40352.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro9_*.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio2_Win10_19041_22.020.2939.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceStudio2_*.msi"
 }
 
 function Get-SurfaceStudio2PlusDrivers {
-    return "$env:DISC_PATH\Drivers\SurfaceStudio2+_Win11_22621_22.103.32476.0.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceStudio2+_*.msi"
 }
 
 function Get-IntelRapidStorageDrivers {
