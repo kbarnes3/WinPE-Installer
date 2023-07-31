@@ -3,6 +3,7 @@ function Get-WinPEDriverDir {
     return "D:\WinPE_amd64_drivers"
 }
 
+$CumulativeUpdatesPath = "$env:DISC_PATH\Cumulative Updates"
 $DriversPath = "$env:DISC_PATH\Drivers"
 
 function Find-SourceFile {
@@ -40,11 +41,13 @@ function Get-ServerIsoPath {
 }
 
 function Get-CumulativeUpdatePathFe {
-    return "$env:DISC_PATH\Cumulative Updates\2023-07 Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems (KB5028171)\windows10.0-kb5028171-x64_df2198a9a9ac5cf4b2d60af6b2c14d5902df0594.msu"
+    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $directory -Pattern '*.msu'
 }
 
 function Get-CumulativeUpdatePathNi {
-    return "$env:DISC_PATH\Cumulative Updates\2023-07 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5028185)\windows11.0-kb5028185-x64_c78aa5899ba74efdd0e354dfab80940402b3efa4.msu"
+    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 22H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $directory -Pattern '*.msu'
 }
 
 function Get-SurfaceBook2Drivers {
