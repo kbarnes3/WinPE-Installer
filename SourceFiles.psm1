@@ -28,15 +28,15 @@ Param (
 }
 
 function Get-ConsumerIsoPath {
-    return "$env:DISC_PATH\en-us_windows_11_consumer_editions_version_22h2_updated_sep_2022_x64_dvd_f408dad5.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_22h2_updated_sep_2022_x64*.iso"
 }
 
 function Get-BusinessIsoPath {
-    return "$env:DISC_PATH\en-us_windows_11_business_editions_version_22h2_updated_sep_2022_x64_dvd_840da535.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_22h2_updated_sep_2022_x64*.iso"
 }
 
 function Get-ServerIsoPath {
-    return "$env:DISC_PATH\en-us_windows_server_2022_x64_dvd_620d7eac.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2022_x64*.iso"
 }
 
 function Get-CumulativeUpdatePathFe {
