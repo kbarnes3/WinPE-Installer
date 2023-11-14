@@ -29,11 +29,11 @@ Param (
 }
 
 function Get-ConsumerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_22h2_updated_sep_2022_x64_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_23h2_x64_*.iso"
 }
 
 function Get-BusinessIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_22h2_updated_sep_2022_x64_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_23h2_x64_*.iso"
 }
 
 function Get-ServerIsoPath {
@@ -46,7 +46,7 @@ function Get-CumulativeUpdatePathFe {
 }
 
 function Get-CumulativeUpdatePathNi {
-    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 22H2 for x64-based Systems*'
+    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 23H2 for x64-based Systems*'
     return Find-SourceFile -Directory $directory -Pattern '*.msu'
 }
 
