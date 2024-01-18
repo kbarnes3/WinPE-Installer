@@ -60,3 +60,28 @@ function Confirm-Environment {
     return $true
 }
 Export-ModuleMember Confirm-Environment
+
+function Confirm-NetbootEnvironment {
+    param (
+        [string]$InstallBootWim
+    )
+
+    if (-Not (Test-Path $InstallBootWim)) {
+        throw "Unable to find $InstallBootWim"
+    }
+
+    if (-Not ($env:NETBOOTUNC)) { 
+        throw 'Missing $env:NETBOOTUNC'
+    }
+
+    if (-Not ($env:NETBOOTUSERNAME)) { 
+        throw 'Missing $env:NETBOOTUSERNAME'
+    }
+
+    if (-Not ($env:NETBOOTPASSWORD)) { 
+        throw 'Missing $env:NETBOOTPASSWORD'
+    }
+
+    return $true
+}
+Export-ModuleMember Confirm-NetbootEnvironment
