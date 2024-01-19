@@ -20,6 +20,7 @@ NestedModules = @(
 FunctionsToExport = @(
     # BootWim.psm1
     "Update-BootWim",
+    "Update-NetbootBootWim",
 
     # Drivers.psm1
     "Add-Drivers",

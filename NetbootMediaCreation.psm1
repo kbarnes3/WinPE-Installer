@@ -6,6 +6,7 @@ Param(
     $netbootDir = "D:\WinPE_amd64_netboot"
     $mountTempDir = "C:\WinPE_mount"
     $installBootWim = Join-Path $InstallSourcePath "media\sources\boot.wim"
+    $netbootBootWim = Join-Path $netbootDir "media\sources\boot.wim"
     $step = 0
 
     Suspend-Suspending 
@@ -15,7 +16,11 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
-    Prep-WorkingDir -WinpeWorkingDir $netbootDir -MountTempDir $mountTempDir 
+    Prep-WorkingDir -WinpeWorkingDir $netbootDir -MountTempDir $mountTempDir -InstallBootWim $installBootWim -NetbootBootWim $netbootBootWim
+    $step++
+
+    Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
+    Update-NetbootBootWim -WinpeWorkingDir $netbootDir -MountTempDir $mountTempDir
     $step++
 
     Resume-Suspending
@@ -29,7 +34,11 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [string]$MountTempDir
+    [string]$MountTempDir,
+    [Parameter(Mandatory=$true)]
+    [string]$InstallBootWim,
+    [Parameter(Mandatory=$true)]
+    [string]$NetbootBootWim
 )
     if (Test-Path $WinpeWorkingDir) {
         Remove-Item -Recurse -Force $WinpeWorkingDir -ErrorAction Stop | Out-Null
@@ -42,6 +51,8 @@ Param(
         Remove-Item -Recurse -Force $MountTempDir -ErrorAction Stop | Out-Null
     }
     New-Item -Path $MountTempDir -ItemType Directory | Out-Null
+
+    Copy-Item $InstallBootWim $NetbootBootWim -Force | Out-Null
 }
 
 function Set-Progress
@@ -52,7 +63,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 2
+    $totalSteps = 3
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
