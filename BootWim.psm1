@@ -62,6 +62,9 @@ function Update-NetbootBootWim {
 
     Set-NetbootProgress -CurrentOperation "Copying new files" -StepNumber $step
     $startPs1 = Get-Content "$PSScriptRoot\In Netboot Image\Windows\System32\Start-PE.ps1"
+    $startPs1 = $startPs1 -replace "\*\*USERNAME\*\*", $env:NETBOOTUSERNAME
+    $startPs1 = $startPs1 -replace "\*\*PASSWORD\*\*", $env:NETBOOTPASSWORD
+    $startPs1 = $startPs1 -replace "\*\*SHARE\*\*", $env:NETBOOTUNC
     Set-Content "$MountTempDir\Windows\System32\Start-PE.ps1" $startPs1
     $step++
 
