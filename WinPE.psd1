@@ -12,6 +12,7 @@ NestedModules = @(
     ".\KeepAwake.psm1",
     ".\InstallWim.psm1",
     ".\MediaCreation.psm1",
+    ".\NetbootMediaCreation.psm1",
     ".\SourceFiles.psm1",
     ".\Validation.psm1",
     ".\WinREWim.psm1")
@@ -19,6 +20,7 @@ NestedModules = @(
 FunctionsToExport = @(
     # BootWim.psm1
     "Update-BootWim",
+    "Update-NetbootBootWim",
 
     # Drivers.psm1
     "Add-Drivers",
@@ -33,6 +35,9 @@ FunctionsToExport = @(
 
     # MediaCreation.psm1
     "New-WinPEInstallMedia",
+
+    # NetbootMediaCreation.psm1
+    "New-WinPENetbootMedia",
 
     # SourceFiles.psm1
     "Get-WinPEDriverDir",
@@ -68,6 +73,7 @@ FunctionsToExport = @(
 
     # Validation.psm1
     "Confirm-Environment",
+    "Confirm-NetbootEnvironment",
 
     # WinREWim.psm1
     "Update-WinREImage"

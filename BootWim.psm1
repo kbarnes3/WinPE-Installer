@@ -45,6 +45,47 @@ param(
 }
 Export-ModuleMember Update-BootWim
 
+function Update-NetbootBootWim {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$WinpeWorkingDir,
+        [Parameter(Mandatory=$true)]
+        [string]$MountTempDir
+    )
+    $bootWim = Join-Path $WinpeWorkingDir "media\sources\boot.wim"
+    $bootWimTemp = Join-Path $WinpeWorkingDir "media\sources\boot2.wim"
+    $step = 0
+
+    Set-NetbootProgress -CurrentOperation "Mounting boot.wim" -StepNumber $step
+    Mount-WindowsImage -ImagePath $bootWim -Index 1 -Path $MountTempDir -ErrorAction Stop | Out-Null
+    $step++
+
+    Set-NetbootProgress -CurrentOperation "Copying new files" -StepNumber $step
+    $startPs1 = Get-Content "$PSScriptRoot\In Netboot Image\Windows\System32\Start-PE.ps1"
+    $startPs1 = $startPs1 -replace "\*\*USERNAME\*\*", $env:NETBOOTUSERNAME
+    $startPs1 = $startPs1 -replace "\*\*PASSWORD\*\*", $env:NETBOOTPASSWORD
+    $startPs1 = $startPs1 -replace "\*\*SHARE\*\*", $env:NETBOOTUNC
+    Set-Content "$MountTempDir\Windows\System32\Start-PE.ps1" $startPs1
+    $step++
+
+    Set-NetbootProgress -CurrentOperation "Cleaning up boot.wim" -StepNumber $step
+    & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" | Out-Null
+    $step++
+
+    Set-NetbootProgress -CurrentOperation "Dismounting boot.wim" -StepNumber $step
+    Dismount-WindowsImage -Path $MountTempDir -Save | Out-Null
+    $step++
+
+    Set-NetbootProgress -CurrentOperation "Exporting boot.wim" -StepNumber $step
+    Export-WindowsImage -SourceImagePath $bootWim -SourceIndex 1 -DestinationImagePath $bootWimTemp | Out-Null
+    Remove-Item $bootWim
+    Move-Item $bootWimTemp $bootWim
+    $step++
+
+    Set-NetbootProgress -StepNumber $step
+}
+Export-ModuleMember Update-NetbootBootWim
+
 function Add-Packages {
 param(
     [Parameter(Mandatory=$true)]
@@ -117,6 +158,24 @@ Param(
     [int]$StepNumber
 )
     $totalSteps = 7
+    $percent = $StepNumber / $totalSteps * 100
+    $completed = ($totalSteps -eq $StepNumber)
+    if ($completed) {
+        $CurrentOperation = "Done"
+    }
+
+    Write-Progress -Id 1 -ParentId 0 -Activity "Configuring boot.wim" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
+}
+
+function Set-NetbootProgress
+{
+Param(
+    [Parameter(Mandatory=$false)]
+    [string]$CurrentOperation,
+    [Parameter(Mandatory=$true)]
+    [int]$StepNumber
+)
+    $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
