@@ -50,6 +50,10 @@ function Get-CumulativeUpdatePathNi {
     return Find-SourceFile -Directory $directory -Pattern '*.msu'
 }
 
+function Get-IntelNicDrivers {
+    return Find-SourceFile -Directory $DriversPath -Pattern "Wired_driver_*_x64.exe"
+}
+
 function Get-SurfaceBook2Drivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceBook2_*.msi"
 }

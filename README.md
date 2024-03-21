@@ -12,6 +12,7 @@ It requires many files to create the bootable disc:
 * The latest Cumulative Updates for Windows Server 2022, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2022-update-history-e1caa597-00c5-4ab9-9f3e-8212fe80b2ee)
 * The required Servicing Stack Updates for Windows, as noted on the individual cumulative update pages
 * Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined)
+* Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226) with `Wired_driver_29.0_x64.exe` extracted.
 * Intel Rapid Storage Drivers should be downloaded from [here](https://downloadcenter.intel.com/product/55005/Intel-Rapid-Storage-Technology-Intel-RST-) and extracted for better compatibility in WinPE
 * [7-Zip](http://www.7-zip.org/) needs to be installed
 
