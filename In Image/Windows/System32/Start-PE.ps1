@@ -6,5 +6,8 @@
     }
 }
 
+Write-Host 'WinPE Installer' -ForegroundColor Green
+. .\Banner.ps1
+
 $MainScript = "$($TargetDriveLetter):\Scripts\Start.ps1"
 . $MainScript

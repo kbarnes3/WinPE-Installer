@@ -19,6 +19,10 @@ param(
     & robocopy /S /XX "$PSScriptRoot\In Image" $MountTempDir | Out-Null
     $step++
 
+    Set-Progress -CurrentOperation "Generating banner" -StepNumber $step
+    Add-WelcomeBanner -MountTempDir $MountTempDir
+    $step++
+
     Set-Progress -CurrentOperation "Adding packages" -StepNumber $step
     Add-Packages -MountTempDir $MountTempDir
     $step++
@@ -68,6 +72,10 @@ function Update-NetbootBootWim {
     Set-Content "$MountTempDir\Windows\System32\Start-PE.ps1" $startPs1
     $step++
 
+    Set-Progress -CurrentOperation "Generating banner" -StepNumber $step
+    Add-WelcomeBanner -MountTempDir $MountTempDir
+    $step++
+
     Set-NetbootProgress -CurrentOperation "Cleaning up boot.wim" -StepNumber $step
     & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" | Out-Null
     $step++
@@ -85,6 +93,19 @@ function Update-NetbootBootWim {
     Set-NetbootProgress -StepNumber $step
 }
 Export-ModuleMember Update-NetbootBootWim
+
+function Add-WelcomeBanner {
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$MountTempDir
+)
+    $bannerPath = Join-Path $MountTempDir "Windows\System32\Banner.ps1"
+    $date = Get-Date -Format("M/d/yyyy")
+    Push-Location $PSScriptRoot
+    $commitHash = (git rev-parse HEAD).Substring(0,16)
+    Pop-Location
+    Set-Content -Path $bannerPath -Value "Write-Host ""Last updated $date from $commitHash"" -ForegroundColor Green" | Out-Null
+}
 
 function Add-Packages {
 param(
@@ -158,7 +179,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 7
+    $totalSteps = 8
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
@@ -176,7 +197,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 5
+    $totalSteps = 6
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
