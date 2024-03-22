@@ -34,11 +34,15 @@ New-Item -Path "R:\Recovery\WindowsRE" -Type Directory | Out-Null
 Remove-Item -Recurse -Force $ScratchDir
 
 # Try and find if we have a partition of drivers available
-$driverDriveLetter = "I" # Default to the Netboot drive
-(Get-Volume).DriveLetter | ForEach-Object { 
-    $PotentialFile = "$($_):\5c026ee5-9d8f-4f93-bcd1-abc5d31bdbba"
-    if (Test-Path $PotentialFile) { 
-        $driverDriveLetter = $_
+if (Test-Path "I:\")
+{
+    $driverDriveLetter = "I" # Try to find drivers on the Netboot drive
+} else {
+    (Get-Volume).DriveLetter | ForEach-Object { 
+        $PotentialFile = "$($_):\5c026ee5-9d8f-4f93-bcd1-abc5d31bdbba"
+        if (Test-Path $PotentialFile) { 
+            $driverDriveLetter = $_
+        }
     }
 }
 $driverScripts = Join-Path "$($driverDriveLetter):" "Scripts\Drivers"
