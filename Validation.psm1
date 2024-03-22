@@ -18,6 +18,7 @@ function Confirm-Environment {
         (Get-ServerIsoPath),
         (Get-CumulativeUpdatePathFe),
         (Get-CumulativeUpdatePathNi),
+        (Get-IntelNicDrivers),
         (Get-SurfaceBook2Drivers),
         (Get-SurfaceBook3Drivers),
         (Get-SurfaceGo2Drivers),

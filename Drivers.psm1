@@ -69,6 +69,7 @@ Param(
     )
 
     $devices =
+        @{"friendlyName" = "Intel NICs"; "source" = Get-IntelNicDrivers},
         @{"friendlyName" = "Surface Book 2"; "source" = Get-SurfaceBook2Drivers},
         @{"friendlyName" = "Surface Book 3"; "source" = Get-SurfaceBook3Drivers},
         @{"friendlyName" = "Surface Go 2"; "source" = Get-SurfaceGo2Drivers},

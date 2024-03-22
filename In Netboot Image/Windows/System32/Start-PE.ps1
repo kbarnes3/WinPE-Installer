@@ -1,3 +1,6 @@
+Write-Host 'WinPE Installer (Netboot)' -ForegroundColor Green
+. .\Banner.ps1
+
 $password = ConvertTo-SecureString "**PASSWORD**" -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential ("**USERNAME**", $password)
 $TargetDriveLetter = "I"
