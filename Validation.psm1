@@ -30,6 +30,7 @@ function Confirm-Environment {
         (Get-SurfaceLaptop4IntelDrivers),
         (Get-SurfaceLaptop4AmdDrivers),
         (Get-SurfaceLaptop5Drivers),
+        (Get-SurfaceLaptop6ForBusinessDrivers),
         (Get-SurfaceLaptopGoDrivers),
         (Get-SurfaceLaptopGo2Drivers),
         (Get-SurfaceLaptopGo3Drivers),
@@ -40,6 +41,7 @@ function Confirm-Environment {
         (Get-SurfacePro7PlusDrivers),
         (Get-SurfacePro8Drivers),
         (Get-SurfacePro9Drivers),
+        (Get-SurfacePro10ForBusinessDrivers),
         (Get-SurfaceStudio2Drivers),
         (Get-SurfaceStudio2PlusDrivers),
         (Get-IntelRapidStorageDrivers)

@@ -81,6 +81,7 @@ Param(
         @{"friendlyName" = "Surface Laptop 4 (Intel)"; "source" = Get-SurfaceLaptop4IntelDrivers},
         @{"friendlyName" = "Surface Laptop 4 (AMD)"; "source" = Get-SurfaceLaptop4AmdDrivers},
         @{"friendlyName" = "Surface Laptop 5"; "source" = Get-SurfaceLaptop5Drivers},
+        @{"friendlyName" = "Surface Laptop 6 For Business"; "source" = Get-SurfaceLaptop6ForBusinessDrivers},
         @{"friendlyName" = "Surface Laptop Go"; "source" = Get-SurfaceLaptopGoDrivers},
         @{"friendlyName" = "Surface Laptop Go 2"; "source" = Get-SurfaceLaptopGo2Drivers},
         @{"friendlyName" = "Surface Laptop Go 3"; "source" = Get-SurfaceLaptopGo3Drivers},
@@ -91,6 +92,7 @@ Param(
         @{"friendlyName" = "Surface Pro 7+"; "source" = Get-SurfacePro7PlusDrivers},
         @{"friendlyName" = "Surface Pro 8"; "source" = Get-SurfacePro8Drivers},
         @{"friendlyName" = "Surface Pro 9"; "source" = Get-SurfacePro9Drivers},
+        @{"friendlyName" = "Surface Pro 10 For Business"; "source" = Get-SurfacePro10ForBusinessDrivers},
         @{"friendlyName" = "Surface Studio 2"; "source" = Get-SurfaceStudio2Drivers},
         @{"friendlyName" = "Surface Studio 2+"; "source" = Get-SurfaceStudio2PlusDrivers}
 

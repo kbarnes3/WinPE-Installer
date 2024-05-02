@@ -98,6 +98,10 @@ function Get-SurfaceLaptop5Drivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop5_*.msi"
 }
 
+function Get-SurfaceLaptop6ForBusinessDrivers {
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop6forBusiness_*.msi"
+}
+
 function Get-SurfaceLaptopGoDrivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptopGo_*.msi"
 }
@@ -136,6 +140,10 @@ function Get-SurfacePro8Drivers {
 
 function Get-SurfacePro9Drivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro9_*.msi"
+}
+
+function Get-SurfacePro10ForBusinessDrivers {
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro10forBusiness_*.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
