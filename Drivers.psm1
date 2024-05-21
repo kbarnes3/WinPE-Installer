@@ -70,6 +70,7 @@ Param(
 
     $devices =
         @{"friendlyName" = "Intel NICs"; "source" = Get-IntelNicDrivers},
+        @{"friendlyName" = "Marvell NICs"; "source" = Get-MarvellNicDrivers},
         @{"friendlyName" = "Surface Book 2"; "source" = Get-SurfaceBook2Drivers},
         @{"friendlyName" = "Surface Book 3"; "source" = Get-SurfaceBook3Drivers},
         @{"friendlyName" = "Surface Go 2"; "source" = Get-SurfaceGo2Drivers},
@@ -108,14 +109,21 @@ Param(
         $driversMountPath = "\Drivers\$shortName"
 
         $destination = Join-Path $driversRoot $shortName
-        $extension = [IO.Path]::GetExtension($source)
 
-        if ($extension.ToLower() -eq ".msi") {
-            & msiexec "/a" "$source" "targetdir=$($destination)" "/qn" | Out-Null
-        }
-        else
+        if (Test-Path -Path $source -PathType Container)
         {
-            & 7z x "$source" "-o$($destination)" | Out-Null
+            & robocopy "/S" "/XX" $source $destination | Out-Null
+        } else {
+
+            $extension = [IO.Path]::GetExtension($source)
+
+            if ($extension.ToLower() -eq ".msi") {
+                & msiexec "/a" "$source" "targetdir=$($destination)" "/qn" | Out-Null
+            }
+            else
+            {
+                & 7z x "$source" "-o$($destination)" | Out-Null
+            }
         }
 
         $script = Join-Path $driversScripts "$shortName.ps1"

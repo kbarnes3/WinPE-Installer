@@ -47,6 +47,7 @@ FunctionsToExport = @(
     "Get-CumulativeUpdatePathFe",
     "Get-CumulativeUpdatePathNi",
     "Get-IntelNicDrivers",
+    "Get-MarvellNicDrivers",
     "Get-SurfaceBook2Drivers",
     "Get-SurfaceBook3Drivers",
     "Get-SurfaceGo2Drivers",

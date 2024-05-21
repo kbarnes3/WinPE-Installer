@@ -54,6 +54,10 @@ function Get-IntelNicDrivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "Wired_driver_*_x64.exe"
 }
 
+function Get-MarvellNicDrivers {
+    return "$env:DISC_PATH\Drivers\MarvellACQ"
+}
+
 function Get-SurfaceBook2Drivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceBook2_*.msi"
 }
