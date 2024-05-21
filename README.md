@@ -6,15 +6,17 @@ A set of scripts that produce a bootable WinPE disc capable of installing a wide
 These scripts make a lot of assumptions about local paths that are probably wrong on your computer.
 
 It requires many files to create the bootable disc:
-* [Windows 11 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on
-* Windows .isos, available from MSDN with a subscription
-* The latest Cumulative Updates for Windows 11, available from [here](https://support.microsoft.com/en-us/topic/windows-11-version-23h2-update-history-59875222-b990-4bd9-932f-91a5954de434)
-* The latest Cumulative Updates for Windows Server 2022, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2022-update-history-e1caa597-00c5-4ab9-9f3e-8212fe80b2ee)
+* [Windows 11 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on.
+* Windows .isos, available from MSDN with a subscription.
+* The latest Cumulative Updates for Windows 11, available from [here](https://support.microsoft.com/en-us/topic/windows-11-version-23h2-update-history-59875222-b990-4bd9-932f-91a5954de434).
+* The latest Cumulative Updates for Windows Server 2022, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2022-update-history-e1caa597-00c5-4ab9-9f3e-8212fe80b2ee).
 * The required Servicing Stack Updates for Windows, as noted on the individual cumulative update pages
-* Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined)
+* Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined).
 * Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226) with `Wired_driver_29.0_x64.exe` extracted.
-* Intel Rapid Storage Drivers should be downloaded from [here](https://downloadcenter.intel.com/product/55005/Intel-Rapid-Storage-Technology-Intel-RST-) and extracted for better compatibility in WinPE
-* [7-Zip](http://www.7-zip.org/) needs to be installed
+* Marvell NIC drivers from [here](https://www.marvell.com/support/downloads.html). Search for "Marvell Public Drivers", "Windows", "AQC107".
+From the .zip, extract the `20221028_Marvell_AQtion_x64_Win_v3.1.7\Win11\` folder to `$env:DISC_PATH\Drivers\MarvellACQ`.
+* Intel Rapid Storage Drivers should be downloaded from [here](https://downloadcenter.intel.com/product/55005/Intel-Rapid-Storage-Technology-Intel-RST-) and extracted to `$env:DISC_PATH\Drivers\IRST64` for better compatibility in WinPE.
+* [7-Zip](http://www.7-zip.org/) needs to be installed.
 
 To produce the installer, run Setup-Drivers.ps1 followed by Setup-WinPE.ps1 from an Administrator Deployment and Imaging Tools Environment.
 
