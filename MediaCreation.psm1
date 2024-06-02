@@ -114,11 +114,6 @@ Param(
         $step++
     }
 
-    Set-Progress -CurrentOperation "Copying winpe.iso to $env:DISC_PATH" -StepNumber $step
-    $isoDestination = Join-Path $env:DISC_PATH "winpe.iso"
-    Start-BitsTransfer -Source $isoPath -Destination $isoDestination
-    $step++
-
     Set-Progress -StepNumber $step
 
     Set-Location $winpeFinalDir
@@ -203,7 +198,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 15
+    $totalSteps = 14
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {

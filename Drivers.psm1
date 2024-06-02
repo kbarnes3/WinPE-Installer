@@ -29,11 +29,6 @@ function New-WinPEDriverMedia {
     & oscdimg -u1 -udfver102 ".\media" $driverIsoPath | Out-Null
     $step++
 
-    Set-Progress -CurrentOperation "Copying winpe-drivers.iso to $env:DISC_PATH" -StepNumber $step
-    $isoDestination = Join-Path $env:DISC_PATH "winpe-drivers.iso"
-    Start-BitsTransfer -Source $driverIsoPath -Destination $isoDestination
-    $step++
-
     Set-Progress -CurrentOperation "Done" -StepNumber $step
     Write-Host "All done!"
     Write-Host "To create or update a bootable USB drive,"
@@ -149,7 +144,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 6
+    $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
 
