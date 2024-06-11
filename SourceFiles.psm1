@@ -14,9 +14,14 @@ Param (
     $Directory,
     [Parameter()]
     [String]
-    $Pattern
+    $Pattern,
+    [Switch]
+    $Optional
 )
     $matchingFiles = Get-ChildItem -Path $Directory -Filter $Pattern
+    if ($Optional -and $matchingFiles.Count -eq 0) {
+        return $null
+    }
     if ($matchingFiles.Count -ne 1) {
         Write-Error "Searching $Directory for $Pattern found $($matchingFiles.Count) matches"
         $matchingFiles | ForEach-Object {
@@ -40,9 +45,19 @@ function Get-ServerIsoPath {
     return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2022_x64_*.iso"
 }
 
+function Get-ServicingStackUpdatePathFe {
+    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $directory -Pattern 'SSU*.cab' -Optional
+}
+
 function Get-CumulativeUpdatePathFe {
     $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems*'
     return Find-SourceFile -Directory $directory -Pattern '*.msu'
+}
+
+function Get-ServicingStackUpdatePathNi {
+    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 23H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $directory -Pattern 'SSU*.cab' -Optional
 }
 
 function Get-CumulativeUpdatePathNi {

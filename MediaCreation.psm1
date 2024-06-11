@@ -12,7 +12,9 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $winREmountTempDir = "C:\WinRE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
+    $servicingStackUpdateFe = $null
     $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
+    $servicingStackUpdateNi = $null
     $cumulativeUpdateNi = Join-Path $tempDir "NiCumulativeUpdate.msu"
     $step = 0
 
@@ -43,8 +45,28 @@ Param(
     $step++
 
     if ($null -eq $ReuseFePath) {
+        Set-Progress -CurrentOperation "Copying Fe servicing stack update" -StepNumber $step
+        $ssuFeSource = Get-ServicingStackUpdatePathFe
+        if ($ssuFeSource) {
+            $servicingStackUpdateFe = Join-Path $tempDir "FeSSU.cab"
+            Copy-Item $ssuFeSource $servicingStackUpdateFe
+        }
+    }
+    $step++
+
+    if ($null -eq $ReuseFePath) {
         Set-Progress -CurrentOperation "Copying Fe cumulative update" -StepNumber $step
         Copy-Item $(Get-CumulativeUpdatePathFe) $cumulativeUpdateFe
+    }
+    $step++
+
+    if ($null -eq $ReuseNiPath) {
+        Set-Progress -CurrentOperation "Copying Ni servicing stack update" -StepNumber $step
+        $ssuNiSource = Get-ServicingStackUpdatePathNi
+        if ($ssuNiSource) {
+            $servicingStackUpdateNi = Join-Path $tempDir "NiSSU.cab"
+            Copy-Item $ssuNiSource $servicingStackUpdateNi
+        }
     }
     $step++
 
@@ -69,7 +91,9 @@ Param(
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
             -WinREMountTempDir $winREMountTempDir `
+            -ServicingStackUpdateFe $servicingStackUpdateFe `
             -CumulativeUpdateFe $cumulativeUpdateFe `
+            -ServicingStackUpdateNi $servicingStackUpdateNi `
             -CumulativeUpdateNi $cumulativeUpdateNi `
             -Sku $_ `
             -ReuseFePath $ReuseFePath `
@@ -198,7 +222,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 14
+    $totalSteps = 16
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {

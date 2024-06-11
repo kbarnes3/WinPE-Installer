@@ -51,13 +51,25 @@ function Confirm-Environment {
         $SourceFiles += (Get-WinPEDriverDir)
     }
 
-    $SourceFiles | % {
+    $SourceFiles | ForEach-Object {
         if (-Not ($_))
         {
             throw "Path is null"
         }
         if (-Not (Test-Path $_)) {
             throw "Unable to find $_"
+        }
+    }
+
+    $OptionalSourceFiles =
+        (Get-ServicingStackUpdatePathFe),
+        (Get-ServicingStackUpdatePathNi)
+
+    $OptionalSourceFiles | ForEach-Object {
+        if ($_) {
+            if (-Not (Test-Path $_)) {
+                throw "Unable to find $_"
+            }
         }
     }
 
