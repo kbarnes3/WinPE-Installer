@@ -9,6 +9,8 @@ Param(
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
+    [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdate,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdate
 )
@@ -29,6 +31,12 @@ Param(
         Mount-WindowsImage @mountParams | Out-Null
         $step++
 
+        if ($ServicingStackUpdate) {
+            Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying servicing stack update" -StepNumber $step
+            Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $WinREMountTempDir | Out-Null
+        }
+
+        $step++
         if ($CumulativeUpdate) {
             Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying cumulative update" -StepNumber $step
             Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $WinREMountTempDir | Out-Null
@@ -77,7 +85,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 4
+    $totalSteps = 5
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {

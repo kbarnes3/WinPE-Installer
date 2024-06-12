@@ -6,8 +6,12 @@ param(
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
+    [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdateFe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateFe,
+    [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdateNi,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateNi,
     [Parameter(Mandatory=$true)]
@@ -23,6 +27,7 @@ param(
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $codebase = "Ni"
+            $servicingStackUpdate = $ServicingStackUpdateNi
             $cumulativeUpdate = $CumulativeUpdateNi
             $reuseSourcePath = $ReuseNiPath
             $images =
@@ -43,6 +48,7 @@ param(
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $codebase = "Ni"
+            $servicingStackUpdate = $ServicingStackUpdateNi
             $cumulativeUpdate = $CumulativeUpdateNi
             $reuseSourcePath = $ReuseNiPath
             $images =
@@ -57,6 +63,7 @@ param(
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
             $codebase = "Fe"
+            $servicingStackUpdate = $ServicingStackUpdateFe
             $cumulativeUpdate = $CumulativeUpdateFe
             $reuseSourcePath = $ReuseFePath
             $images =
@@ -100,7 +107,7 @@ param(
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             if ($cumulativeUpdate) {
-                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -CumulativeUpdate $cumulativeUpdate
+                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -ServicingStackUpdate $servicingStackUpdate -CumulativeUpdate $cumulativeUpdate
             }
         }
         $step++
@@ -155,6 +162,8 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
     [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdate,
+    [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdate
 )
     $step = 0
@@ -177,21 +186,24 @@ Param(
     Mount-WindowsImage @mountParams | Out-Null
     $step++
 
-    if ($CumulativeUpdate) {
-        Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
-        Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir | Out-Null
+    if ($ServicingStackUpdate) {
+        Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
+        Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $MountTempDir | Out-Null
     }
     $step++
 
-    if ($CumulativeUpdate) {
-        Set-UpdateProgress -CurrentOperation "Applying update to WinRE.wim" -StepNumber $step
-        Update-WinREImage `
-            -WinpeWorkingDir $WinpeWorkingDir `
-            -Codebase $Codebase `
-            -MountTempDir $MountTempDir `
-            -WinREMountTempDir $WinREMountTempDir `
-            -CumulativeUpdate $CumulativeUpdate
-    }
+    Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
+    Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir | Out-Null
+    $step++
+
+    Set-UpdateProgress -CurrentOperation "Applying update to WinRE.wim" -StepNumber $step
+    Update-WinREImage `
+        -WinpeWorkingDir $WinpeWorkingDir `
+        -Codebase $Codebase `
+        -MountTempDir $MountTempDir `
+        -WinREMountTempDir $WinREMountTempDir `
+        -ServicingStackUpdate $ServicingStackUpdate `
+        -CumulativeUpdate $CumulativeUpdate
     $step++
 
     Set-UpdateProgress -CurrentOperation "Cleaning up image" -StepNumber $step
@@ -297,7 +309,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 5
+    $totalSteps = 6
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
