@@ -202,6 +202,7 @@ Param(
         -Codebase $Codebase `
         -MountTempDir $MountTempDir `
         -WinREMountTempDir $WinREMountTempDir `
+        -ServicingStackUpdate $ServicingStackUpdate `
         -CumulativeUpdate $CumulativeUpdate
     $step++
 
