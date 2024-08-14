@@ -26,7 +26,7 @@ To copy the resulting files to a new USB key (128 GB minimum), run the following
 * `SELECT DISK n` where `n` is the disk number of your USB key. Make sure to get this right!
 * `CONVERT MBR` This command may fail with "The specified drive is not convertible". This is fine.
 * `CLEAN`
-* `CREATE PARTITION PRIMARY SIZE=12288`
+* `CREATE PARTITION PRIMARY SIZE=13312`
 * `FORMAT FS=FAT32 LABEL="WINPE" QUICK`
 * `ACTIVE`
 * `ASSIGN`
