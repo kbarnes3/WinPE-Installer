@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'FeOnly', 'NiOnly')]
+    [ValidateSet('All', 'FeOnly', 'GeOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -14,8 +14,8 @@ Param(
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $servicingStackUpdateFe = $null
     $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
-    $servicingStackUpdateNi = $null
-    $cumulativeUpdateNi = Join-Path $tempDir "NiCumulativeUpdate.msu"
+    $servicingStackUpdateGe = $null
+    $cumulativeUpdateGe = Join-Path $tempDir "GeCumulativeUpdate.msu"
     $step = 0
 
     Suspend-Suspending
@@ -24,15 +24,15 @@ Param(
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
             $ReuseFePath = $ReuseSourcePath
-            $ReuseNiPath = $ReuseSourcePath
+            $ReuseGePath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'FeOnly') {
             Write-Host "Reusing Fe items from $ReuseSourcePath"
             $ReuseFePath = $ReuseSourcePath
         }
-        elseif ($ReuseSourceSet -eq 'NiOnly') {
-            Write-Host "Reusing Ni items from $ReuseSourcePath"
-            $ReuseNiPath = $ReuseSourcePath
+        elseif ($ReuseSourceSet -eq 'GeOnly') {
+            Write-Host "Reusing Ge items from $ReuseSourcePath"
+            $ReuseGePath = $ReuseSourcePath
         }
     }
 
@@ -60,19 +60,19 @@ Param(
     }
     $step++
 
-    if ($null -eq $ReuseNiPath) {
-        Set-Progress -CurrentOperation "Copying Ni servicing stack update" -StepNumber $step
-        $ssuNiSource = Get-ServicingStackUpdatePathNi
-        if ($ssuNiSource) {
-            $servicingStackUpdateNi = Join-Path $tempDir "NiSSU.cab"
-            Copy-Item $ssuNiSource $servicingStackUpdateNi
+    if ($null -eq $ReuseGePath) {
+        Set-Progress -CurrentOperation "Copying Ge servicing stack update" -StepNumber $step
+        $ssuGeSource = Get-ServicingStackUpdatePathGe
+        if ($ssuGeSource) {
+            $servicingStackUpdateGe = Join-Path $tempDir "GeSSU.cab"
+            Copy-Item $ssuGeSource $servicingStackUpdateGe
         }
     }
     $step++
 
-    if ($null -eq $ReuseNiPath) {
-        Set-Progress -CurrentOperation "Copying Ni cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePathNi) $cumulativeUpdateNi
+    if ($null -eq $ReuseGePath) {
+        Set-Progress -CurrentOperation "Copying Ge cumulative update" -StepNumber $step
+        Copy-Item $(Get-CumulativeUpdatePathGe) $cumulativeUpdateGe
     }
     $step++
 
@@ -93,11 +93,11 @@ Param(
             -WinREMountTempDir $winREMountTempDir `
             -ServicingStackUpdateFe $servicingStackUpdateFe `
             -CumulativeUpdateFe $cumulativeUpdateFe `
-            -ServicingStackUpdateNi $servicingStackUpdateNi `
-            -CumulativeUpdateNi $cumulativeUpdateNi `
+            -ServicingStackUpdateGe $servicingStackUpdateGe `
+            -CumulativeUpdateGe $cumulativeUpdateGe `
             -Sku $_ `
             -ReuseFePath $ReuseFePath `
-            -ReuseNiPath $ReuseNiPath
+            -ReuseGePath $ReuseGePath
         $step++
     }
 
@@ -105,8 +105,8 @@ Param(
     Split-Images -ImageName "Fe" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseFePath
     $step++
 
-    Set-Progress -CurrentOperation "Splitting Ni.wim" -StepNumber $step
-    Split-Images -ImageName "Ni" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseNiPath
+    Set-Progress -CurrentOperation "Splitting Ge.wim" -StepNumber $step
+    Split-Images -ImageName "Ge" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseGePath
     $step++
 
     Set-Progress -CurrentOperation "Removing temp files" -StepNumber $step
