@@ -11,25 +11,25 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateFe,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateNi,
+    [string]$ServicingStackUpdateGe,
     [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateNi,
+    [string]$CumulativeUpdateGe,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
     [string]$ReuseFePath,
     [Parameter(Mandatory=$false)]
-    [string]$ReuseNiPath
+    [string]$ReuseGePath
 )
     switch ($Sku) {
         "Consumer" {
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
-            $codebase = "Ni"
-            $servicingStackUpdate = $ServicingStackUpdateNi
-            $cumulativeUpdate = $CumulativeUpdateNi
-            $reuseSourcePath = $ReuseNiPath
+            $codebase = "Ge"
+            $servicingStackUpdate = $ServicingStackUpdateGe
+            $cumulativeUpdate = $CumulativeUpdateGe
+            $reuseSourcePath = $ReuseGePath
             $images =
             @{
                 "SourceName" = "Windows 11 Home"; 
@@ -47,10 +47,10 @@ param(
         "Business" {
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
-            $codebase = "Ni"
-            $servicingStackUpdate = $ServicingStackUpdateNi
-            $cumulativeUpdate = $CumulativeUpdateNi
-            $reuseSourcePath = $ReuseNiPath
+            $codebase = "Ge"
+            $servicingStackUpdate = $ServicingStackUpdateGe
+            $cumulativeUpdate = $CumulativeUpdateGe
+            $reuseSourcePath = $ReuseGePath
             $images =
             @{
                 "SourceName" = "Windows 11 Enterprise"; 

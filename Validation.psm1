@@ -17,7 +17,7 @@ function Confirm-Environment {
         (Get-BusinessIsoPath),
         (Get-ServerIsoPath),
         (Get-CumulativeUpdatePathFe),
-        (Get-CumulativeUpdatePathNi),
+        (Get-CumulativeUpdatePathGe),
         (Get-IntelNicDrivers),
         (Get-MarvellNicDrivers),
         (Get-SurfaceBook2Drivers),
@@ -63,7 +63,7 @@ function Confirm-Environment {
 
     $OptionalSourceFiles =
         (Get-ServicingStackUpdatePathFe),
-        (Get-ServicingStackUpdatePathNi)
+        (Get-ServicingStackUpdatePathGe)
 
     $OptionalSourceFiles | ForEach-Object {
         if ($_) {
