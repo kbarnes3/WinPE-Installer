@@ -13,9 +13,9 @@ Param(
     $winREmountTempDir = "C:\WinRE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $servicingStackUpdateFe = $null
-    $cumulativeUpdateFe = Join-Path $tempDir "FeCumulativeUpdate.msu"
+    $cumulativeUpdateDirFe = Join-Path $tempDir "FeCumulativeUpdate"
     $servicingStackUpdateGe = $null
-    $cumulativeUpdateGe = Join-Path $tempDir "GeCumulativeUpdate.msu"
+    $cumulativeUpdateDirGe = Join-Path $tempDir "GeCumulativeUpdate"
     $step = 0
 
     Suspend-Suspending
@@ -56,7 +56,9 @@ Param(
 
     if ($null -eq $ReuseFePath) {
         Set-Progress -CurrentOperation "Copying Fe cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePathFe) $cumulativeUpdateFe
+        New-Item $cumulativeUpdateDirFe -ItemType Directory | Out-Null
+        $updateFiles = Join-Path $(Get-CumulativeUpdatePathFe) "*.msu"
+        Copy-Item $updateFiles $cumulativeUpdateDirFe
     }
     $step++
 
@@ -72,7 +74,9 @@ Param(
 
     if ($null -eq $ReuseGePath) {
         Set-Progress -CurrentOperation "Copying Ge cumulative update" -StepNumber $step
-        Copy-Item $(Get-CumulativeUpdatePathGe) $cumulativeUpdateGe
+        New-Item $cumulativeUpdateDirGe -ItemType Directory | Out-Null
+        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGe) "*.msu"
+        Copy-Item $updateFiles $cumulativeUpdateDirGe
     }
     $step++
 
@@ -92,9 +96,9 @@ Param(
             -MountTempDir $mountTempDir `
             -WinREMountTempDir $winREMountTempDir `
             -ServicingStackUpdateFe $servicingStackUpdateFe `
-            -CumulativeUpdateFe $cumulativeUpdateFe `
+            -CumulativeUpdateDirFe $cumulativeUpdateDirFe `
             -ServicingStackUpdateGe $servicingStackUpdateGe `
-            -CumulativeUpdateGe $cumulativeUpdateGe `
+            -CumulativeUpdateDirGe $cumulativeUpdateDirGe `
             -Sku $_ `
             -ReuseFePath $ReuseFePath `
             -ReuseGePath $ReuseGePath

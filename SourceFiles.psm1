@@ -51,8 +51,7 @@ function Get-ServicingStackUpdatePathFe {
 }
 
 function Get-CumulativeUpdatePathFe {
-    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems*'
-    return Find-SourceFile -Directory $directory -Pattern '*.msu'
+    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems*'
 }
 
 function Get-ServicingStackUpdatePathGe {
@@ -61,8 +60,7 @@ function Get-ServicingStackUpdatePathGe {
 }
 
 function Get-CumulativeUpdatePathGe {
-    $directory = Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 24H2 for x64-based Systems*'
-    return Find-SourceFile -Directory $directory -Pattern '*.msu'
+    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 24H2 for x64-based Systems*'
 }
 
 function Get-IntelNicDrivers {

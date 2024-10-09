@@ -12,7 +12,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdate,
     [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdate
+    [string]$CumulativeUpdateDir
 )
     $winreTempPath = Get-WinReTempPath -WinpeWorkingDir $WinpeWorkingDir -Codebase $Codebase
     $winreFinalPath = Join-Path $MountTempDir "Windows\System32\Recovery\winre.wim"
@@ -37,9 +37,12 @@ Param(
         }
 
         $step++
-        if ($CumulativeUpdate) {
+        if ($CumulativeUpdateDir) {
             Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying cumulative update" -StepNumber $step
-            Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $WinREMountTempDir | Out-Null
+            Get-ChildItem $CumulativeUpdateDir | ForEach-Object {
+                $cumulativeUpdate = $_.FullName
+                Add-WindowsPackage -PackagePath $cumulativeUpdate -Path $WinREMountTempDir | Out-Null
+            }
         }
         $step++
 
