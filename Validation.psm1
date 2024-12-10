@@ -61,18 +61,6 @@ function Confirm-Environment {
         }
     }
 
-    $OptionalSourceFiles =
-        (Get-ServicingStackUpdatePathFe),
-        (Get-ServicingStackUpdatePathGe)
-
-    $OptionalSourceFiles | ForEach-Object {
-        if ($_) {
-            if (-Not (Test-Path $_)) {
-                throw "Unable to find $_"
-            }
-        }
-    }
-
     return $true
 }
 Export-ModuleMember Confirm-Environment

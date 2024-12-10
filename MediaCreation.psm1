@@ -12,9 +12,9 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $winREmountTempDir = "C:\WinRE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    $servicingStackUpdateFe = $null
+    $servicingStackUpdateDirFe = Join-Path $tempDir "FeSSUpdate"
     $cumulativeUpdateDirFe = Join-Path $tempDir "FeCumulativeUpdate"
-    $servicingStackUpdateGe = $null
+    $servicingStackUpdateDirGe = Join-Path $tempDir "GeSSUpdate"
     $cumulativeUpdateDirGe = Join-Path $tempDir "GeCumulativeUpdate"
     $step = 0
 
@@ -46,11 +46,9 @@ Param(
 
     if ($null -eq $ReuseFePath) {
         Set-Progress -CurrentOperation "Copying Fe servicing stack update" -StepNumber $step
-        $ssuFeSource = Get-ServicingStackUpdatePathFe
-        if ($ssuFeSource) {
-            $servicingStackUpdateFe = Join-Path $tempDir "FeSSU.cab"
-            Copy-Item $ssuFeSource $servicingStackUpdateFe
-        }
+        New-Item $servicingStackUpdateDirFe -ItemType Directory | Out-Null
+        $updateFiles = Join-Path $(Get-CumulativeUpdatePathFe) "*.cab"
+        Copy-Item $updateFiles $servicingStackUpdateDirFe
     }
     $step++
 
@@ -64,11 +62,9 @@ Param(
 
     if ($null -eq $ReuseGePath) {
         Set-Progress -CurrentOperation "Copying Ge servicing stack update" -StepNumber $step
-        $ssuGeSource = Get-ServicingStackUpdatePathGe
-        if ($ssuGeSource) {
-            $servicingStackUpdateGe = Join-Path $tempDir "GeSSU.cab"
-            Copy-Item $ssuGeSource $servicingStackUpdateGe
-        }
+        New-Item $servicingStackUpdateDirGe -ItemType Directory | Out-Null
+        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGe) "*.cab"
+        Copy-Item $updateFiles $servicingStackUpdateDirGe
     }
     $step++
 
@@ -95,9 +91,9 @@ Param(
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
             -WinREMountTempDir $winREMountTempDir `
-            -ServicingStackUpdateFe $servicingStackUpdateFe `
+            -ServicingStackUpdateDirFe $servicingStackUpdateDirFe `
             -CumulativeUpdateDirFe $cumulativeUpdateDirFe `
-            -ServicingStackUpdateGe $servicingStackUpdateGe `
+            -ServicingStackUpdateDirGe $servicingStackUpdateDirGe `
             -CumulativeUpdateDirGe $cumulativeUpdateDirGe `
             -Sku $_ `
             -ReuseFePath $ReuseFePath `
