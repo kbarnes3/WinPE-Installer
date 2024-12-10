@@ -9,8 +9,8 @@ Param(
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
-    [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdate,
+    [Parameter(Mandatory=$true)]
+    [string]$ServicingStackUpdateDir,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDir
 )
@@ -31,18 +31,17 @@ Param(
         Mount-WindowsImage @mountParams | Out-Null
         $step++
 
-        if ($ServicingStackUpdate) {
-            Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying servicing stack update" -StepNumber $step
-            Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $WinREMountTempDir | Out-Null
+        Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying servicing stack update" -StepNumber $step
+        Get-ChildItem $ServicingStackUpdateDir | ForEach-Object {
+            $servicingStackUpdate = $_.FullName
+            Add-WindowsPackage -PackagePath $servicingStackUpdate -Path $WinREMountTempDir | Out-Null
         }
-
         $step++
-        if ($CumulativeUpdateDir) {
-            Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying cumulative update" -StepNumber $step
-            Get-ChildItem $CumulativeUpdateDir | ForEach-Object {
-                $cumulativeUpdate = $_.FullName
-                Add-WindowsPackage -PackagePath $cumulativeUpdate -Path $WinREMountTempDir | Out-Null
-            }
+
+        Set-WinREUpdateProgress -Codebase $Codebase -CurrentOperation "Applying cumulative update" -StepNumber $step
+        Get-ChildItem $CumulativeUpdateDir | ForEach-Object {
+            $cumulativeUpdate = $_.FullName
+            Add-WindowsPackage -PackagePath $cumulativeUpdate -Path $WinREMountTempDir | Out-Null
         }
         $step++
 

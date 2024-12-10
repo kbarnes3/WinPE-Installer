@@ -7,11 +7,11 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateFe,
+    [string]$ServicingStackUpdateDirFe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDirFe,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateGe,
+    [string]$ServicingStackUpdateDirGe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDirGe,
     [Parameter(Mandatory=$true)]
@@ -27,7 +27,7 @@ param(
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $codebase = "Ge"
-            $servicingStackUpdate = $ServicingStackUpdateGe
+            $servicingStackUpdateDir = $ServicingStackUpdateDirGe
             $cumulativeUpdateDir = $CumulativeUpdateDirGe
             $reuseSourcePath = $ReuseGePath
             $images =
@@ -48,7 +48,7 @@ param(
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $codebase = "Ge"
-            $servicingStackUpdate = $ServicingStackUpdateGe
+            $servicingStackUpdateDir = $ServicingStackUpdateDirGe
             $cumulativeUpdateDir = $CumulativeUpdateDirGe
             $reuseSourcePath = $ReuseGePath
             $images =
@@ -63,7 +63,7 @@ param(
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
             $codebase = "Fe"
-            $servicingStackUpdate = $ServicingStackUpdateFe
+            $servicingStackUpdateDir = $ServicingStackUpdateDirFe
             $cumulativeUpdateDir = $CumulativeUpdateDirFe
             $reuseSourcePath = $ReuseFePath
             $images =
@@ -107,7 +107,7 @@ param(
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             if ($cumulativeUpdateDir) {
-                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -ServicingStackUpdate $servicingStackUpdate -CumulativeUpdateDir $cumulativeUpdateDir
+                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -ServicingStackUpdateDir $servicingStackUpdateDir -CumulativeUpdateDir $cumulativeUpdateDir
             }
         }
         $step++
@@ -161,8 +161,8 @@ Param(
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
-    [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdate,
+    [Parameter(Mandatory=$true)]
+    [string]$ServicingStackUpdateDir,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDir
 )
@@ -186,16 +186,17 @@ Param(
     Mount-WindowsImage @mountParams | Out-Null
     $step++
 
-    if ($ServicingStackUpdate) {
-        Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
-        Add-WindowsPackage -PackagePath $ServicingStackUpdate -Path $MountTempDir | Out-Null
+    Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
+    Get-ChildItem $ServicingStackUpdateDir | ForEach-Object {
+        $servicingStackUpdate = $_.FullName
+        Add-WindowsPackage -PackagePath $servicingStackUpdate -Path $MountTempDir | Out-Null
     }
     $step++
 
     Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
     Get-ChildItem $CumulativeUpdateDir | ForEach-Object {
         $cumulativeUpdate = $_.FullName
-        Add-WindowsPackage -PackagePath $CumulativeUpdate -Path $MountTempDir | Out-Null
+        Add-WindowsPackage -PackagePath $cumulativeUpdate -Path $MountTempDir | Out-Null
     }
     $step++
 
@@ -205,7 +206,7 @@ Param(
         -Codebase $Codebase `
         -MountTempDir $MountTempDir `
         -WinREMountTempDir $WinREMountTempDir `
-        -ServicingStackUpdate $ServicingStackUpdate `
+        -ServicingStackUpdateDir $ServicingStackUpdateDir `
         -CumulativeUpdateDir $CumulativeUpdateDir
     $step++
 
