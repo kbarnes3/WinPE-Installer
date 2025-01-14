@@ -42,11 +42,7 @@ function Get-BusinessIsoPath {
 }
 
 function Get-ServerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2022_x64_*.iso"
-}
-
-function Get-CumulativeUpdatePathFe {
-    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system, version 22H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2025_x64_*.iso"
 }
 
 function Get-CumulativeUpdatePathGe {
