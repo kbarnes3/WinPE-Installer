@@ -44,7 +44,6 @@ FunctionsToExport = @(
     "Get-ConsumerIsoPath",
     "Get-BusinessIsoPath",
     "Get-ServerIsoPath",
-    "Get-CumulativeUpdatePathFe",
     "Get-CumulativeUpdatePathGe",
     "Get-IntelNicDrivers",
     "Get-MarvellNicDrivers",

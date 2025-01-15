@@ -7,18 +7,12 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$WinREMountTempDir,
     [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateDirFe,
-    [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateDirFe,
-    [Parameter(Mandatory=$false)]
     [string]$ServicingStackUpdateDirGe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDirGe,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
-    [Parameter(Mandatory=$false)]
-    [string]$ReuseFePath,
     [Parameter(Mandatory=$false)]
     [string]$ReuseGePath
 )
@@ -62,32 +56,32 @@ param(
         "Server" {
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
-            $codebase = "Fe"
-            $servicingStackUpdateDir = $ServicingStackUpdateDirFe
-            $cumulativeUpdateDir = $CumulativeUpdateDirFe
-            $reuseSourcePath = $ReuseFePath
+            $codebase = "Ge"
+            $servicingStackUpdateDir = $ServicingStackUpdateDirGe
+            $cumulativeUpdateDir = $CumulativeUpdateDirGe
+            $reuseSourcePath = $ReuseGePath
             $images =
             @{
                 "SourceIndex" = 1; 
-                "DestinationName" = "Windows Server 2022 Standard";
+                "DestinationName" = "Windows Server 2025 Standard";
                 "ShortName" = "Server-Standard-Core"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 2; 
-                "DestinationName" = "Windows Server 2022 Standard (Desktop Experience)";
+                "DestinationName" = "Windows Server 2025 Standard (Desktop Experience)";
                 "ShortName" = "Server-Standard-Desktop"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 3; 
-                "DestinationName" = "Windows Server 2022 Datacenter";
+                "DestinationName" = "Windows Server 2025 Datacenter";
                 "ShortName" = "Server-Datacenter-Core"
                 "CompactEnabled" = $false
             },
             @{
                 "SourceIndex" = 4; 
-                "DestinationName" = "Windows Server 2022 Datacenter (Desktop Experience)";
+                "DestinationName" = "Windows Server 2025 Datacenter (Desktop Experience)";
                 "ShortName" = "Server-Datacenter-Desktop"
                 "CompactEnabled" = $false
             }

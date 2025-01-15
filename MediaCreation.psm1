@@ -4,7 +4,7 @@ Param(
     [Parameter(Mandatory=$false)]
     [string]$ReuseSourcePath,
     [Parameter(Mandatory=$false)]
-    [ValidateSet('All', 'FeOnly', 'GeOnly')]
+    [ValidateSet('All', 'GeOnly')]
     [string]$ReuseSourceSet,
     [switch]$LowMemory
 )
@@ -12,8 +12,6 @@ Param(
     $mountTempDir = "C:\WinPE_mount"
     $winREmountTempDir = "C:\WinRE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    $servicingStackUpdateDirFe = Join-Path $tempDir "FeSSUpdate"
-    $cumulativeUpdateDirFe = Join-Path $tempDir "FeCumulativeUpdate"
     $servicingStackUpdateDirGe = Join-Path $tempDir "GeSSUpdate"
     $cumulativeUpdateDirGe = Join-Path $tempDir "GeCumulativeUpdate"
     $step = 0
@@ -23,12 +21,7 @@ Param(
     if ($ReuseSourcePath) {
         if (($ReuseSourceSet -eq 'All') -Or (-Not $ReuseSourceSet)) {
             Write-Host "Reusing large items from $ReuseSourcePath"
-            $ReuseFePath = $ReuseSourcePath
             $ReuseGePath = $ReuseSourcePath
-        }
-        elseif ($ReuseSourceSet -eq 'FeOnly') {
-            Write-Host "Reusing Fe items from $ReuseSourcePath"
-            $ReuseFePath = $ReuseSourcePath
         }
         elseif ($ReuseSourceSet -eq 'GeOnly') {
             Write-Host "Reusing Ge items from $ReuseSourcePath"
@@ -42,22 +35,6 @@ Param(
 
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
     Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -WinREMountTempDir $winREmountTempDir -TempDir $tempDir
-    $step++
-
-    if ($null -eq $ReuseFePath) {
-        Set-Progress -CurrentOperation "Copying Fe servicing stack update" -StepNumber $step
-        New-Item $servicingStackUpdateDirFe -ItemType Directory | Out-Null
-        $updateFiles = Join-Path $(Get-CumulativeUpdatePathFe) "*.cab"
-        Copy-Item $updateFiles $servicingStackUpdateDirFe
-    }
-    $step++
-
-    if ($null -eq $ReuseFePath) {
-        Set-Progress -CurrentOperation "Copying Fe cumulative update" -StepNumber $step
-        New-Item $cumulativeUpdateDirFe -ItemType Directory | Out-Null
-        $updateFiles = Join-Path $(Get-CumulativeUpdatePathFe) "*.msu"
-        Copy-Item $updateFiles $cumulativeUpdateDirFe
-    }
     $step++
 
     if ($null -eq $ReuseGePath) {
@@ -91,19 +68,12 @@ Param(
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
             -WinREMountTempDir $winREMountTempDir `
-            -ServicingStackUpdateDirFe $servicingStackUpdateDirFe `
-            -CumulativeUpdateDirFe $cumulativeUpdateDirFe `
             -ServicingStackUpdateDirGe $servicingStackUpdateDirGe `
             -CumulativeUpdateDirGe $cumulativeUpdateDirGe `
             -Sku $_ `
-            -ReuseFePath $ReuseFePath `
             -ReuseGePath $ReuseGePath
         $step++
     }
-
-    Set-Progress -CurrentOperation "Splitting Fe.wim" -StepNumber $step
-    Split-Images -ImageName "Fe" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseFePath
-    $step++
 
     Set-Progress -CurrentOperation "Splitting Ge.wim" -StepNumber $step
     Split-Images -ImageName "Ge" -WinpeWorkingDir $winpeWorkingDir -ReuseSourcePath $ReuseGePath
@@ -222,7 +192,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 16
+    $totalSteps = 13
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
