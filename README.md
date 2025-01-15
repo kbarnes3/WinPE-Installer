@@ -9,7 +9,7 @@ It requires many files to create the bootable disc:
 * [Windows 11 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on.
 * Windows .isos, available from MSDN with a subscription.
 * The latest Cumulative Updates for Windows 11, available from [here](https://support.microsoft.com/en-us/topic/windows-11-version-24h2-update-history-0929c747-1815-4543-8461-0160d16f15e5).
-* The latest Cumulative Updates for Windows Server 2022, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2022-update-history-e1caa597-00c5-4ab9-9f3e-8212fe80b2ee).
+* The latest Cumulative Updates for Windows Server 2025, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2025-update-history-10f58da7-e57b-4a9d-9c16-9f1dcd72d7d7). These are the same as the updates for Windows 11, 24H2.
 * The required Servicing Stack Updates for Windows, as noted on the individual cumulative update pages
 * Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined).
 * Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226) with `Wired_driver_29.0_x64.exe` extracted.
