@@ -50,7 +50,7 @@ function Get-CumulativeUpdatePathGe {
 }
 
 function Get-IntelNicDrivers {
-    return Find-SourceFile -Directory $DriversPath -Pattern "Wired_driver_*_x64.exe"
+    return Find-SourceFile -Directory $DriversPath -Pattern "Wired_driver_*_x64.zip"
 }
 
 function Get-MarvellNicDrivers {
