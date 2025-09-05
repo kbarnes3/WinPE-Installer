@@ -64,6 +64,7 @@ Param(
     )
 
     $devices =
+        @{"friendlyName" = "Foxconn NICs"; "source" = Get-FoxconnNicDrivers},
         @{"friendlyName" = "Intel NICs"; "source" = Get-IntelNicDrivers},
         @{"friendlyName" = "Marvell NICs"; "source" = Get-MarvellNicDrivers},
         @{"friendlyName" = "Surface Book 2"; "source" = Get-SurfaceBook2Drivers},

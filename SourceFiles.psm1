@@ -49,6 +49,10 @@ function Get-CumulativeUpdatePathGe {
     return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 24H2 for x64-based Systems*'
 }
 
+function Get-FoxconnNicDrivers {
+    return "$env:DISC_PATH\Drivers\Foxconn_WiFI"
+}
+
 function Get-IntelNicDrivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "Wired_driver_*_x64.zip"
 }
@@ -106,7 +110,7 @@ function Get-SurfaceLaptop6ForBusinessDrivers {
 }
 
 function Get-SurfaceLaptopForBusiness7Drivers {
-    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptopforBusiness7thEditionwithIntel_*.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop7_Intel_*.msi"
 }
 
 function Get-SurfaceLaptopGoDrivers {
@@ -154,7 +158,7 @@ function Get-SurfacePro10ForBusinessDrivers {
 }
 
 function Get-SurfaceProForBusiness11Drivers {
-    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceProforBusiness11thEditionwithIntel_*.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro11_Intel_*.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
