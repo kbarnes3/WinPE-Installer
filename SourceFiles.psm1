@@ -110,7 +110,7 @@ function Get-SurfaceLaptop6ForBusinessDrivers {
 }
 
 function Get-SurfaceLaptopForBusiness7Drivers {
-    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop7_Intel_*.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceLaptop7withIntel_*.msi"
 }
 
 function Get-SurfaceLaptopGoDrivers {
