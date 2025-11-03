@@ -152,7 +152,10 @@ param(
     [string]$MountTempDir
 )
     $driverDirs = @(Get-Item $(Get-IntelRapidStorageDrivers))
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *W11* -Directory) # Intel NICs
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *W11* -Directory) # Intel Wired NICs
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *AMDRZ616* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *AMDRZ717* -Directory)
+    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *IntelWIFI* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *MarvellNICs* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *GPIO* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SPI* -Directory)
