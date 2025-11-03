@@ -19,7 +19,6 @@ function Confirm-Environment {
         (Get-CumulativeUpdatePathGe),
         (Get-AmdRZ616WifiDrivers),
         (Get-AmdRZ717WifiDrivers),
-        (Get-FoxconnNicDrivers),
         (Get-IntelNicDrivers),
         (Get-IntelWifiDrivers),
         (Get-MarvellNicDrivers),

@@ -12,7 +12,6 @@ It requires many files to create the bootable disc:
 * The latest Cumulative Updates for Windows Server 2025, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2025-update-history-10f58da7-e57b-4a9d-9c16-9f1dcd72d7d7). These are the same as the updates for Windows 11, 24H2.
 * The required Servicing Stack Updates for Windows, as noted on the individual cumulative update pages
 * Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined).
-* Foxconn NIC drivers from [here](https://knowledgebase.frame.work/en_us/framework-laptop-13-bios-and-driver-releases-amd-ryzen-ai-300-series-r1wqKAs1e). From the .exe, extract the appropriate folder to `"$env:DISC_PATH\Drivers\Foxconn_WiFI"`.
 * Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226).
 * Marvell NIC drivers from [here](https://www.marvell.com/support/downloads.html). Search for "Marvell Public Drivers", "Windows", "AQC107".
 From the .zip, extract the `20221028_Marvell_AQtion_x64_Win_v3.1.7\Win11\` folder to `$env:DISC_PATH\Drivers\MarvellACQ`.

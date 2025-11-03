@@ -66,7 +66,6 @@ Param(
     $devices =
         @{"friendlyName" = "AMD RZ616"; "source" = Get-AmdRZ616WifiDrivers},
         @{"friendlyName" = "AMD RZ717"; "source" = Get-AmdRZ717WifiDrivers},
-        @{"friendlyName" = "Foxconn NICs"; "source" = Get-FoxconnNicDrivers},
         @{"friendlyName" = "Intel WIFI"; "source" = Get-IntelWifiDrivers},
         @{"friendlyName" = "Intel Wired NICs"; "source" = Get-IntelNicDrivers},
         @{"friendlyName" = "Marvell NICs"; "source" = Get-MarvellNicDrivers},
