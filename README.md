@@ -16,6 +16,7 @@ It requires many files to create the bootable disc:
 * Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226).
 * Marvell NIC drivers from [here](https://www.marvell.com/support/downloads.html). Search for "Marvell Public Drivers", "Windows", "AQC107".
 From the .zip, extract the `20221028_Marvell_AQtion_x64_Win_v3.1.7\Win11\` folder to `$env:DISC_PATH\Drivers\MarvellACQ`.
+* Framework WIFI drivers from [here](https://knowledgebase.frame.work/en_us/framework-laptop-13-bios-and-driver-releases-amd-ryzen-ai-300-series-r1wqKAs1e). Download the "Wi-Fi driver for use during Windows installation" link. From the .zip, extract the contents to `$env:DISC_PATH\Drivers\Framework_W11_24H2_OOBE_Wifi_Driver_Package`
 * Intel Rapid Storage Drivers should be downloaded from [here](https://downloadcenter.intel.com/product/55005/Intel-Rapid-Storage-Technology-Intel-RST-) and extracted to `$env:DISC_PATH\Drivers\IRST64` for better compatibility in WinPE.
 * [7-Zip](http://www.7-zip.org/) needs to be installed.
 

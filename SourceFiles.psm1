@@ -61,6 +61,18 @@ function Get-MarvellNicDrivers {
     return "$env:DISC_PATH\Drivers\MarvellACQ"
 }
 
+function Get-IntelWifiDrivers {
+    return "$env:DISC_PATH\Drivers\Framework_W11_24H2_OOBE_Wifi_Driver_Package\Intel_PROSet_WiFi_23.60.1.2"
+}
+
+function Get-AmdRZ616WifiDrivers {
+    return "$env:DISC_PATH\Drivers\Framework_W11_24H2_OOBE_Wifi_Driver_Package\RZ616_Wifi_3.4.0.1046"
+}
+
+function Get-AmdRZ717WifiDrivers {
+    return "$env:DISC_PATH\Drivers\Framework_W11_24H2_OOBE_Wifi_Driver_Package\RZ717_WiFI_5.5.0.3366"
+}
+
 function Get-SurfaceBook2Drivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "SurfaceBook2_*.msi"
 }
