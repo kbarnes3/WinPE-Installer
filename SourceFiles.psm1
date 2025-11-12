@@ -34,11 +34,11 @@ Param (
 }
 
 function Get-ConsumerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_24h2_updated_april_2025_x64_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_25h2_x64_dvd_*.iso"
 }
 
 function Get-BusinessIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_24h2_updated_april_2025_x64_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_25h2_x64_dvd_*.iso"
 }
 
 function Get-ServerIsoPath {
@@ -46,7 +46,7 @@ function Get-ServerIsoPath {
 }
 
 function Get-CumulativeUpdatePathGe {
-    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11 Version 24H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11, version 25H2 for x64-based Systems*'
 }
 
 function Get-IntelNicDrivers {
