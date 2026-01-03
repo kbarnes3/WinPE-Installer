@@ -166,7 +166,7 @@ function Get-SurfacePro10ForBusinessDrivers {
 }
 
 function Get-SurfaceProForBusiness11Drivers {
-    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro11_Intel_*.msi"
+    return Find-SourceFile -Directory $DriversPath -Pattern "SurfacePro11withIntel_*.msi"
 }
 
 function Get-SurfaceStudio2Drivers {
