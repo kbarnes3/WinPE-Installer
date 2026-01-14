@@ -49,6 +49,10 @@ function Get-CumulativeUpdatePathGe {
     return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11, version 25H2 for x64-based Systems*'
 }
 
+function Get-CumulativeUpdatePathGeServer {
+    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system version 24H2 for x64-based Systems*'
+}
+
 function Get-IntelNicDrivers {
     return Find-SourceFile -Directory $DriversPath -Pattern "Wired_driver_*_x64.zip"
 }

@@ -45,6 +45,7 @@ FunctionsToExport = @(
     "Get-BusinessIsoPath",
     "Get-ServerIsoPath",
     "Get-CumulativeUpdatePathGe",
+    "Get-CumulativeUpdatePathGeServer",
     "Get-AmdRZ616WifiDrivers",
     "Get-AmdRZ717WifiDrivers",
     "Get-IntelNicDrivers",

@@ -5,6 +5,7 @@ Param(
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
     [string]$Codebase,
+    [switch]$Server,
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
@@ -14,7 +15,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDir
 )
-    $winreTempPath = Get-WinReTempPath -WinpeWorkingDir $WinpeWorkingDir -Codebase $Codebase
+    $winreTempPath = Get-WinReTempPath -WinpeWorkingDir $WinpeWorkingDir -Codebase $Codebase -Server:$Server
     $winreFinalPath = Join-Path $MountTempDir "Windows\System32\Recovery\winre.wim"
     if (-Not (Test-Path $winreTempPath))
     {
@@ -56,7 +57,11 @@ Param(
         Set-WinREUpdateProgress -StepNumber $step
         $version = (Get-WindowsImage -ImagePath $winreTempPath -Index 1).Version
 
-        Write-Host "$Codebase Winre.wim updated to $version"
+        if ($Server) {
+            Write-Host "$Codebase Server Winre.wim updated to $version"
+        } else {
+            Write-Host "$Codebase Winre.wim updated to $version"
+        }
     }
 
     Copy-Item $winreTempPath $winreFinalPath -Force
@@ -69,9 +74,14 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$WinpeWorkingDir,
     [Parameter(Mandatory=$true)]
-    [string]$Codebase
+    [string]$Codebase,
+    [switch]$Server
 )
-    $relativePath = "temp\$Codebase-WinRE.wim"
+    if ($Server) {
+        $relativePath = "temp\$Codebase-Server-WinRE.wim"
+    } else {
+        $relativePath = "temp\$Codebase-WinRE.wim"
+    }
     $fullPath = Join-Path $WinpeWorkingDir $relativePath
 
     return $fullPath

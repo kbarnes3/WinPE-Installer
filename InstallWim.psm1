@@ -10,6 +10,10 @@ param(
     [string]$ServicingStackUpdateDirGe,
     [Parameter(Mandatory=$true)]
     [string]$CumulativeUpdateDirGe,
+    [Parameter(Mandatory=$false)]
+    [string]$ServicingStackUpdateDirGeServer,
+    [Parameter(Mandatory=$true)]
+    [string]$CumulativeUpdateDirGeServer,
     [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
@@ -21,6 +25,7 @@ param(
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $codebase = "Ge"
+            $server = $false
             $servicingStackUpdateDir = $ServicingStackUpdateDirGe
             $cumulativeUpdateDir = $CumulativeUpdateDirGe
             $reuseSourcePath = $ReuseGePath
@@ -42,6 +47,7 @@ param(
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $codebase = "Ge"
+            $server = $false
             $servicingStackUpdateDir = $ServicingStackUpdateDirGe
             $cumulativeUpdateDir = $CumulativeUpdateDirGe
             $reuseSourcePath = $ReuseGePath
@@ -57,8 +63,9 @@ param(
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
             $codebase = "Ge"
-            $servicingStackUpdateDir = $ServicingStackUpdateDirGe
-            $cumulativeUpdateDir = $CumulativeUpdateDirGe
+            $server = $true
+            $servicingStackUpdateDir = $ServicingStackUpdateDirGeServer
+            $cumulativeUpdateDir = $CumulativeUpdateDirGeServer
             $reuseSourcePath = $ReuseGePath
             $images =
             @{
@@ -101,7 +108,7 @@ param(
         Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             if ($cumulativeUpdateDir) {
-                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -ServicingStackUpdateDir $servicingStackUpdateDir -CumulativeUpdateDir $cumulativeUpdateDir
+                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -Server:$server -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -ServicingStackUpdateDir $servicingStackUpdateDir -CumulativeUpdateDir $cumulativeUpdateDir
             }
         }
         $step++
@@ -151,6 +158,7 @@ Param(
     $ImageInfo,
     [Parameter(Mandatory=$true)]
     [string]$Codebase,
+    [switch]$Server,
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
@@ -198,6 +206,7 @@ Param(
     Update-WinREImage `
         -WinpeWorkingDir $WinpeWorkingDir `
         -Codebase $Codebase `
+        -Server:$Server `
         -MountTempDir $MountTempDir `
         -WinREMountTempDir $WinREMountTempDir `
         -ServicingStackUpdateDir $ServicingStackUpdateDir `

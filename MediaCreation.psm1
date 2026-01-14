@@ -14,6 +14,8 @@ Param(
     $tempDir = Join-Path $winpeWorkingDir "temp"
     $servicingStackUpdateDirGe = Join-Path $tempDir "GeSSUpdate"
     $cumulativeUpdateDirGe = Join-Path $tempDir "GeCumulativeUpdate"
+    $servicingStackUpdateDirGeServer = Join-Path $tempDir "GeServerSSUpdate"
+    $cumulativeUpdateDirGeServer = Join-Path $tempDir "GeServerCumulativeUpdate"
     $step = 0
 
     Suspend-Suspending
@@ -53,6 +55,22 @@ Param(
     }
     $step++
 
+    if ($null -eq $ReuseGePath) {
+        Set-Progress -CurrentOperation "Copying Ge server servicing stack update" -StepNumber $step
+        New-Item $servicingStackUpdateDirGeServer -ItemType Directory | Out-Null
+        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGeServer) "*.cab"
+        Copy-Item $updateFiles $servicingStackUpdateDirGeServer
+    }
+    $step++
+
+    if ($null -eq $ReuseGePath) {
+        Set-Progress -CurrentOperation "Copying Ge server cumulative update" -StepNumber $step
+        New-Item $cumulativeUpdateDirGeServer -ItemType Directory | Out-Null
+        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGeServer) "*.msu"
+        Copy-Item $updateFiles $cumulativeUpdateDirGeServer
+    }
+    $step++
+
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
     Update-BootWim -WinpeWorkingDir $winpeWorkingDir -DriversRoot $(Get-WinPEDriverDir) -MountTempDir $mountTempDir
     $step++
@@ -70,6 +88,8 @@ Param(
             -WinREMountTempDir $winREMountTempDir `
             -ServicingStackUpdateDirGe $servicingStackUpdateDirGe `
             -CumulativeUpdateDirGe $cumulativeUpdateDirGe `
+            -ServicingStackUpdateDirGeServer $servicingStackUpdateDirGeServer `
+            -CumulativeUpdateDirGeServer $cumulativeUpdateDirGeServer `
             -Sku $_ `
             -ReuseGePath $ReuseGePath
         $step++
@@ -192,7 +212,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 13
+    $totalSteps = 15
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
