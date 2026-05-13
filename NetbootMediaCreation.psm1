@@ -44,7 +44,7 @@ Param(
         Remove-Item -Recurse -Force $WinpeWorkingDir -ErrorAction Stop | Out-Null
     }
 
-    cmd /c copype amd64 $WinpeWorkingDir | Out-Null
+    Invoke-Copype -WinpeWorkingDir $WinpeWorkingDir
     Push-Location $WinpeWorkingDir
 
     if (Test-Path $MountTempDir) {

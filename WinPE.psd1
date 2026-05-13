@@ -14,8 +14,7 @@ NestedModules = @(
     ".\MediaCreation.psm1",
     ".\NetbootMediaCreation.psm1",
     ".\SourceFiles.psm1",
-    ".\Validation.psm1",
-    ".\WinREWim.psm1")
+    ".\Validation.psm1")
 
 FunctionsToExport = @(
     # BootWim.psm1
@@ -44,8 +43,6 @@ FunctionsToExport = @(
     "Get-ConsumerIsoPath",
     "Get-BusinessIsoPath",
     "Get-ServerIsoPath",
-    "Get-CumulativeUpdatePathGe",
-    "Get-CumulativeUpdatePathGeServer",
     "Get-AmdRZ616WifiDrivers",
     "Get-AmdRZ717WifiDrivers",
     "Get-IntelNicDrivers",
@@ -82,10 +79,7 @@ FunctionsToExport = @(
 
     # Validation.psm1
     "Confirm-Environment",
-    "Confirm-NetbootEnvironment",
-
-    # WinREWim.psm1
-    "Update-WinREImage"
+    "Confirm-NetbootEnvironment"
     )
 
 CmdletsToExport = @()

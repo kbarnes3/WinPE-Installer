@@ -5,16 +5,6 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
-    [string]$WinREMountTempDir,
-    [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateDirGe,
-    [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateDirGe,
-    [Parameter(Mandatory=$false)]
-    [string]$ServicingStackUpdateDirGeServer,
-    [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateDirGeServer,
-    [Parameter(Mandatory=$true)]
     [ValidateSet('Consumer', 'Business', 'Server')]
     [string]$Sku,
     [Parameter(Mandatory=$false)]
@@ -25,9 +15,6 @@ param(
             $sourceIso = Get-ConsumerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\consumer.wim"
             $codebase = "Ge"
-            $server = $false
-            $servicingStackUpdateDir = $ServicingStackUpdateDirGe
-            $cumulativeUpdateDir = $CumulativeUpdateDirGe
             $reuseSourcePath = $ReuseGePath
             $images =
             @{
@@ -47,9 +34,6 @@ param(
             $sourceIso = Get-BusinessIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\business.wim"
             $codebase = "Ge"
-            $server = $false
-            $servicingStackUpdateDir = $ServicingStackUpdateDirGe
-            $cumulativeUpdateDir = $CumulativeUpdateDirGe
             $reuseSourcePath = $ReuseGePath
             $images =
             @{
@@ -63,9 +47,6 @@ param(
             $sourceIso = Get-ServerIsoPath
             $extractedWim = Join-Path $WinpeWorkingDir "temp\server.wim"
             $codebase = "Ge"
-            $server = $true
-            $servicingStackUpdateDir = $ServicingStackUpdateDirGeServer
-            $cumulativeUpdateDir = $CumulativeUpdateDirGeServer
             $reuseSourcePath = $ReuseGePath
             $images =
             @{
@@ -105,20 +86,12 @@ param(
 
     $images | ForEach-Object {
         $destinationName = $_["DestinationName"]
-        Set-Progress -CurrentOperation "Updating $destinationName" -StepNumber $step -ImageCount $images.Length
-        if (-Not $reuseSourcePath) {
-            if ($cumulativeUpdateDir) {
-                Update-Image -WinpeWorkingDir $WinpeWorkingDir -SourceWim $extractedWim -ImageInfo $_ -Codebase $codebase -Server:$server -MountTempDir $MountTempDir -WinREMountTempDir $WinREMountTempDir -ServicingStackUpdateDir $servicingStackUpdateDir -CumulativeUpdateDir $cumulativeUpdateDir
-            }
-        }
-        $step++
-
         Set-Progress -CurrentOperation "Exporting $destinationName" -StepNumber $step -ImageCount $images.Length
         if (-Not $reuseSourcePath) {
             $destinationWim = "temp\$codebase.wim"
             Export-Image -SourceWim $extractedWim -DestinationWim $destinationWim -ImageInfo $_ -MountTempDir $MountTempDir 
             $version = (Get-WindowsImage -ImagePath $destinationWim -Name $destinationName).Version
-            Write-Host "$destinationName updated to $version"
+            Write-Host "$destinationName exported at version $version"
         }
         $step++
 
@@ -145,83 +118,6 @@ Param(
 )
     & 7z "e" "$SourceIso" "-otemp\" "sources\install.wim" | Out-Null
     Move-Item .\temp\install.wim $DestinationWim | Out-Null
-}
-
-function Update-Image
-{
-Param(
-    [Parameter(Mandatory=$true)]
-    [string]$WinpeWorkingDir,
-    [Parameter(Mandatory=$true)]
-    [string]$SourceWim,
-    [Parameter(Mandatory=$true)]
-    $ImageInfo,
-    [Parameter(Mandatory=$true)]
-    [string]$Codebase,
-    [switch]$Server,
-    [Parameter(Mandatory=$true)]
-    [string]$MountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$WinREMountTempDir,
-    [Parameter(Mandatory=$true)]
-    [string]$ServicingStackUpdateDir,
-    [Parameter(Mandatory=$true)]
-    [string]$CumulativeUpdateDir
-)
-    $step = 0
-
-    Set-UpdateProgress -ImageName $ImageInfo["DestinationName"] -CurrentOperation "Mounting image" -StepNumber $step
-    $mountParams = @{
-        "ImagePath" = $SourceWim;
-        "Path" = $MountTempDir;
-        "ErrorAction" = "Stop"}
-
-    if ($ImageInfo["SourceName"]) {
-        $mountParams.Add("Name", $ImageInfo["SourceName"])
-    }
-    elseif ($ImageInfo["SourceIndex"]){
-        $mountParams.Add("Index", $ImageInfo["SourceIndex"])
-    }
-    else {
-        throw "Unable to identify image to mount for $($ImageInfo["DestinationName"])"
-    }
-    Mount-WindowsImage @mountParams | Out-Null
-    $step++
-
-    Set-UpdateProgress -CurrentOperation "Applying servicing stack update" -StepNumber $step
-    Get-ChildItem $ServicingStackUpdateDir | ForEach-Object {
-        $servicingStackUpdate = $_.FullName
-        Add-WindowsPackage -PackagePath $servicingStackUpdate -Path $MountTempDir | Out-Null
-    }
-    $step++
-
-    Set-UpdateProgress -CurrentOperation "Applying cumulative update" -StepNumber $step
-    Get-ChildItem $CumulativeUpdateDir | ForEach-Object {
-        $cumulativeUpdate = $_.FullName
-        Add-WindowsPackage -PackagePath $cumulativeUpdate -Path $MountTempDir | Out-Null
-    }
-    $step++
-
-    Set-UpdateProgress -CurrentOperation "Applying update to WinRE.wim" -StepNumber $step
-    Update-WinREImage `
-        -WinpeWorkingDir $WinpeWorkingDir `
-        -Codebase $Codebase `
-        -Server:$Server `
-        -MountTempDir $MountTempDir `
-        -WinREMountTempDir $WinREMountTempDir `
-        -ServicingStackUpdateDir $ServicingStackUpdateDir `
-        -CumulativeUpdateDir $CumulativeUpdateDir
-    $step++
-
-    Set-UpdateProgress -CurrentOperation "Cleaning up image" -StepNumber $step
-    & dism "/Cleanup-Image" "/Image:$MountTempDir" "/StartComponentCleanup" "/ResetBase" | Out-Null
-    $step++
-
-    Set-UpdateProgress -CurrentOperation "Dismounting image" -StepNumber $step
-    Dismount-WindowsImage -Path $MountTempDir -Save  | Out-Null
-    $step++
-
-    Set-UpdateProgress -StepNumber $step
 }
 
 function Export-Image
@@ -295,7 +191,7 @@ Param(
     [int]$ImageCount
 )
     $otherSteps = 1
-    $perImageSteps = 3
+    $perImageSteps = 2
     $totalSteps = ($ImageCount * $perImageSteps) + $otherSteps
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
@@ -304,24 +200,4 @@ Param(
     }
 
     Write-Progress -Id 1 -ParentId 0 -Activity "Updating images" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
-}
-
-function Set-UpdateProgress
-{
-Param(
-    [Parameter(Mandatory=$false)]
-    [string]$ImageName,
-    [Parameter(Mandatory=$false)]
-    [string]$CurrentOperation,
-    [Parameter(Mandatory=$true)]
-    [int]$StepNumber
-)
-    $totalSteps = 6
-    $percent = $StepNumber / $totalSteps * 100
-    $completed = ($totalSteps -eq $StepNumber)
-    if ($completed) {
-        $CurrentOperation = "Done"
-    }
-
-    Write-Progress -Id 2 -ParentId 1 -Activity "Updating $ImageName" -PercentComplete $percent -Status $CurrentOperation -Completed:$completed
 }

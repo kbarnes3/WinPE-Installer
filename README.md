@@ -8,9 +8,6 @@ These scripts make a lot of assumptions about local paths that are probably wron
 It requires many files to create the bootable disc:
 * [Windows 11 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on.
 * Windows .isos, available from MSDN with a subscription.
-* The latest Cumulative Updates for Windows 11, available from [here](https://support.microsoft.com/en-us/topic/windows-11-version-25h2-update-history-99c7f493-df2a-4832-bd2d-6706baa0dec0).
-* The latest Cumulative Updates for Windows Server 2025, available from [here](https://support.microsoft.com/en-us/topic/windows-server-2025-update-history-10f58da7-e57b-4a9d-9c16-9f1dcd72d7d7).
-* The required Servicing Stack Updates for Windows, as noted on the individual cumulative update pages
 * Surface drivers, available from [here](https://www.microsoft.com/surface/en-us/support/install-update-activate/download-drivers-and-firmware-for-surface?os=windows-10&=undefined).
 * Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226).
 * Marvell NIC drivers from [here](https://www.marvell.com/support/downloads.html). Search for "Marvell Public Drivers", "Windows", "AQC107".
