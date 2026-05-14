@@ -22,6 +22,9 @@ FunctionsToExport = @(
     "Update-BootWim",
     "Update-NetbootBootWim",
 
+    # Copype.psm1
+    "Invoke-Copype",
+
     # Drivers.psm1
     "Add-Drivers",
     "New-WinPEDriverMedia",
