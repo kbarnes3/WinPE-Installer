@@ -8,6 +8,7 @@ Description = 'WinPE creation utilities'
 
 NestedModules = @(
     ".\BootWim.psm1",
+    ".\Copype.psm1",
     ".\Drivers.psm1",
     ".\KeepAwake.psm1",
     ".\InstallWim.psm1",
