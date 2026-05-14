@@ -3,7 +3,6 @@ function Get-WinPEDriverDir {
     return "D:\WinPE_amd64_drivers"
 }
 
-$CumulativeUpdatesPath = "$env:DISC_PATH\Cumulative Updates"
 $DriversPath = "$env:DISC_PATH\Drivers"
 
 function Find-SourceFile {
@@ -34,23 +33,15 @@ Param (
 }
 
 function Get-ConsumerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_25h2_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_25h2_updated_april_2026_x64_dvd_*.iso"
 }
 
 function Get-BusinessIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_25h2_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_25h2_updated_april_2026_x64_dvd_*.iso"
 }
 
 function Get-ServerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2025_updated_april_2025_x64_*.iso"
-}
-
-function Get-CumulativeUpdatePathGe {
-    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Windows 11, version 25H2 for x64-based Systems*'
-}
-
-function Get-CumulativeUpdatePathGeServer {
-    return Find-SourceFile -Directory $CumulativeUpdatesPath -Pattern '*Cumulative Update for Microsoft server operating system version 24H2 for x64-based Systems*'
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2025_updated_april_2026_x64_dvd_*.iso"
 }
 
 function Get-IntelNicDrivers {

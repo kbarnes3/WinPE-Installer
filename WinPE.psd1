@@ -8,19 +8,22 @@ Description = 'WinPE creation utilities'
 
 NestedModules = @(
     ".\BootWim.psm1",
+    ".\Copype.psm1",
     ".\Drivers.psm1",
     ".\KeepAwake.psm1",
     ".\InstallWim.psm1",
     ".\MediaCreation.psm1",
     ".\NetbootMediaCreation.psm1",
     ".\SourceFiles.psm1",
-    ".\Validation.psm1",
-    ".\WinREWim.psm1")
+    ".\Validation.psm1")
 
 FunctionsToExport = @(
     # BootWim.psm1
     "Update-BootWim",
     "Update-NetbootBootWim",
+
+    # Copype.psm1
+    "Invoke-Copype",
 
     # Drivers.psm1
     "Add-Drivers",
@@ -44,8 +47,6 @@ FunctionsToExport = @(
     "Get-ConsumerIsoPath",
     "Get-BusinessIsoPath",
     "Get-ServerIsoPath",
-    "Get-CumulativeUpdatePathGe",
-    "Get-CumulativeUpdatePathGeServer",
     "Get-AmdRZ616WifiDrivers",
     "Get-AmdRZ717WifiDrivers",
     "Get-IntelNicDrivers",
@@ -82,10 +83,7 @@ FunctionsToExport = @(
 
     # Validation.psm1
     "Confirm-Environment",
-    "Confirm-NetbootEnvironment",
-
-    # WinREWim.psm1
-    "Update-WinREImage"
+    "Confirm-NetbootEnvironment"
     )
 
 CmdletsToExport = @()

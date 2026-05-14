@@ -16,8 +16,6 @@ function Confirm-Environment {
         'Get-ConsumerIsoPath'                  = { Get-ConsumerIsoPath }
         'Get-BusinessIsoPath'                  = { Get-BusinessIsoPath }
         'Get-ServerIsoPath'                    = { Get-ServerIsoPath }
-        'Get-CumulativeUpdatePathGe'           = { Get-CumulativeUpdatePathGe }
-        'Get-CumulativeUpdatePathGeServer'     = { Get-CumulativeUpdatePathGeServer }
         'Get-AmdRZ616WifiDrivers'              = { Get-AmdRZ616WifiDrivers }
         'Get-AmdRZ717WifiDrivers'              = { Get-AmdRZ717WifiDrivers }
         'Get-IntelNicDrivers'                  = { Get-IntelNicDrivers }

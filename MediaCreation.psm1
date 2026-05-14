@@ -10,12 +10,7 @@ Param(
 )
     $winpeWorkingDir = "R:\WinPE_amd64"
     $mountTempDir = "C:\WinPE_mount"
-    $winREmountTempDir = "C:\WinRE_mount"
     $tempDir = Join-Path $winpeWorkingDir "temp"
-    $servicingStackUpdateDirGe = Join-Path $tempDir "GeSSUpdate"
-    $cumulativeUpdateDirGe = Join-Path $tempDir "GeCumulativeUpdate"
-    $servicingStackUpdateDirGeServer = Join-Path $tempDir "GeServerSSUpdate"
-    $cumulativeUpdateDirGeServer = Join-Path $tempDir "GeServerCumulativeUpdate"
     $step = 0
 
     Suspend-Suspending
@@ -36,39 +31,7 @@ Param(
     $step++
 
     Set-Progress -CurrentOperation "Preparing working directory" -StepNumber $step
-    Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -WinREMountTempDir $winREmountTempDir -TempDir $tempDir
-    $step++
-
-    if ($null -eq $ReuseGePath) {
-        Set-Progress -CurrentOperation "Copying Ge servicing stack update" -StepNumber $step
-        New-Item $servicingStackUpdateDirGe -ItemType Directory | Out-Null
-        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGe) "*.cab"
-        Copy-Item $updateFiles $servicingStackUpdateDirGe
-    }
-    $step++
-
-    if ($null -eq $ReuseGePath) {
-        Set-Progress -CurrentOperation "Copying Ge cumulative update" -StepNumber $step
-        New-Item $cumulativeUpdateDirGe -ItemType Directory | Out-Null
-        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGe) "*.msu"
-        Copy-Item $updateFiles $cumulativeUpdateDirGe
-    }
-    $step++
-
-    if ($null -eq $ReuseGePath) {
-        Set-Progress -CurrentOperation "Copying Ge server servicing stack update" -StepNumber $step
-        New-Item $servicingStackUpdateDirGeServer -ItemType Directory | Out-Null
-        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGeServer) "*.cab"
-        Copy-Item $updateFiles $servicingStackUpdateDirGeServer
-    }
-    $step++
-
-    if ($null -eq $ReuseGePath) {
-        Set-Progress -CurrentOperation "Copying Ge server cumulative update" -StepNumber $step
-        New-Item $cumulativeUpdateDirGeServer -ItemType Directory | Out-Null
-        $updateFiles = Join-Path $(Get-CumulativeUpdatePathGeServer) "*.msu"
-        Copy-Item $updateFiles $cumulativeUpdateDirGeServer
-    }
+    Prep-WorkingDir -WinpeWorkingDir $winpeWorkingDir -MountTempDir $mountTempDir -TempDir $tempDir
     $step++
 
     Set-Progress -CurrentOperation "Configuring boot.wim" -StepNumber $step
@@ -85,11 +48,6 @@ Param(
         Update-InstallWim `
             -WinpeWorkingDir $winpeWorkingDir `
             -MountTempDir $mountTempDir `
-            -WinREMountTempDir $winREMountTempDir `
-            -ServicingStackUpdateDirGe $servicingStackUpdateDirGe `
-            -CumulativeUpdateDirGe $cumulativeUpdateDirGe `
-            -ServicingStackUpdateDirGeServer $servicingStackUpdateDirGeServer `
-            -CumulativeUpdateDirGeServer $cumulativeUpdateDirGeServer `
             -Sku $_ `
             -ReuseGePath $ReuseGePath
         $step++
@@ -149,26 +107,19 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$MountTempDir,
     [Parameter(Mandatory=$true)]
-    [string]$WinREMountTempDir,
-    [Parameter(Mandatory=$true)]
     [string]$TempDir
 )
     if (Test-Path $WinpeWorkingDir) {
         Remove-Item -Recurse -Force $WinpeWorkingDir -ErrorAction Stop | Out-Null
     }
 
-    cmd /c copype amd64 $WinpeWorkingDir | Out-Null
+    Invoke-Copype -WinpeWorkingDir $WinpeWorkingDir
     Push-Location $WinpeWorkingDir
 
     if (Test-Path $MountTempDir) {
         Remove-Item -Recurse -Force $MountTempDir -ErrorAction Stop | Out-Null
     }
     New-Item -Path $MountTempDir -ItemType Directory | Out-Null
-
-    if (Test-Path $WinREMountTempDir) {
-        Remove-Item -Recurse -Force $WinREMountTempDir -ErrorAction Stop | Out-Null
-    }
-    New-Item -Path $WinREMountTempDir -ItemType Directory | Out-Null
 
     $scriptsDir = Join-Path $WinpeWorkingDir "media\Scripts"
     New-Item -Path $scriptsDir -ItemType Directory | Out-Null
@@ -212,7 +163,7 @@ Param(
     [Parameter(Mandatory=$true)]
     [int]$StepNumber
 )
-    $totalSteps = 15
+    $totalSteps = 11
     $percent = $StepNumber / $totalSteps * 100
     $completed = ($totalSteps -eq $StepNumber)
     if ($completed) {
