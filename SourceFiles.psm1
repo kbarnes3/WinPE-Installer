@@ -33,15 +33,15 @@ Param (
 }
 
 function Get-ConsumerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_25h2_updated_april_2026_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_25h2_updated_may_2026_x64_dvd_*.iso"
 }
 
 function Get-BusinessIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_25h2_updated_april_2026_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_25h2_updated_may_2026_x64_dvd_*.iso"
 }
 
 function Get-ServerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2025_updated_april_2026_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_server_2025_updated_may_2026_x64_dvd_*.iso"
 }
 
 function Get-IntelNicDrivers {
