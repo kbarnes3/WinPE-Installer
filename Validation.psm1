@@ -34,6 +34,8 @@ function Confirm-Environment {
         'Get-SurfaceLaptop5Drivers'            = { Get-SurfaceLaptop5Drivers }
         'Get-SurfaceLaptop6ForBusinessDrivers' = { Get-SurfaceLaptop6ForBusinessDrivers }
         'Get-SurfaceLaptopForBusiness7Drivers' = { Get-SurfaceLaptopForBusiness7Drivers }
+        'Get-SurfaceLaptopForBusiness8Drivers' = { Get-SurfaceLaptopForBusiness8Drivers }
+        'Get-SurfaceLaptopForBusiness13Inch1Drivers' = { Get-SurfaceLaptopForBusiness13Inch1Drivers }
         'Get-SurfaceLaptopGoDrivers'           = { Get-SurfaceLaptopGoDrivers }
         'Get-SurfaceLaptopGo2Drivers'          = { Get-SurfaceLaptopGo2Drivers }
         'Get-SurfaceLaptopGo3Drivers'          = { Get-SurfaceLaptopGo3Drivers }
@@ -46,6 +48,7 @@ function Confirm-Environment {
         'Get-SurfacePro9Drivers'               = { Get-SurfacePro9Drivers }
         'Get-SurfacePro10ForBusinessDrivers'   = { Get-SurfacePro10ForBusinessDrivers }
         'Get-SurfaceProForBusiness11Drivers'   = { Get-SurfaceProForBusiness11Drivers }
+        'Get-SurfaceProForBusiness12Drivers'   = { Get-SurfaceProForBusiness12Drivers }
         'Get-SurfaceStudio2Drivers'            = { Get-SurfaceStudio2Drivers }
         'Get-SurfaceStudio2PlusDrivers'        = { Get-SurfaceStudio2PlusDrivers }
         'Get-IntelRapidStorageDrivers'         = { Get-IntelRapidStorageDrivers }

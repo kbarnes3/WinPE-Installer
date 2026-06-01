@@ -82,6 +82,8 @@ Param(
         @{"friendlyName" = "Surface Laptop 5"; "source" = Get-SurfaceLaptop5Drivers},
         @{"friendlyName" = "Surface Laptop 6 For Business"; "source" = Get-SurfaceLaptop6ForBusinessDrivers},
         @{"friendlyName" = "Surface Laptop For Business 7th Edition"; "source" = Get-SurfaceLaptopForBusiness7Drivers},
+        @{"friendlyName" = "Surface Laptop For Business 8th Edition"; "source" = Get-SurfaceLaptopForBusiness8Drivers},
+        @{"friendlyName" = "Surface Laptop For Business 13-inch 1st Edition"; "source" = Get-SurfaceLaptopForBusiness13Inch1Drivers},
         @{"friendlyName" = "Surface Laptop Go"; "source" = Get-SurfaceLaptopGoDrivers},
         @{"friendlyName" = "Surface Laptop Go 2"; "source" = Get-SurfaceLaptopGo2Drivers},
         @{"friendlyName" = "Surface Laptop Go 3"; "source" = Get-SurfaceLaptopGo3Drivers},
@@ -94,6 +96,7 @@ Param(
         @{"friendlyName" = "Surface Pro 9"; "source" = Get-SurfacePro9Drivers},
         @{"friendlyName" = "Surface Pro 10 For Business"; "source" = Get-SurfacePro10ForBusinessDrivers},
         @{"friendlyName" = "Surface Pro For Business 11th Edition"; "source" = Get-SurfaceProForBusiness11Drivers},
+        @{"friendlyName" = "Surface Pro For Business 12th Edition"; "source" = Get-SurfaceProForBusiness12Drivers},
         @{"friendlyName" = "Surface Studio 2"; "source" = Get-SurfaceStudio2Drivers},
         @{"friendlyName" = "Surface Studio 2+"; "source" = Get-SurfaceStudio2PlusDrivers}
 
