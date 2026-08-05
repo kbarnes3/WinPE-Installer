@@ -157,11 +157,6 @@ param(
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *AMDRZ717* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *IntelWIFI* -Directory)
     $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *MarvellNICs* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *GPIO* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SPI* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SurfaceHidMini* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *SurfaceSerialHub* -Directory)
-    $driverDirs += $(Get-ChildItem -Path $DriversRoot -Recurse -Filter *UART* -Directory)
 
     $step = 0
 

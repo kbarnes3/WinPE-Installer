@@ -21,36 +21,6 @@ function Confirm-Environment {
         'Get-IntelNicDrivers'                  = { Get-IntelNicDrivers }
         'Get-IntelWifiDrivers'                 = { Get-IntelWifiDrivers }
         'Get-MarvellNicDrivers'                = { Get-MarvellNicDrivers }
-        'Get-SurfaceBook2Drivers'              = { Get-SurfaceBook2Drivers }
-        'Get-SurfaceBook3Drivers'              = { Get-SurfaceBook3Drivers }
-        'Get-SurfaceGo2Drivers'                = { Get-SurfaceGo2Drivers }
-        'Get-SurfaceGo3Drivers'                = { Get-SurfaceGo3Drivers }
-        'Get-SurfaceGo4Drivers'                = { Get-SurfaceGo4Drivers }
-        'Get-SurfaceLaptop2Drivers'            = { Get-SurfaceLaptop2Drivers }
-        'Get-SurfaceLaptop3IntelDrivers'       = { Get-SurfaceLaptop3IntelDrivers }
-        'Get-SurfaceLaptop3AmdDrivers'         = { Get-SurfaceLaptop3AmdDrivers }
-        'Get-SurfaceLaptop4IntelDrivers'       = { Get-SurfaceLaptop4IntelDrivers }
-        'Get-SurfaceLaptop4AmdDrivers'         = { Get-SurfaceLaptop4AmdDrivers }
-        'Get-SurfaceLaptop5Drivers'            = { Get-SurfaceLaptop5Drivers }
-        'Get-SurfaceLaptop6ForBusinessDrivers' = { Get-SurfaceLaptop6ForBusinessDrivers }
-        'Get-SurfaceLaptopForBusiness7Drivers' = { Get-SurfaceLaptopForBusiness7Drivers }
-        'Get-SurfaceLaptopForBusiness8Drivers' = { Get-SurfaceLaptopForBusiness8Drivers }
-        'Get-SurfaceLaptopForBusiness13Inch1Drivers' = { Get-SurfaceLaptopForBusiness13Inch1Drivers }
-        'Get-SurfaceLaptopGoDrivers'           = { Get-SurfaceLaptopGoDrivers }
-        'Get-SurfaceLaptopGo2Drivers'          = { Get-SurfaceLaptopGo2Drivers }
-        'Get-SurfaceLaptopGo3Drivers'          = { Get-SurfaceLaptopGo3Drivers }
-        'Get-SurfaceLaptopStudioDrivers'       = { Get-SurfaceLaptopStudioDrivers }
-        'Get-SurfaceLaptopStudio2Drivers'      = { Get-SurfaceLaptopStudio2Drivers }
-        'Get-SurfacePro6Drivers'               = { Get-SurfacePro6Drivers }
-        'Get-SurfacePro7Drivers'               = { Get-SurfacePro7Drivers }
-        'Get-SurfacePro7PlusDrivers'           = { Get-SurfacePro7PlusDrivers }
-        'Get-SurfacePro8Drivers'               = { Get-SurfacePro8Drivers }
-        'Get-SurfacePro9Drivers'               = { Get-SurfacePro9Drivers }
-        'Get-SurfacePro10ForBusinessDrivers'   = { Get-SurfacePro10ForBusinessDrivers }
-        'Get-SurfaceProForBusiness11Drivers'   = { Get-SurfaceProForBusiness11Drivers }
-        'Get-SurfaceProForBusiness12Drivers'   = { Get-SurfaceProForBusiness12Drivers }
-        'Get-SurfaceStudio2Drivers'            = { Get-SurfaceStudio2Drivers }
-        'Get-SurfaceStudio2PlusDrivers'        = { Get-SurfaceStudio2PlusDrivers }
         'Get-IntelRapidStorageDrivers'         = { Get-IntelRapidStorageDrivers }
     }
 
