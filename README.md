@@ -7,7 +7,7 @@ These scripts make a lot of assumptions about local paths that are probably wron
 
 It requires many files to create the bootable disc:
 * [Windows 11 ADK](https://developer.microsoft.com/en-us/windows/hardware/windows-assessment-deployment-kit) needs to be installed, along with the Windows PE add-on.
-* Windows .isos, available from MSDN with a subscription.
+* Windows .isos, available from MSDN with a subscription. Set `$env:DISC_PATH` to the directory containing the Windows 11 26H2 base Consumer and Business x64 media and Windows Server 2025 updated x64 media. Client media filenames must match `en-us_windows_11_consumer_editions_version_26h2_x64_dvd_*.iso` and `en-us_windows_11_business_editions_version_26h2_x64_dvd_*.iso`; updated 26H2 client media is not selected. Keep exactly one matching ISO for each media type. Current client filenames are `en-us_windows_11_consumer_editions_version_26h2_x64_dvd_af326c9d.iso` and `en-us_windows_11_business_editions_version_26h2_x64_dvd_16357792.iso`.
 * Intel NIC drivers from [here](https://www.intel.com/content/www/us/en/download/727998/intel-network-adapter-driver-for-microsoft-windows-11.html?wapkw=i226).
 * Marvell NIC drivers from [here](https://www.marvell.com/support/downloads.html). Search for "Marvell Public Drivers", "Windows", "AQC107".
 From the .zip, extract the `20221028_Marvell_AQtion_x64_Win_v3.1.7\Win11\` folder to `$env:DISC_PATH\Drivers\MarvellACQ`.

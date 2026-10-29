@@ -33,11 +33,11 @@ Param (
 }
 
 function Get-ConsumerIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_25h2_updated_*_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_consumer_editions_version_26h2_x64_dvd_*.iso"
 }
 
 function Get-BusinessIsoPath {
-    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_25h2_updated_*_x64_dvd_*.iso"
+    return Find-SourceFile -Directory $env:DISC_PATH -Pattern "en-us_windows_11_business_editions_version_26h2_x64_dvd_*.iso"
 }
 
 function Get-ServerIsoPath {
